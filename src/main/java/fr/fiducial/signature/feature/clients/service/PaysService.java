@@ -15,7 +15,7 @@ public class PaysService {
     @Autowired
     private PaysDAO paysDAO;
 
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public Iterable<Pays> getAll() {
         return paysDAO.findAll();
     }
@@ -25,5 +25,12 @@ public class PaysService {
         System.out.println("Delete pay");
         paysDAO.removeByNom(nom);
         return new ResponseEntity<>("Pay deleted!", HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public Pays postPay(@RequestBody Pays pay) {
+        System.out.println("Create pay");
+        Pays _pay = paysDAO.save(pay);
+        return _pay;
     }
 }

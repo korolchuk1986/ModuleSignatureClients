@@ -16,6 +16,10 @@ public class Pays {
     public Pays() {
     }
 
+    public Pays(String nom) {
+        this.nom = nom;
+    }
+
     public Long getId() {
         return id;
     }
