@@ -19,50 +19,36 @@ import javax.persistence.Table;
 @Table(name = "capacite", catalog = "signature_clients")
 public class Capacite implements java.io.Serializable {
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
 	private String capacite;
-	private Set<Personne> personnes = new HashSet<Personne>(0);
 
 	public Capacite() {
 	}
 
-	public Capacite(String capacite) {
-		this.capacite = capacite;
-	}
+//	public Capacite(String capacite) {
+//		this.capacite = capacite;
+//	}
 
-	public Capacite(String capacite, Set<Personne> personnes) {
-		this.capacite = capacite;
-		this.personnes = personnes;
-	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-
-	@Column(name = "id", unique = true, nullable = false)
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Column(name = "capacite", nullable = false, length = 200)
-	public String getCapacite() {
-		return this.capacite;
-	}
-
-	public void setCapacite(String capacite) {
-		this.capacite = capacite;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "capacite")
-	public Set<Personne> getPersonnes() {
-		return this.personnes;
-	}
-
-	public void setPersonnes(Set<Personne> personnes) {
-		this.personnes = personnes;
-	}
+//
+//	@Column(name = "id", unique = true, nullable = false)
+//	public Long getId() {
+//		return this.id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
+//
+//	@Column(name = "capacite", nullable = false, length = 200)
+//	public String getCapacite() {
+//		return this.capacite;
+//	}
+//
+//	public void setCapacite(String capacite) {
+//		this.capacite = capacite;
+//	}
 
 }

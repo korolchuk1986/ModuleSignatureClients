@@ -32,7 +32,8 @@ public class Coordonnees implements java.io.Serializable {
 	private String commentFax;
 	private String siteWeb;
 	private String commentSiteWeb;
-	private Set<Personne> personnes = new HashSet<Personne>(0);
+	//private Set<Personne> personnes = new HashSet<Personne>(0);
+
 
 	public Coordonnees() {
 	}
@@ -56,7 +57,7 @@ public class Coordonnees implements java.io.Serializable {
 		this.commentFax = commentFax;
 		this.siteWeb = siteWeb;
 		this.commentSiteWeb = commentSiteWeb;
-		this.personnes = personnes;
+		//this.personnes = personnes;
 	}
 
 	@Id
@@ -179,13 +180,13 @@ public class Coordonnees implements java.io.Serializable {
 		this.commentSiteWeb = commentSiteWeb;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coordonnees")
-	public Set<Personne> getPersonnes() {
-		return this.personnes;
-	}
-
-	public void setPersonnes(Set<Personne> personnes) {
-		this.personnes = personnes;
-	}
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coordonnees")
+////	public Set<Personne> getPersonnes() {
+////		return this.personnes;
+////	}
+////
+////	public void setPersonnes(Set<Personne> personnes) {
+////		this.personnes = personnes;
+////	}
 
 }
