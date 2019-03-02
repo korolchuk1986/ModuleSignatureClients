@@ -18,21 +18,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "type_pacs", catalog = "signature_clients")
 public class TypePacs implements java.io.Serializable {
-
 	private Long id;
 	private String type;
-	private Set<Evenement> evenements = new HashSet<Evenement>(0);
 
-	public TypePacs() {
-	}
-
+	public TypePacs() {}
 	public TypePacs(String type) {
 		this.type = type;
-	}
-
-	public TypePacs(String type, Set<Evenement> evenements) {
-		this.type = type;
-		this.evenements = evenements;
 	}
 
 	@Id
@@ -54,15 +45,6 @@ public class TypePacs implements java.io.Serializable {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "typePacs")
-	public Set<Evenement> getEvenements() {
-		return this.evenements;
-	}
-
-	public void setEvenements(Set<Evenement> evenements) {
-		this.evenements = evenements;
 	}
 
 }

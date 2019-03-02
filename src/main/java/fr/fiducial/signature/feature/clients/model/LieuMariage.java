@@ -18,10 +18,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "lieu_mariage", catalog = "signature_clients")
 public class LieuMariage implements java.io.Serializable {
-
 	private Long id;
 	private String lieu;
-	private Set<Evenement> evenements = new HashSet<Evenement>(0);
 
 	public LieuMariage() {
 	}
@@ -32,7 +30,6 @@ public class LieuMariage implements java.io.Serializable {
 
 	public LieuMariage(String lieu, Set<Evenement> evenements) {
 		this.lieu = lieu;
-		this.evenements = evenements;
 	}
 
 	@Id
@@ -54,15 +51,6 @@ public class LieuMariage implements java.io.Serializable {
 
 	public void setLieu(String lieu) {
 		this.lieu = lieu;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "lieuMariage")
-	public Set<Evenement> getEvenements() {
-		return this.evenements;
-	}
-
-	public void setEvenements(Set<Evenement> evenements) {
-		this.evenements = evenements;
 	}
 
 }

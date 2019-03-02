@@ -21,18 +21,10 @@ public class Statut implements java.io.Serializable {
 
 	private Long id;
 	private String status;
-	private Set<Personne> personnes = new HashSet<Personne>(0);
 
-	public Statut() {
-	}
-
+	public Statut() {}
 	public Statut(String status) {
 		this.status = status;
-	}
-
-	public Statut(String status, Set<Personne> personnes) {
-		this.status = status;
-		this.personnes = personnes;
 	}
 
 	@Id
@@ -55,14 +47,4 @@ public class Statut implements java.io.Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "statut")
-	public Set<Personne> getPersonnes() {
-		return this.personnes;
-	}
-
-	public void setPersonnes(Set<Personne> personnes) {
-		this.personnes = personnes;
-	}
-
 }

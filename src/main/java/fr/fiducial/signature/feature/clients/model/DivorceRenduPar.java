@@ -21,7 +21,6 @@ public class DivorceRenduPar implements java.io.Serializable {
 
 	private Long id;
 	private String renduPar;
-	private Set<Evenement> evenements = new HashSet<Evenement>(0);
 
 	public DivorceRenduPar() {
 	}
@@ -30,10 +29,6 @@ public class DivorceRenduPar implements java.io.Serializable {
 		this.renduPar = renduPar;
 	}
 
-	public DivorceRenduPar(String renduPar, Set<Evenement> evenements) {
-		this.renduPar = renduPar;
-		this.evenements = evenements;
-	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -55,14 +50,4 @@ public class DivorceRenduPar implements java.io.Serializable {
 	public void setRenduPar(String renduPar) {
 		this.renduPar = renduPar;
 	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "divorceRenduPar")
-	public Set<Evenement> getEvenements() {
-		return this.evenements;
-	}
-
-	public void setEvenements(Set<Evenement> evenements) {
-		this.evenements = evenements;
-	}
-
 }

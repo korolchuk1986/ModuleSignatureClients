@@ -1,6 +1,7 @@
 package fr.fiducial.signature.feature.clients.model;
 
 import lombok.Data;
+import lombok.extern.flogger.Flogger;
 
 import java.util.Date;
 import javax.persistence.Entity;
@@ -12,7 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
+@Flogger
 @Entity
 @Data
 @Table(name = "personne", catalog = "signature_clients")

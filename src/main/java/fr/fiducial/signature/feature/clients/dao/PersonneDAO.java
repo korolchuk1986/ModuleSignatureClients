@@ -12,4 +12,5 @@ public interface PersonneDAO extends CrudRepository<Personne, Long> {
 
     Iterable<Personne> findAllByEstClientTrue();
 
+
 }

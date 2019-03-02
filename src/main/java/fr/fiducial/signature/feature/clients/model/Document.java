@@ -117,5 +117,4 @@ public class Document implements java.io.Serializable {
 	public void setDocument(byte[] document) {
 		this.document = document;
 	}
-
 }

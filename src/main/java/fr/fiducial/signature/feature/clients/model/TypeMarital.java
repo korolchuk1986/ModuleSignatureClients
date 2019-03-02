@@ -21,18 +21,12 @@ public class TypeMarital implements java.io.Serializable {
 
 	private Long id;
 	private String typeMarital;
-	private Set<Evenement> evenements = new HashSet<Evenement>(0);
 
 	public TypeMarital() {
 	}
 
 	public TypeMarital(String typeMarital) {
 		this.typeMarital = typeMarital;
-	}
-
-	public TypeMarital(String typeMarital, Set<Evenement> evenements) {
-		this.typeMarital = typeMarital;
-		this.evenements = evenements;
 	}
 
 	@Id
@@ -54,15 +48,6 @@ public class TypeMarital implements java.io.Serializable {
 
 	public void setTypeMarital(String typeMarital) {
 		this.typeMarital = typeMarital;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "typeMarital")
-	public Set<Evenement> getEvenements() {
-		return this.evenements;
-	}
-
-	public void setEvenements(Set<Evenement> evenements) {
-		this.evenements = evenements;
 	}
 
 }

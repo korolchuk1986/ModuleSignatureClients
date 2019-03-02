@@ -45,5 +45,4 @@ public class CauseRupturePacs implements java.io.Serializable {
 	public void setCause(String cause) {
 		this.cause = cause;
 	}
-
 }

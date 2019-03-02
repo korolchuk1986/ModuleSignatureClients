@@ -22,25 +22,12 @@ public class Pays implements java.io.Serializable {
 	private Long id;
 	private String nom;
 	private String nationalite;
-//	private Set<Personne> personnes = new HashSet<Personne>(0);
-//	private Set<Adresse> adresses = new HashSet<Adresse>(0);
-//	private Set<Evenement> evenements = new HashSet<Evenement>(0);
 
-	public Pays() {
-	}
+	public Pays() {}
 
 	public Pays(String nom, String nationalite) {
 		this.nom = nom;
 		this.nationalite = nationalite;
-	}
-
-	public Pays(String nom, String nationalite, Set<Personne> personnes, Set<Adresse> adresses,
-			Set<Evenement> evenements) {
-		this.nom = nom;
-		this.nationalite = nationalite;
-//		this.personnes = personnes;
-//		this.adresses = adresses;
-//		this.evenements = evenements;
 	}
 
 	@Id
@@ -72,32 +59,4 @@ public class Pays implements java.io.Serializable {
 	public void setNationalite(String nationalite) {
 		this.nationalite = nationalite;
 	}
-
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pays")
-//	public Set<Personne> getPersonnes() {
-//		return this.personnes;
-//	}
-//
-//	public void setPersonnes(Set<Personne> personnes) {
-//		this.personnes = personnes;
-//	}
-//
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pays")
-//	public Set<Adresse> getAdresses() {
-//		return this.adresses;
-//	}
-//
-//	public void setAdresses(Set<Adresse> adresses) {
-//		this.adresses = adresses;
-//	}
-//
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pays")
-//	public Set<Evenement> getEvenements() {
-//		return this.evenements;
-//	}
-//
-//	public void setEvenements(Set<Evenement> evenements) {
-//		this.evenements = evenements;
-//	}
-
 }
