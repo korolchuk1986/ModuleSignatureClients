@@ -2,9 +2,9 @@ package fr.fiducial.signature.feature.clients.service;
 
 import fr.fiducial.signature.feature.clients.model.Capacite;
 
-import java.util.Set;
+import java.util.Optional;
 
 public interface CapaciteService {
-    Capacite get(Long id);
-    Set<Capacite> getAll();
+    Optional<Capacite> get(Long id);
+    Iterable<Capacite> getAll();
 }

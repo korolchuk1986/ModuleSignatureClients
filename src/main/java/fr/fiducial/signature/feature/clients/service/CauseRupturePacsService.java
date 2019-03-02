@@ -2,9 +2,9 @@ package fr.fiducial.signature.feature.clients.service;
 
 import fr.fiducial.signature.feature.clients.model.CauseRupturePacs;
 
-import java.util.Set;
+import java.util.Optional;
 
 public interface CauseRupturePacsService {
-    CauseRupturePacs get(Long id);
-    Set<CauseRupturePacs> getAll();
+    Optional<CauseRupturePacs> get(Long id);
+    Iterable<CauseRupturePacs> getAll();
 }
