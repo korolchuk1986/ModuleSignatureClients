@@ -40,7 +40,7 @@ public class VilleServiceImpl implements VilleService {
 
     @Override
     @Transactional(readOnly=true)
-    public Ville getVilleById(long id) {
+    public Ville get(long id) {
         return null;
     }
 }

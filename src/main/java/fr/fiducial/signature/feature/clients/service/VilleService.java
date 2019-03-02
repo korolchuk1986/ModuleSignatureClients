@@ -13,5 +13,5 @@ public interface VilleService {
     Set<Ville> getVillesByCP(String cp);
     Set<Ville> getVillesByDebut(String debutNom);
     Ville getVilleByCPEtNom(String cp, String nom);
-    Ville getVilleById(long id);
+    Ville get(long id);
 }

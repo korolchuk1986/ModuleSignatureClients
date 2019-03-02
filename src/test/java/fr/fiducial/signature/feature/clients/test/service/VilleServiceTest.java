@@ -24,7 +24,7 @@ public class VilleServiceTest {
     }
 
     @Test
-    public void testGetById() {
+    public void testGet() {
 
     }
 }
