@@ -2,10 +2,10 @@ package fr.fiducial.signature.feature.clients.test.service;
 
 import org.junit.Test;
 
-public class TypeMaritalServiceImpl {
+public class TypePacsServiceTest {
     @Test
     public void testGet() {}
 
     @Test
-    void testGetAll() {}
+    public void testGetAll() {}
 }
