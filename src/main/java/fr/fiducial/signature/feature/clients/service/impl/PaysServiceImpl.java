@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "pays", produces = "application/json")
 public class PaysServiceImpl implements PaysService {
@@ -20,6 +22,9 @@ public class PaysServiceImpl implements PaysService {
     public Iterable<Pays> getAll() {
         return paysDAO.findAll();
     }
+
+    @GetMapping("/get/{id}")
+    public Optional<Pays> get(@PathVariable("id") Long id) {return paysDAO.findById(id);}
 
     @DeleteMapping("/delete/{nom}")
     public ResponseEntity<String> deletePays(@PathVariable("nom") String nom) {

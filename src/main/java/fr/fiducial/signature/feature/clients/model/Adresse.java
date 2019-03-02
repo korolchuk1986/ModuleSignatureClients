@@ -15,8 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Adresse contient un numéro unique non nul, un numéro de voie, un ordre (bis, ter, etc.), le type de voie (rue,
- * avenue, etc.), le nom de la voie, la ville, et le pays.
+ * Adresse contient un numéro unique non nul, si c'est l'adresse principale ou non, un numéro de voie,
+ * un ordre (bis, ter, etc.), le type de voie (rue, avenue, etc.), le nom de la voie (obligatoire),
+ * un complément 1, un complément 2, un lieu-dit, un spf (service de publicité foncière) et la ville (obligatoire).
  */
 @Data
 @NoArgsConstructor
@@ -27,10 +28,6 @@ public class Adresse implements java.io.Serializable {
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_pays", nullable = false)
-	private Pays pays;
 
 	/*
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -53,6 +50,18 @@ public class Adresse implements java.io.Serializable {
 
 	@Column(name = "nom_voie", nullable = false, length = 200)
 	private String nomVoie;
+
+	@Column(name = "complement1", length = 200)
+	private String complement1;
+
+	@Column(name = "complement2", length = 200)
+	private String complement2;
+
+	@Column(name = "lieu_dit", length = 200)
+	private String lieuDit;
+
+	@Column(name = "spf", length = 200)
+	private String spf; // service de publicité foncière, anciennement le service des hypothèques
 
 	@Column(name = "est_principale", nullable = false)
 	private boolean estPrincipale;
