@@ -35,8 +35,16 @@ public class DocumentServiceTest extends TestCase {
     public void tearDown() throws Exception {
     }
 
-    public void testCreate() {}
-    public void testDelete() {}
-    public void testUpdate() {}
-    public void testGet() {}
+    public void testCreate() {
+        //TODO
+    }
+    public void testDelete() {
+        //TODO
+    }
+    public void testUpdate() {
+        //TODO
+    }
+    public void testGet() {
+        //TODO
+    }
 }

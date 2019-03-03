@@ -1,8 +1,11 @@
 package fr.fiducial.signature.feature.clients.test.service;
 
+import fr.fiducial.signature.feature.clients.model.Evenement;
+import fr.fiducial.signature.feature.clients.model.Historique;
+import fr.fiducial.signature.feature.clients.model.Personne;
 import org.junit.*;
 
-public class RegimeMariageServiceTest {
+public class HistoriqueServiceTest {
     @BeforeClass // before all tests
     public static void setUpBeforeTests() {}
 
@@ -16,12 +19,17 @@ public class RegimeMariageServiceTest {
     public void tearDown() {}
 
     @Test
-    public void testGet() {
-        //TODO
-    }
-    @Test
-    public void testGetAll() {
+    public void testAdd() {
         //TODO
     }
 
+    @Test
+    public void testGetEvenementsByClient() {
+        //TODO
+    }
+
+    @Test
+    public void testDeleteHistoriqueMatrimonialByClient() {
+        //TODO
+    }
 }

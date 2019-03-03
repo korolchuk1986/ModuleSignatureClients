@@ -17,10 +17,10 @@ public class LieuMariageServiceTest {
 
     @Test
     public void testGet() {
-
+        //TODO
     }
     @Test
     public void testGetAll() {
-
+        //TODO
     }
 }

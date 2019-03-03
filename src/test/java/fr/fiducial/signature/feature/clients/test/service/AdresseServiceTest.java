@@ -52,8 +52,16 @@ public class AdresseServiceTest extends TestCase {
         */
     }
 
-    public void testCreate() {}
-    public void testDelete() {}
-    public void testUpdate() {}
-    public void testGet() {}
+    public void testCreate() {
+        //TODO
+    }
+    public void testDelete() {
+        //TODO
+    }
+    public void testUpdate() {
+        //TODO
+    }
+    public void testGet() {
+        //TODO
+    }
 }

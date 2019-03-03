@@ -16,8 +16,12 @@ public class TypeMaritalServiceTest {
     public void tearDown() {}
 
     @Test
-    public void testGet() {}
+    public void testGet() {
+        //TODO
+    }
 
     @Test
-    void testGetAll() {}
+    void testGetAll() {
+        //TODO
+    }
 }

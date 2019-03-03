@@ -16,8 +16,12 @@ public class TypePacsServiceTest {
     public void tearDown() {}
 
     @Test
-    public void testGet() {}
+    public void testGet() {
+        //TODO
+    }
 
     @Test
-    public void testGetAll() {}
+    public void testGetAll() {
+        //TODO
+    }
 }

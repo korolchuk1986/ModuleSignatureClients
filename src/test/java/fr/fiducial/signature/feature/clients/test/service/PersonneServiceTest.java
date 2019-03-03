@@ -17,26 +17,25 @@ public class PersonneServiceTest {
 
     @Test
     public void testAdd() {
-
+        //TODO
     }
 
     @Test
     public void testGetClients() {
-
+        //TODO
     }
 
     @Test
     public void testUpdate() {
-
+        //TODO
     }
 
     @Test
     public void testGetClientByNomPrenom() {
-
+        //TODO
     }
     @Test
     public void testGetClientById() {
-
+        //TODO
     }
-
 }

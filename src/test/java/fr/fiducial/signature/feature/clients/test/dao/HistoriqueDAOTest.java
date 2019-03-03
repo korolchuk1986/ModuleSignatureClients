@@ -1,8 +1,8 @@
-package fr.fiducial.signature.feature.clients.test.service;
+package fr.fiducial.signature.feature.clients.test.dao;
 
 import org.junit.*;
 
-public class RegimeMariageServiceTest {
+public class HistoriqueDAOTest {
     @BeforeClass // before all tests
     public static void setUpBeforeTests() {}
 
@@ -16,12 +16,12 @@ public class RegimeMariageServiceTest {
     public void tearDown() {}
 
     @Test
-    public void testGet() {
-        //TODO
-    }
-    @Test
-    public void testGetAll() {
+    public void findEvenementsByClient() {
         //TODO
     }
 
+    @Test
+    public void deleteHistoriqueMatrimonialByClient() {
+        //TODO
+    }
 }
