@@ -2,7 +2,7 @@ package fr.fiducial.signature.feature.clients.test.service;
 
 import org.junit.*;
 
-public class StatutServiceTest {
+public class CapaciteServiceTest {
     @BeforeClass // before all tests
     public static void setUpBeforeTests() {}
 
@@ -16,8 +16,12 @@ public class StatutServiceTest {
     public void tearDown() {}
 
     @Test
-    public void testGet() {}
+    public void testGet(Long id) {
+
+    }
 
     @Test
-    public void testGetAll() {}
+    public void testGetAll() {
+
+    }
 }

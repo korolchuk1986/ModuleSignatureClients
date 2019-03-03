@@ -13,14 +13,18 @@ public class AdresseServiceTest extends TestCase {
     }
 
     public static junit.framework.Test suite() {
-        TestSuite suite = new TestSuite("Test UserServiceTest");
-
+        TestSuite suite = new TestSuite("Test Adresse ServiceTest");
+        AdresseServiceTest.beforeAllTests();
         suite.addTest(new AdresseServiceTest("testCreate"));
         suite.addTest(new AdresseServiceTest("testGet"));
         suite.addTest(new AdresseServiceTest("testUpdate"));
         suite.addTest(new AdresseServiceTest("testDelete"));
+        AdresseServiceTest.afterAllTests();
         return suite;
     }
+
+    public static void beforeAllTests() {}
+    public static void afterAllTests() {}
 
     @Override
     public void setUp() {
@@ -38,7 +42,7 @@ public class AdresseServiceTest extends TestCase {
     }
     //@After
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown(){
         /* sûrement pas besoin car spring boot
         if (connection != null) {
             DataConnect.closeConnection(connection);

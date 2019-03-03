@@ -1,6 +1,7 @@
 package fr.fiducial.signature.feature.clients.test.service;
 
 import fr.fiducial.signature.feature.clients.model.Coordonnees;
+import fr.fiducial.signature.feature.clients.service.CoordonnesService;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
@@ -14,13 +15,17 @@ public class CoordonneesServiceTest extends TestCase {
 
     public static junit.framework.Test suite() {
         TestSuite suite = new TestSuite("Test CoordonneesServiceTest");
-
-        suite.addTest(new AdresseServiceTest("testCreate"));
-        suite.addTest(new AdresseServiceTest("testGet"));
-        suite.addTest(new AdresseServiceTest("testUpdate"));
-        suite.addTest(new AdresseServiceTest("testDelete"));
+        CoordonneesServiceTest.beforeAllTests();
+        suite.addTest(new CoordonneesServiceTest("testCreate"));
+        suite.addTest(new CoordonneesServiceTest("testGet"));
+        suite.addTest(new CoordonneesServiceTest("testUpdate"));
+        suite.addTest(new CoordonneesServiceTest("testDelete"));
+        CoordonneesServiceTest.afterAllTests();
         return suite;
     }
+
+    public static void beforeAllTests() {}
+    public static void afterAllTests() {}
 
     @Override
     public void setUp() {
@@ -29,7 +34,7 @@ public class CoordonneesServiceTest extends TestCase {
 
     //@After
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     public void testCreate() {}

@@ -1,18 +1,42 @@
 package fr.fiducial.signature.feature.clients.test.service;
 
 import fr.fiducial.signature.feature.clients.model.Document;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import org.junit.Test;
 
-public class DocumentServiceTest {
-    @Test
-    public void testAdd() {
+public class DocumentServiceTest extends TestCase {
+    public DocumentServiceTest() {
     }
 
-    @Test
-    public void testUpdate() {
+    public DocumentServiceTest(String testName) {
+        super(testName);
     }
 
-    @Test
-    public void testDelete() {
+    public static junit.framework.Test suite() {
+        TestSuite suite = new TestSuite("Test DocumentServiceTest");
+        DocumentServiceTest.beforeAllTests();
+        suite.addTest(new DocumentServiceTest("testCreate"));
+        suite.addTest(new DocumentServiceTest("testGet"));
+        suite.addTest(new DocumentServiceTest("testUpdate"));
+        suite.addTest(new DocumentServiceTest("testDelete"));
+        DocumentServiceTest.afterAllTests();
+        return suite;
     }
+
+    public static void beforeAllTests() {}
+    public static void afterAllTests() {}
+
+    @Override
+    public void setUp() {
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+    }
+
+    public void testCreate() {}
+    public void testDelete() {}
+    public void testUpdate() {}
+    public void testGet() {}
 }
