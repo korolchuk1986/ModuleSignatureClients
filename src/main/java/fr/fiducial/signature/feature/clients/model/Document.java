@@ -42,13 +42,13 @@ public class Document implements java.io.Serializable {
 	@Column(name = "categorie", length = 200)
 	private String categorie;
 
-	@Column(name = "typeDoc", nullable = false, length = 200)
+	@Column(name = "type_doc", nullable = false, length = 200)
 	private String typeDoc;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dateEnregistrement", nullable = false, length = 19)
+	@Column(name = "date_enregistrement", nullable = false, length = 19)
 	private Date dateEnregistrement;
 
-	@Column(name = "contenu", nullable = false)
-	private byte[] contenu;
+	@Column(name = "lien_vers_contenu", nullable = false, length = 200)
+	private String lienVersContenu;
 }
