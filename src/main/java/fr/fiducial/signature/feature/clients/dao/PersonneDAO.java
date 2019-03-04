@@ -7,10 +7,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonneDAO extends CrudRepository<Personne, Long> {
-    @Query("from Personne as p where p.estClient=true")
+    @Query("select p.civilite, p.nom, p.prenom, p.dateModifFiche, p.id from Personne as p where p.estClient=true")
     Iterable<Personne> findClients();
 
     Iterable<Personne> findAllByEstClientTrue();
+
 
 
 }
