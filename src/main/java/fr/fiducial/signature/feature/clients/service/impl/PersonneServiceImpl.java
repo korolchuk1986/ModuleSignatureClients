@@ -21,7 +21,6 @@ public class PersonneServiceImpl implements PersonneService {
         return personneDAO.findClients();
     }
 
-    @Override
     public Set<Adresse> getAdresses(long id) {
         return null;
     }

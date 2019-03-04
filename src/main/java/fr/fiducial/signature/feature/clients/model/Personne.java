@@ -1,6 +1,7 @@
 package fr.fiducial.signature.feature.clients.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 //import lombok.extern.flogger.Flogger;
 
 import java.util.Date;
@@ -8,9 +9,9 @@ import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-//@Flogger
-@Entity
 @Data
+@NoArgsConstructor
+@Entity
 @Table(name = "personne", catalog = "signature_clients")
 public class Personne implements java.io.Serializable {
 	@Id
