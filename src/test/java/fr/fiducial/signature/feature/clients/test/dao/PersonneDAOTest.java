@@ -2,7 +2,7 @@ package fr.fiducial.signature.feature.clients.test.dao;
 
 import org.junit.*;
 
-public class HistoriqueDAOTest {
+public class PersonneDAOTest {
     @BeforeClass // before all tests
     public static void setUpBeforeTests() {}
 
@@ -16,12 +16,8 @@ public class HistoriqueDAOTest {
     public void tearDown() {}
 
     @Test
-    public void testFindEvenementsByClient() {
+    public void testGetClientsPourListe() {
         //TODO
     }
-
-    @Test
-    public void testDeleteHistoriqueMatrimonialByClient() {
-        //TODO
-    }
+    //TODO à compléter
 }

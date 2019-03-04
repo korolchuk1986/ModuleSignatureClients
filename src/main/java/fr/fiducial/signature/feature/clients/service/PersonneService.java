@@ -8,5 +8,5 @@ import java.util.Set;
 public interface PersonneService {
     Iterable<Personne> getAll();
     Set<Adresse> getAdresses(long id);
-
+    //TODO à compléter
 }

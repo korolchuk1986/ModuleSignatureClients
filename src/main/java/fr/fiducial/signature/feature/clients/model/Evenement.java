@@ -23,221 +23,63 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "evenement", catalog = "signature_clients")
 public class Evenement implements java.io.Serializable {
-
-	private Long id;
-	private DivorceRenduPar divorceRenduPar;
-	private LieuMariage lieuMariage;
-	private Pays pays;
-	private Personne personneByIdConjoint;
-	private Personne personneByIdClient;
-	private RegimeMariage regimeMariage;
-	private TypeMarital typeMarital;
-	private TypePacs typePacs;
-	private Ville ville;
-	private boolean estPacse;
-	private Date date;
-	private Date jugementDivorceDate;
-	private String commentSeparation;
-	private Long idCauseRupturePacs;
-	private String notaire;
-	private Set<Historique> historiques = new HashSet<Historique>(0);
-
-	public Evenement() {
-	}
-
-	public Evenement(Personne personneByIdClient, TypeMarital typeMarital, boolean estPacse) {
-		this.personneByIdClient = personneByIdClient;
-		this.typeMarital = typeMarital;
-		this.estPacse = estPacse;
-	}
-
-	public Evenement(DivorceRenduPar divorceRenduPar, LieuMariage lieuMariage, Pays pays, Personne personneByIdConjoint,
-			Personne personneByIdClient, RegimeMariage regimeMariage, TypeMarital typeMarital, TypePacs typePacs,
-			Ville ville, boolean estPacse, Date date, Date jugementDivorceDate, String commentSeparation,
-			Long idCauseRupturePacs, String notaire, Set<Historique> historiques) {
-		this.divorceRenduPar = divorceRenduPar;
-		this.lieuMariage = lieuMariage;
-		this.pays = pays;
-		this.personneByIdConjoint = personneByIdConjoint;
-		this.personneByIdClient = personneByIdClient;
-		this.regimeMariage = regimeMariage;
-		this.typeMarital = typeMarital;
-		this.typePacs = typePacs;
-		this.ville = ville;
-		this.estPacse = estPacse;
-		this.date = date;
-		this.jugementDivorceDate = jugementDivorceDate;
-		this.commentSeparation = commentSeparation;
-		this.idCauseRupturePacs = idCauseRupturePacs;
-		this.notaire = notaire;
-		this.historiques = historiques;
-	}
-
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-
 	@Column(name = "id", unique = true, nullable = false)
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_divorce_rendu_par")
-	public DivorceRenduPar getDivorceRenduPar() {
-		return this.divorceRenduPar;
-	}
-
-	public void setDivorceRenduPar(DivorceRenduPar divorceRenduPar) {
-		this.divorceRenduPar = divorceRenduPar;
-	}
+	private DivorceRenduPar divorceRenduPar;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_lieu_mariage")
-	public LieuMariage getLieuMariage() {
-		return this.lieuMariage;
-	}
-
-	public void setLieuMariage(LieuMariage lieuMariage) {
-		this.lieuMariage = lieuMariage;
-	}
+	private LieuMariage lieuMariage;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_pays_mariage")
-	public Pays getPays() {
-		return this.pays;
-	}
-
-	public void setPays(Pays pays) {
-		this.pays = pays;
-	}
+	private Pays pays;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_conjoint")
-	public Personne getPersonneByIdConjoint() {
-		return this.personneByIdConjoint;
-	}
-
-	public void setPersonneByIdConjoint(Personne personneByIdConjoint) {
-		this.personneByIdConjoint = personneByIdConjoint;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_client", nullable = false)
-	public Personne getPersonneByIdClient() {
-		return this.personneByIdClient;
-	}
-
-	public void setPersonneByIdClient(Personne personneByIdClient) {
-		this.personneByIdClient = personneByIdClient;
-	}
+	private Personne conjoint;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_regime_mariage")
-	public RegimeMariage getRegimeMariage() {
-		return this.regimeMariage;
-	}
-
-	public void setRegimeMariage(RegimeMariage regimeMariage) {
-		this.regimeMariage = regimeMariage;
-	}
+	private RegimeMariage regimeMariage;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_type_marital", nullable = false)
-	public TypeMarital getTypeMarital() {
-		return this.typeMarital;
-	}
-
-	public void setTypeMarital(TypeMarital typeMarital) {
-		this.typeMarital = typeMarital;
-	}
+	@JoinColumn(name = "id_type_evenement")
+	private TypeEvenement typeEvenement;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_type_PACS")
-	public TypePacs getTypePacs() {
-		return this.typePacs;
-	}
-
-	public void setTypePacs(TypePacs typePacs) {
-		this.typePacs = typePacs;
-	}
+	private TypePacs typePacs;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_ville")
-	public Ville getVille() {
-		return this.ville;
-	}
-
-	public void setVille(Ville ville) {
-		this.ville = ville;
-	}
+	private Ville ville;
 
 	@Column(name = "est_pacse", nullable = false)
-	public boolean isEstPacse() {
-		return this.estPacse;
-	}
-
-	public void setEstPacse(boolean estPacse) {
-		this.estPacse = estPacse;
-	}
+	private boolean estPacse;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date", length = 10)
-	public Date getDate() {
-		return this.date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
+	private Date date;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "jugement_divorce_date", length = 10)
-	public Date getJugementDivorceDate() {
-		return this.jugementDivorceDate;
-	}
-
-	public void setJugementDivorceDate(Date jugementDivorceDate) {
-		this.jugementDivorceDate = jugementDivorceDate;
-	}
+	private Date jugementDivorceDate;
 
 	@Column(name = "comment_separation", length = 200)
-	public String getCommentSeparation() {
-		return this.commentSeparation;
-	}
+	private String commentSeparation;
 
-	public void setCommentSeparation(String commentSeparation) {
-		this.commentSeparation = commentSeparation;
-	}
+	@Column(name = "ville_etrangere_mariage", length = 200)
+	private String villeEtrangereMariage;
 
 	@Column(name = "id_cause_rupture_PACS")
-	public Long getIdCauseRupturePacs() {
-		return this.idCauseRupturePacs;
-	}
+	private Long idCauseRupturePacs;
 
-	public void setIdCauseRupturePacs(Long idCauseRupturePacs) {
-		this.idCauseRupturePacs = idCauseRupturePacs;
-	}
-
-	@Column(name = "notaire", length = 50)
-	public String getNotaire() {
-		return this.notaire;
-	}
-
-	public void setNotaire(String notaire) {
-		this.notaire = notaire;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "evenement")
-	public Set<Historique> getHistoriques() {
-		return this.historiques;
-	}
-
-	public void setHistoriques(Set<Historique> historiques) {
-		this.historiques = historiques;
-	}
-
+	@Column(name = "notaire", length = 200)
+	private String notaire;
 }

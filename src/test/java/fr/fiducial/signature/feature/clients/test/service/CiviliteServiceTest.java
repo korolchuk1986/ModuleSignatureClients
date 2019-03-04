@@ -2,7 +2,7 @@ package fr.fiducial.signature.feature.clients.test.service;
 
 import org.junit.*;
 
-public class PersonneServiceTest {
+public class CiviliteServiceTest {
     @BeforeClass // before all tests
     public static void setUpBeforeTests() {}
 
@@ -16,27 +16,12 @@ public class PersonneServiceTest {
     public void tearDown() {}
 
     @Test
-    public void testAdd() {
+    public void testGet(Long id) {
         //TODO
     }
 
     @Test
-    public void testGetClients() {
+    public void testGetAll() {
         //TODO
     }
-
-    @Test
-    public void testUpdate() {
-        //TODO
-    }
-
-    @Test
-    public void testGetClientByNomPrenom() {
-        //TODO
-    }
-    @Test
-    public void testGetClientById() {
-        //TODO
-    }
-    // TODO à compléter
 }

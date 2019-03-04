@@ -23,11 +23,13 @@ public class HistoriqueServiceImpl implements HistoriqueService {
     @Override
     @Transactional(readOnly=true)
     public Iterable<Evenement> getEvenementsByClient(Personne personne) {
-        return historiqueDAO.findEvenementsByClient(personne.getId());
+        //TODO
+        return null; //historiqueDAO.findEvenementsByClient(personne.getId());
     }
 
     @Override
     public void deleteHistoriqueMatrimonialByClient(Personne personne) {
-        historiqueDAO.deleteHistoriqueMatrimonialByClient(personne.getId());
+        //TODO
+        //historiqueDAO.deleteHistoriqueMatrimonialByClient(personne.getId());
     }
 }
