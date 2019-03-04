@@ -17,7 +17,8 @@ import javax.persistence.Table;
 /**
  * Adresse contient un numéro unique non nul, si c'est l'adresse principale ou non, un numéro de voie,
  * un ordre (bis, ter, etc.), le type de voie (rue, avenue, etc.), le nom de la voie (obligatoire),
- * un complément 1, un complément 2, un lieu-dit, un spf (service de publicité foncière) et la ville (obligatoire).
+ * un complément 1, un complément 2, un lieu-dit, un spf (service de publicité foncière), la ville (française
+ * ou étrangère) et le pays.
  */
 @Data
 @NoArgsConstructor
@@ -36,7 +37,11 @@ public class Adresse implements java.io.Serializable {
 	*/
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_ville", nullable = false)
+	@JoinColumn(name = "id_pays", nullable = false)
+	private Pays pays;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_ville")
 	private Ville ville;
 
 	@Column(name = "num")
@@ -65,4 +70,7 @@ public class Adresse implements java.io.Serializable {
 
 	@Column(name = "est_principale", nullable = false)
 	private boolean estPrincipale;
+
+	@Column(name = "ville_etrangere", length = 200)
+	private String villeEtrangere;
 }
