@@ -186,6 +186,7 @@ CREATE TABLE `adresse` (
   `lieu_dit` varchar(200) NOT NULL,
   `spf` varchar(200) NOT NULL,
   `ville_etrangere` varchar(200) DEFAULT NULL,
+  `id_personne` bigint(20) NOT NULL,
   `id_ville` bigint(20) DEFAULT NULL,
   `id_pays` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
@@ -194,8 +195,8 @@ CREATE TABLE `adresse` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO `adresse` VALUES 
-(1, true, 4, 'bis', 'rue', 'Louis XIV', null, null, null, null, null, 1, 1),
-(2, true, 5, 'ter', 'avenue', 'Napoléon', null, null, null, null, null, 2, 1);
+(1, true, 4, 'bis', 'rue', 'Louis XIV', null, null, null, null, null, 1, 1, 1),
+(2, true, 5, 'ter', 'avenue', 'Napoléon', null, null, null, null, null, 2, 2, 1);
 
 CREATE TABLE `historique` (
   `id_client` bigint(20) NOT NULL,
@@ -284,11 +285,11 @@ CREATE TABLE `personne` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO `personne` 
-(`id`, `est_client`, `nom`, `prenoms`, `id_type_marital`, `est_pacse`, `id_conjoint`, `telephone`, `email`)
+(`id`, `est_client`, `nom`, `prenoms`, `id_type_marital`, `est_pacse`, `id_conjoint`, `telephone`, `email`, `date_modif_fiche`, `id_civilite`)
 VALUES 
-(1, true, "dupont", "jean", 1, false, null, "0102030406", "jean@epsi.fr"),
-(2, true, "martin", "julie", 2, false, null, "0475345657", "julie@epsi.fr"), 
-(3, false, "martin", "michel", 2, false, 2, "0475345657", "michel@epsi.fr");
+(1, true, "dupont", "jean", 1, false, null, "0102030406", "jean@epsi.fr", "2019-02-27", 1),
+(2, true, "martin", "julie", 2, false, null, "0475345657", "julie@epsi.fr", "2019-02-19", 2), 
+(3, false, "martin", "michel", 2, false, 2, "0475345657", "michel@epsi.fr", "2019-03-04", 1);
 
 UPDATE `personne` 
 SET id_conjoint = 3 WHERE id=2; 
@@ -305,3 +306,6 @@ ADD CONSTRAINT `fk_historique_id_evenement` FOREIGN KEY (`id_evenement`) REFEREN
 
 ALTER TABLE deces
 ADD CONSTRAINT `fk_deces_id_personne` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id`) ON DELETE cascade ON UPDATE NO ACTION;
+
+ALTER TABLE adresse
+ADD CONSTRAINT `fk_adresse_id_personne` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
