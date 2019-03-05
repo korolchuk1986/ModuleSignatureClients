@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class StatutServiceImpl implements StatutService {
     @Autowired
-    StatutDAO statutDAO;
+    private StatutDAO statutDAO;
 
     @Override
     @Transactional(readOnly=true)

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -19,6 +20,11 @@ public class PersonneServiceImpl implements PersonneService {
 
     public Iterable<Personne> getAll() {
         return personneDAO.findClients();
+    }
+
+    @Override
+    public List<Personne> getByNomPrenoms(String nom, String prenoms) {
+        return personneDAO.findByNomAndPrenomsAllIgnoreCase(nom, prenoms);
     }
 
     public Set<Adresse> getAdresses(long id) {

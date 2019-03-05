@@ -1,6 +1,7 @@
 package fr.fiducial.signature.feature.clients.model;
 // Generated Mar 1, 2019 11:53:13 AM by Hibernate Tools 5.2.11.Final
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ import javax.persistence.TemporalType;
  */
 @Data
 @NoArgsConstructor
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "document", catalog = "signature_clients")
 public class Document implements java.io.Serializable {

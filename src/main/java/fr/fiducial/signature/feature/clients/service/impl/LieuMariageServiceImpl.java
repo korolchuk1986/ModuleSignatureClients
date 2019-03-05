@@ -13,7 +13,7 @@ import java.util.Set;
 @Service
 public class LieuMariageServiceImpl implements LieuMariageService {
     @Autowired
-    LieuMariageDAO lieuMariageDAO;
+    private LieuMariageDAO lieuMariageDAO;
 
     @Override
     @Transactional(readOnly=true)

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EvenementServiceImpl implements EvenementService {
     @Autowired
-    EvenementDAO evenementDAO;
+    private EvenementDAO evenementDAO;
 
     @Override
     public Evenement create(Evenement evenement) {

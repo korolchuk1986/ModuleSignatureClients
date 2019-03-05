@@ -13,7 +13,7 @@ import java.util.Set;
 @Transactional
 public class VilleServiceImpl implements VilleService {
     @Autowired
-    VilleDAO vDao;
+    private VilleDAO vDao;
 
     @Override
     public Ville create(Ville ville) {

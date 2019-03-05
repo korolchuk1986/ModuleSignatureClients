@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class RegimeMariageServiceImpl implements RegimeMariageService {
     @Autowired
-    RegimeMariageDAO regimeMariageDAO;
+    private RegimeMariageDAO regimeMariageDAO;
 
     @Override
     @Transactional(readOnly=true)

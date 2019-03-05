@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class HistoriqueServiceImpl implements HistoriqueService {
     @Autowired
-    HistoriqueDAO historiqueDAO;
+    private HistoriqueDAO historiqueDAO;
 
     @Override
     public Historique add(Historique historique) {

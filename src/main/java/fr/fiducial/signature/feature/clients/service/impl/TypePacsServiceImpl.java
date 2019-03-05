@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class TypePacsServiceImpl implements TypePacsService {
     @Autowired
-    TypePacsDAO typePacsDAO;
+    private TypePacsDAO typePacsDAO;
 
     @Override
     @Transactional(readOnly=true)

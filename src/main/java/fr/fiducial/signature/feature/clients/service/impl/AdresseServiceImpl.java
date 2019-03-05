@@ -12,7 +12,7 @@ import java.util.Optional;
 @Transactional
 public class AdresseServiceImpl implements AdresseService {
     @Autowired
-    AdresseDAO adresseDAO;
+    private AdresseDAO adresseDAO;
 
     @Override
     public Adresse create(Adresse adresse) {

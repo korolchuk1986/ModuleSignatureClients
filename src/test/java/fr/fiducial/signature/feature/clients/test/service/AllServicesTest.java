@@ -8,7 +8,7 @@ import org.junit.runners.Suite;
 public class AllServicesTest {
     @RunWith(Suite.class)
     @Suite.SuiteClasses({AdresseServiceTest.class, CapaciteServiceTest.class, CauseRupturePacsServiceTest.class,
-            CoordonneesServiceTest.class, DocumentServiceTest.class, HistoriqueServiceTest.class,
+            DocumentServiceTest.class, HistoriqueServiceTest.class,
             LieuMariageServiceTest.class,
             PaysServiceTest.class, PersonneServiceTest.class, RegimeMariageService.class, StatutServiceTest.class,
             TypeMaritalServiceTest.class, TypePacsServiceTest.class, VilleServiceTest.class})

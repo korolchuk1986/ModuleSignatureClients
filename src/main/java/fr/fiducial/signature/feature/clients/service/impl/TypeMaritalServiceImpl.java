@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public class TypeMaritalServiceImpl implements TypeMaritalService {
     @Autowired
-    TypeMaritalDAO typeMaritalDAO;
+    private TypeMaritalDAO typeMaritalDAO;
 
     @Override
     @Transactional(readOnly=true)

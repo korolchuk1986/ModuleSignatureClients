@@ -1,5 +1,6 @@
 package fr.fiducial.signature.feature.clients.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 //import lombok.extern.flogger.Flogger;
@@ -11,6 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @NoArgsConstructor
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "personne", catalog = "signature_clients")
 public class Personne implements java.io.Serializable {

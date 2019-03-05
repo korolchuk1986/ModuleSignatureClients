@@ -1,6 +1,7 @@
 package fr.fiducial.signature.feature.clients.model;
 // Generated Mar 1, 2019 11:53:13 AM by Hibernate Tools 5.2.11.Final
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import javax.persistence.Table;
  */
 @Data
 @NoArgsConstructor
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "cause_rupture_pacs", catalog = "signature_clients")
 public class CauseRupturePacs implements java.io.Serializable {

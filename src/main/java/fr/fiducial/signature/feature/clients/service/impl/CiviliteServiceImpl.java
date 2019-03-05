@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class CiviliteServiceImpl implements CiviliteService {
     @Autowired
-    CiviliteDAO civiliteDAO;
+    private CiviliteDAO civiliteDAO;
 
     @Override
     @Transactional(readOnly=true)

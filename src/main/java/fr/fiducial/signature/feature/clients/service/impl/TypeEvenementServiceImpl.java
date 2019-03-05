@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class TypeEvenementServiceImpl implements TypeEvenementService {
     @Autowired
-    TypeEvenementDAO typeEvenementDAO;
+    private TypeEvenementDAO typeEvenementDAO;
 
     @Override
     @Transactional(readOnly=true)
