@@ -1,9 +1,6 @@
 package fr.fiducial.signature.feature.clients.model.dto;
 
-import fr.fiducial.signature.feature.clients.model.Capacite;
-import fr.fiducial.signature.feature.clients.model.Civilite;
-import fr.fiducial.signature.feature.clients.model.Statut;
-import fr.fiducial.signature.feature.clients.model.TypeMarital;
+import fr.fiducial.signature.feature.clients.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +15,6 @@ public class InfoFormulaireDTO {
     private Iterable<Civilite> civilites;
     private Iterable<Statut> statuts;
     private Iterable<TypeMarital> typeMarital;
+    private Iterable<Pays> pays;
+    private Iterable<Ville> villes;
 }

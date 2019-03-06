@@ -27,6 +27,10 @@ public class PersonneServiceImpl implements PersonneService {
     private StatutDAO statutDAO;
     @Autowired
     private TypeMaritalDAO typeMaritalDAO;
+    @Autowired
+    private PaysDAO paysDAO;
+    @Autowired
+    private VilleDAO villeDAO;
 
     public List<ListePersonneDTO> getAll() {
         return personneDAO.findClients();
@@ -44,6 +48,8 @@ public class PersonneServiceImpl implements PersonneService {
         infoFormulaireDTO.setCivilites(civiliteDAO.findAll());
         infoFormulaireDTO.setStatuts(statutDAO.findAll());
         infoFormulaireDTO.setTypeMarital(typeMaritalDAO.findAll());
+        infoFormulaireDTO.setPays(paysDAO.findAll());
+        infoFormulaireDTO.setVilles(villeDAO.findAll());
         return infoFormulaireDTO;
     }
 }
