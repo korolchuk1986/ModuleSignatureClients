@@ -130,6 +130,7 @@ public class Personne implements java.io.Serializable {
 	private Deces deces;
 
 
+
 	/*
 	private Set<Evenement> evenements = new HashSet<Evenement>(0);
 	private Set<Personne> personnes = new HashSet<Personne>(0);

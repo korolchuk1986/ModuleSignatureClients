@@ -13,6 +13,7 @@ import java.util.Set;
 
 @Service
 public class PersonneServiceImpl implements PersonneService {
+
     @Autowired
     private PersonneDAO personneDAO;
 
@@ -29,5 +30,5 @@ public class PersonneServiceImpl implements PersonneService {
         return null;
     }
 
-    //TODO à compléter
+
 }

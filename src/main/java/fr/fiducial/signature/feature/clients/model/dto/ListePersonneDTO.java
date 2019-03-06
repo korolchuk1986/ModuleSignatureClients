@@ -20,5 +20,6 @@ public class ListePersonneDTO {
     private String cp;
     private String nomVille;
     private Date dateModif;
+    private Long id;
 
 }
