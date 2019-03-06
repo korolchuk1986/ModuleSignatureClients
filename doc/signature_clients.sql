@@ -161,7 +161,7 @@ CREATE TABLE `document` (
 
 CREATE TABLE `deces` (
   `id_personne` bigint(20) NOT NULL,
-  `date` date NOT NULL,
+  `date_deces` date NOT NULL,
   `ville_etrangere` varchar(200) DEFAULT NULL,
   `commentaire` varchar(200) DEFAULT NULL,
   `id_ville` bigint(20) DEFAULT NULL,
@@ -186,7 +186,6 @@ CREATE TABLE `adresse` (
   `lieu_dit` varchar(200) DEFAULT NULL,
   `spf` varchar(200) DEFAULT NULL,
   `ville_etrangere` varchar(200) DEFAULT NULL,
-  `id_personne` bigint(20) NOT NULL,
   `id_ville` bigint(20) NOT NULL,
   `id_pays` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
@@ -195,8 +194,8 @@ CREATE TABLE `adresse` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO `adresse` VALUES 
-(1, true, 4, 'bis', 'rue', 'Louis XIV', null, null, null, null, null, 1, 1, 1),
-(2, true, 5, 'ter', 'avenue', 'Napoléon', null, null, null, null, null, 2, 2, 1);
+(1, true, 4, 'bis', 'rue', 'Louis XIV', null, null, null, null, null, 1, 1),
+(2, true, 5, 'ter', 'avenue', 'Napoléon', null, null, null, null, null, 2, 1);
 
 CREATE TABLE `historique` (
   `id_client` bigint(20) NOT NULL,
@@ -211,11 +210,19 @@ VALUES
 (1, 1),
 (2, 2);
 
+CREATE TABLE `habitation` (
+  `id_personne` bigint(20) NOT NULL,
+  `id_adresse` bigint(20) NOT NULL,
+  PRIMARY KEY (`id_personne`, `id_adresse`),
+  KEY `fk_habitation_id_personne_idx` (`id_personne`),
+  KEY `fk_habitation_id_adresse_idx` (`id_adresse`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `evenement` (
   `id` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_type_evenement` bigint(20) DEFAULT NULL,
   `id_type_PACS` bigint(20) default null, 
-  `date` date DEFAULT NULL,
+  `date_evt` date DEFAULT NULL,
   `jugement_divorce_date` date DEFAULT NULL,
   `comment_separation` varchar(200) DEFAULT NULL,
   `ville_etrangere_mariage` varchar(200) DEFAULT NULL,
@@ -294,18 +301,27 @@ VALUES
 UPDATE `personne` 
 SET id_conjoint = 3 WHERE id=2; 
 
-ALTER TABLE document
+INSERT INTO `habitation` 
+VALUES 
+(1, 1),
+(2, 2),
+(3, 2);
+
+ALTER TABLE `document`
 ADD CONSTRAINT `fk_document_id_client` FOREIGN KEY (`id_client`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE evenement
+ALTER TABLE `evenement`
 ADD CONSTRAINT `fk_evenement_id_conjoint` FOREIGN KEY (`id_conjoint`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE historique
+ALTER TABLE `historique`
 ADD CONSTRAINT `fk_historique_id_client` FOREIGN KEY (`id_client`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_historique_id_evenement` FOREIGN KEY (`id_evenement`) REFERENCES `evenement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE deces
+ALTER TABLE `deces`
 ADD CONSTRAINT `fk_deces_id_personne` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id`) ON DELETE cascade ON UPDATE NO ACTION;
 
-ALTER TABLE adresse
-ADD CONSTRAINT `fk_adresse_id_personne` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `habitation`
+ADD CONSTRAINT `fk_habitation_id_personne` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION, 
+ADD CONSTRAINT `fk_habitation_id_adresse` FOREIGN KEY (`id_adresse`) REFERENCES `adresse` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+

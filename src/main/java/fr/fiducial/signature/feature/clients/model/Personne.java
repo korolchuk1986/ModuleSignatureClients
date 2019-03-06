@@ -52,7 +52,7 @@ public class Personne implements java.io.Serializable {
 	@Column(name = "est_pacse", nullable = false)
 	private boolean estPacse;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_capacite")
 	private Capacite capacite;
 

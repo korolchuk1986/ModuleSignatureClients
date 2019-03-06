@@ -75,8 +75,4 @@ public class Adresse implements java.io.Serializable {
 
 	@Column(name = "ville_etrangere", length = 200)
 	private String villeEtrangere;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_personne", nullable = false)
-	private Personne personne;
 }

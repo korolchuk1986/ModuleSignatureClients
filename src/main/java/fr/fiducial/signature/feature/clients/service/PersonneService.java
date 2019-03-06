@@ -1,16 +1,16 @@
 package fr.fiducial.signature.feature.clients.service;
 
-import fr.fiducial.signature.feature.clients.model.Adresse;
-import fr.fiducial.signature.feature.clients.model.Personne;
+import fr.fiducial.signature.feature.clients.model.dto.ClientInfoDTO;
+import fr.fiducial.signature.feature.clients.model.dto.InfoFormulaireDTO;
 import fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 public interface PersonneService {
     List<ListePersonneDTO> getAll();
-    List<Personne> getByNomPrenoms(String nom, String prenoms);
-    Set<Adresse> getAdresses(long id);
+    InfoFormulaireDTO getInfoFormulaire();
+    public Optional<ClientInfoDTO> getClientInfo(Long id);
     //TODO à compléter
 
 }
