@@ -31,14 +31,23 @@ public class PersonneServiceImpl implements PersonneService {
     private PaysDAO paysDAO;
     @Autowired
     private VilleDAO villeDAO;
+    @Autowired
+    private HabitationDAO habitationDAO;
 
     public List<ListePersonneDTO> getAll() {
         return personneDAO.findClients();
     }
 
     @Override
-    public Optional<ClientInfoDTO> getClientInfo(Long id) {
-        return personneDAO.getClientInfo(id);
+    public ClientInfoDTO getClientInfo(Long id) {
+        ClientInfoDTO clientInfoDTO = null;
+        Optional<ClientInfoDTO> optionalClientInfoDTO = personneDAO.getClientInfo(id);
+        if (optionalClientInfoDTO.isPresent()) {
+            clientInfoDTO = optionalClientInfoDTO.get();
+            System.out.println("PersonneServiceImpl getClientInfo");
+            clientInfoDTO.setAdresses(habitationDAO.getAdressesByClient(id));
+        }
+        return clientInfoDTO;
     }
 
     @Override
@@ -51,5 +60,10 @@ public class PersonneServiceImpl implements PersonneService {
         infoFormulaireDTO.setPays(paysDAO.findAll());
         infoFormulaireDTO.setVilles(villeDAO.findAll());
         return infoFormulaireDTO;
+    }
+
+    @Override
+    public Set<Adresse> getAdresses(Long idClient) {
+        return habitationDAO.getAdressesByClient(idClient);
     }
 }

@@ -2,6 +2,7 @@ package fr.fiducial.signature.feature.clients.model;
 // Generated Mar 1, 2019 11:53:13 AM by Hibernate Tools 5.2.11.Final
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -38,11 +39,12 @@ public class Adresse implements java.io.Serializable {
 	private Personne personne;
 	*/
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "id_pays", nullable = false)
 	private Pays pays;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_ville")
 	private Ville ville;
 
