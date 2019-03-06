@@ -251,7 +251,7 @@ VALUES
 CREATE TABLE `personne` (
   `id` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `est_client` boolean NOT NULL,
-  `id_civilite` bigint(20) DEFAULT NULL,
+  `id_civilite` bigint(20) NOT NULL,
   `nom` varchar(200) NOT NULL,
   `prenoms` varchar(200) DEFAULT NULL,
   `date_naissance` date DEFAULT NULL,
@@ -266,7 +266,7 @@ CREATE TABLE `personne` (
   `clerc_referent` varchar(200) DEFAULT NULL,
   `notaire_referent` varchar(200) DEFAULT NULL,
   `date_modif_fiche` date DEFAULT NULL,
-  `telephone` varchar(200) NOT NULL,
+  `telephone` varchar(200) DEFAULT NULL,
   `comment_telephone` varchar(200) DEFAULT NULL,
   `telephone_pro` varchar(200) DEFAULT NULL,
   `comment_telephone_pro` varchar(200) DEFAULT NULL,
@@ -278,10 +278,10 @@ CREATE TABLE `personne` (
   `comment_fax` varchar(200) DEFAULT NULL,
   `site_web` varchar(200) DEFAULT NULL,
   `comment_site_web` varchar(20) DEFAULT NULL,
-  `id_statut` bigint(20) DEFAULT NULL,
-  `id_pays_naissance` bigint(20) DEFAULT NULL,
+  `id_statut` bigint(20) NOT NULL,
+  `id_pays_naissance` bigint(20) NOT NULL,
   `id_ville_naissance` bigint(20) DEFAULT NULL,
-  `id_capacite` bigint(20) DEFAULT NULL,
+  `id_capacite` bigint(20) NOT NULL,
   CONSTRAINT `fk_personne_id_civilite` FOREIGN KEY (`id_civilite`) REFERENCES `civilite` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_personne_id_type_marital` FOREIGN KEY (`id_type_marital`) REFERENCES `type_marital` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_personne_id_conjoint` FOREIGN KEY (`id_conjoint`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -292,11 +292,11 @@ CREATE TABLE `personne` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO `personne` 
-(`id`, `est_client`, `nom`, `prenoms`, `id_type_marital`, `est_pacse`, `id_conjoint`, `telephone`, `email`, `date_modif_fiche`, `id_civilite`)
+(`id`, `est_client`, `nom`, `prenoms`, `id_type_marital`, `est_pacse`, `id_conjoint`, `telephone`, `email`, `date_modif_fiche`, `id_civilite`, `id_capacite`, `id_statut`, `id_pays_naissance`)
 VALUES 
-(1, true, "dupont", "jean", 1, false, null, "0102030406", "jean@epsi.fr", "2019-02-27", 1),
-(2, true, "martin", "julie", 2, false, null, "0475345657", "julie@epsi.fr", "2019-02-19", 2), 
-(3, false, "martin", "michel", 2, false, 2, "0475345657", "michel@epsi.fr", "2019-03-04", 1);
+(1, true, "dupont", "jean", 1, false, null, "0102030406", "jean@epsi.fr", "2019-02-27", 1, 1, 1, 1),
+(2, true, "martin", "julie", 2, false, null, "0475345657", "julie@epsi.fr", "2019-02-19", 2, 1, 1, 1), 
+(3, false, "martin", "michel", 2, false, 2, "0475345657", "michel@epsi.fr", "2019-03-04", 1, 1, 1, 1);
 
 UPDATE `personne` 
 SET id_conjoint = 3 WHERE id=2; 

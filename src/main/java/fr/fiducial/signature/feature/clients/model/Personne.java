@@ -52,16 +52,16 @@ public class Personne implements java.io.Serializable {
 	@Column(name = "est_pacse", nullable = false)
 	private boolean estPacse;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_capacite")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_capacite", nullable = false)
 	private Capacite capacite;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_civilite")
+	@JoinColumn(name = "id_civilite", nullable = false)
 	private Civilite civilite;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_pays_naissance")
+	@JoinColumn(name = "id_pays_naissance", nullable = false)
 	private Pays pays;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -69,7 +69,7 @@ public class Personne implements java.io.Serializable {
 	private Personne conjoint;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_statut")
+	@JoinColumn(name = "id_statut", nullable = false)
 	private Statut statut;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -90,7 +90,7 @@ public class Personne implements java.io.Serializable {
 	@Column(name = "date_modif_fiche", length = 10)
 	private Date dateModifFiche;
 
-	@Column(name = "telephone", nullable = false, length = 200)
+	@Column(name = "telephone", length = 200)
 	private String telephone;
 
 	@Column(name = "comment_telephone", length = 200)

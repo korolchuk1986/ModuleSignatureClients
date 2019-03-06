@@ -10,21 +10,20 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientInfoDTO {
-    //private String civilite;
+    private Long id;
+    private String civilite;
     private String nom;
     private String prenoms;
-    private Long id;
-    //private String capacite;
-    /*private String typeMarital;
-    private Boolean estPacse;
-    */
-
-   /* private String nomConjoint;
+    private String capacite;
+    private String statut;
+    private String typeMarital;
+    private Boolean estPacse;/*
+    //private Date dateModif;
+   private String nomConjoint;
     private String prenomsConjoint;
-    private Date dateLiaison;*/
-    /*private String telephonePerso;
-    private String emailPerso;
+    private Date dateLiaison;
+    private String telephonePerso;*/
+    /*private String emailPerso;
     private String clercReferent;
-    private String notaireReferent;
-    private Date dateModif;*/
+    private String notaireReferent;*/
 }

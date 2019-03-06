@@ -24,7 +24,9 @@ public interface PersonneDAO extends JpaRepository<Personne, Long> {
             "where p.estClient=true and p.id = h.personne and h.adresse = ad and ad.estPrincipale = true")
     List<ListePersonneDTO> findClients();
 
-    @Query("select new fr.fiducial.signature.feature.clients.model.dto.ClientInfoDTO(p.nom, p.prenoms, p.id) " +
+    @Query("select new fr.fiducial.signature.feature.clients.model.dto.ClientInfoDTO(" +
+            "p.id, p.civilite.civilite, p.nom, p.prenoms, p.capacite.capacite, p.statut.statut, " +
+            "p.typeMarital.typeMarital, p.estPacse) "+ //, p.telephone ) " +
             "from Personne as p where p.id=:id")
     Optional<ClientInfoDTO> getClientInfo(@Value("id") Long id);
 }
