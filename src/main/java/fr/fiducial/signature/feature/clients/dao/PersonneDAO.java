@@ -27,7 +27,8 @@ public interface PersonneDAO extends JpaRepository<Personne, Long> {
             "p.clercReferent, p.notaireReferent, p.commentEmail, p.commentTelephone, " +
             "p.emailPro, p.commentEmailPro, p.telephonePro, p.commentTelephonePro, " +
             "p.fax, p.commentFax, p.siteWeb, p.commentSiteWeb, p.dateNaissance, p.nationalite, " +
-            "p.nomUsuel, p.prenomUsuel ) " +
-            "from Personne as p where p.id=:id")
+            "p.nomUsuel, p.prenomUsuel, p.profession, p.pays, p.villeNaissance, p.villeEtrangereNaissance ) " +
+            "from Personne as p left outer join p.pays left outer join p.villeNaissance where p.id=:id")
     Optional<ClientInfoDTO> getClientInfo(@Value("id") Long id);
 }
+

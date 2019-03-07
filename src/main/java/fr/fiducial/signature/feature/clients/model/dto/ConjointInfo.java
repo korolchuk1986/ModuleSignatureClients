@@ -1,7 +1,5 @@
 package fr.fiducial.signature.feature.clients.model.dto;
 
-import fr.fiducial.signature.feature.clients.model.Adresse;
-import fr.fiducial.signature.feature.clients.model.Deces;
 import fr.fiducial.signature.feature.clients.model.Pays;
 import fr.fiducial.signature.feature.clients.model.Ville;
 import lombok.AllArgsConstructor;
@@ -9,24 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ClientInfoDTO extends PersonneInfo {
-    // Attention ne pas changer l'odre des attributs por le constructeur et requête sql !!!!
-
-    private String typeMarital;
-    private Boolean estPacse;
-    private Date dateModif;
-    private Set<Adresse> adresses;
-    private Boolean aHistorique = false;
-    //private Long idConjoint = null;
-    private Date dateLiaison = null;
-
+public class ConjointInfo extends PersonneInfo {
     // ne pas effacer (pas générable par lombok) et ne changer l'ordre des param car lié à une requête jpql
-    public ClientInfoDTO(Long id, String civilite, String nom, String prenoms, String capacite, String statut, String typeMarital,
+    public ConjointInfo(Long id, String civilite, String nom, String prenoms, String capacite, String statut, String typeMarital,
                          Boolean estPacse, Date dateModif, String telephonePerso, String emailPerso, String clercReferent,
                          String notaireReferent, String commentEmailPerso, String commentTelephonePerso, String emailPro,
                          String commentEmailPro, String telephonePro, String commentTelephonePro, String fax, String commentFax,
@@ -38,9 +23,6 @@ public class ClientInfoDTO extends PersonneInfo {
         this.prenoms = prenoms;
         this.capacite = capacite;
         this.statut = statut;
-        this.typeMarital = typeMarital;
-        this.estPacse = estPacse;
-        this.dateModif = dateModif;
         this.telephonePerso = telephonePerso;
         this.emailPerso = emailPerso;
         this.clercReferent = clercReferent;
@@ -65,11 +47,4 @@ public class ClientInfoDTO extends PersonneInfo {
         this.villeEtrangereNaissance = villeEtrangereNaissance;
     }
 
-    public Boolean getaHistorique() {
-        return aHistorique;
-    }
-
-    public void setaHistorique(Boolean aHistorique) {
-        this.aHistorique = aHistorique;
-    }
 }
