@@ -8,4 +8,5 @@ public interface HistoriqueService {
     Historique add(Historique historique);
     Iterable<Evenement> getEvenementsByClient(Personne personne);
     void deleteHistoriqueMatrimonialByClient(Personne personne);
+    Integer countEvtsByClient(Long id_personne);
 }

@@ -22,4 +22,6 @@ public interface HistoriqueDAO extends CrudRepository<Historique, Long>  {
     @Query("delete from Historique h where h.personne.id= :id_personne")
     void deleteHistoriqueMatrimonialByClient(@Param("id_personne") Long id_personne);
     */
+    @Query("select count(h.evenement) from Historique h where h.personne.id= :id_personne")
+    Integer countEvtsByClient(@Param("id_personne") Long id_personne);
 }

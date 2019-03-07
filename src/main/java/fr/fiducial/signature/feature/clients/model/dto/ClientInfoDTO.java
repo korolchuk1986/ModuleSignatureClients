@@ -48,6 +48,7 @@ public class ClientInfoDTO {
     private Pays paysDeces = null;
     private String commentDeces = null;
     private Set<Adresse> adresses;
+    private Boolean aHistorique = false;
 
     // ne pas effacer (pas générable par lombok)
     public ClientInfoDTO(Long id, String civilite, String nom, String prenoms, String capacite, String statut, String typeMarital,
@@ -131,4 +132,13 @@ public class ClientInfoDTO {
         this.villeDeces = deces.getVille();
         this.paysDeces = deces.getPays();
     }
+
+    public Boolean getaHistorique() {
+        return aHistorique;
+    }
+
+    public void setaHistorique(Boolean aHistorique) {
+        this.aHistorique = aHistorique;
+    }
+
 }

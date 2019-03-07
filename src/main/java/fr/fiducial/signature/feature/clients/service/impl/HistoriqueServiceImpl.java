@@ -32,4 +32,11 @@ public class HistoriqueServiceImpl implements HistoriqueService {
         //TODO
         //historiqueDAO.deleteHistoriqueMatrimonialByClient(personne.getId());
     }
+
+    @Override
+    public Integer countEvtsByClient(Long id_personne) {
+        return historiqueDAO.countEvtsByClient(id_personne);
+    }
+
+
 }

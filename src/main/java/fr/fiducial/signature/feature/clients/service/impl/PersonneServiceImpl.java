@@ -36,6 +36,8 @@ public class PersonneServiceImpl implements PersonneService {
     private HabitationDAO habitationDAO;
     @Autowired
     private DecesDAO decesDAO;
+    @Autowired
+    private HistoriqueDAO historiqueDAO;
 
     public List<ListePersonneDTO> getAll() {
         return personneDAO.findClients();
@@ -51,6 +53,10 @@ public class PersonneServiceImpl implements PersonneService {
             Optional<Deces> optionalDeces = decesDAO.findById(id);
             if (optionalDeces.isPresent()) {
                 clientInfoDTO.setDeces(optionalDeces.get());
+            }
+            Integer evtsNb = historiqueDAO.countEvtsByClient(id);
+            if (evtsNb > 0) {
+                clientInfoDTO.setaHistorique(true);
             }
         }
         return clientInfoDTO;
