@@ -35,15 +35,15 @@ public class Evenement implements java.io.Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_divorce_rendu_par")
 	private DivorceRenduPar divorceRenduPar;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_lieu_mariage")
 	private LieuMariage lieuMariage;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_pays_mariage")
 	private Pays pays;
 
@@ -51,19 +51,19 @@ public class Evenement implements java.io.Serializable {
 	@JoinColumn(name = "id_conjoint")
 	private Personne conjoint;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_regime_mariage")
 	private RegimeMariage regimeMariage;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_type_evenement")
 	private TypeEvenement typeEvenement;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_type_PACS")
 	private TypePacs typePacs;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_ville")
 	private Ville ville;
 
@@ -84,8 +84,9 @@ public class Evenement implements java.io.Serializable {
 	@Column(name = "ville_etrangere_mariage", length = 200)
 	private String villeEtrangereMariage;
 
-	@Column(name = "id_cause_rupture_PACS")
-	private Long idCauseRupturePacs;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_cause_rupture_PACS")
+	private CauseRupturePacs causeRupturePacs;
 
 	@Column(name = "notaire", length = 200)
 	private String notaire;

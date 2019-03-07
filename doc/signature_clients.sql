@@ -235,6 +235,7 @@ CREATE TABLE `evenement` (
   `id_ville` bigint(20) DEFAULT NULL,
   `id_conjoint` bigint(20) DEFAULT NULL,
   CONSTRAINT `fk_evenement_id_type_evenement` FOREIGN KEY (`id_type_evenement`) REFERENCES `type_evenement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_evenement_id_cause_rupture_PACS` FOREIGN KEY (`id_cause_rupture_PACS`) REFERENCES `cause_rupture_pacs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_evenement_id_type_PACS` FOREIGN KEY (`id_type_PACS`) REFERENCES `type_PACS` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_evenement_id_divorce_rendu_par` FOREIGN KEY (`id_divorce_rendu_par`) REFERENCES `divorce_rendu_par` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION, 
   CONSTRAINT `fk_evenement_id_lieu_mariage` FOREIGN KEY (`id_lieu_mariage`) REFERENCES `lieu_mariage` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -315,7 +316,7 @@ ADD CONSTRAINT `fk_evenement_id_conjoint` FOREIGN KEY (`id_conjoint`) REFERENCES
 
 ALTER TABLE `historique`
 ADD CONSTRAINT `fk_historique_id_client` FOREIGN KEY (`id_client`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_historique_id_evenement` FOREIGN KEY (`id_evenement`) REFERENCES `evenement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD CONSTRAINT `fk_hiadressestorique_id_evenement` FOREIGN KEY (`id_evenement`) REFERENCES `evenement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE `deces`
 ADD CONSTRAINT `fk_deces_id_personne` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id`) ON DELETE cascade ON UPDATE NO ACTION;

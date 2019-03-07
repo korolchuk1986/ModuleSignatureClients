@@ -32,7 +32,7 @@ public class Habitation implements java.io.Serializable {
     @JoinColumn(name = "id_personne", nullable = false)
     private Personne personne;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_adresse", nullable = false)
     private Adresse adresse;
 }

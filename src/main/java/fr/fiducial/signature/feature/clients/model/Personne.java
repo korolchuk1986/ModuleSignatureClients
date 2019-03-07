@@ -52,15 +52,15 @@ public class Personne implements java.io.Serializable {
 	@Column(name = "est_pacse", nullable = false)
 	private boolean estPacse;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_capacite", nullable = false)
 	private Capacite capacite;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_civilite", nullable = false)
 	private Civilite civilite;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_pays_naissance", nullable = false)
 	private Pays pays;
 
@@ -68,15 +68,15 @@ public class Personne implements java.io.Serializable {
 	@JoinColumn(name = "id_conjoint")
 	private Personne conjoint;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_statut", nullable = false)
 	private Statut statut;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_type_marital", nullable = false)
 	private TypeMarital typeMarital;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_ville_naissance")
 	private Ville villeNaissance;
 

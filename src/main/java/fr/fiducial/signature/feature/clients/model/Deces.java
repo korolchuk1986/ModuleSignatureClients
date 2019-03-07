@@ -38,7 +38,7 @@ public class Deces implements java.io.Serializable {
 	@Column(name = "id_personne", unique = true, nullable = false)
 	private long idPersonne;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_pays", nullable = false)
 	private Pays pays;
 
@@ -46,7 +46,7 @@ public class Deces implements java.io.Serializable {
 	@PrimaryKeyJoinColumn
 	private Personne personne;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_ville")
 	private Ville ville;
 
