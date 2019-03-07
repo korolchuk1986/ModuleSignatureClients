@@ -71,8 +71,8 @@ public class Evenement implements java.io.Serializable {
 	private boolean estPacse;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "date", length = 10)
-	private Date date;
+	@Column(name = "date_evt", length = 10)
+	private Date dateEvt;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "jugement_divorce_date", length = 10)

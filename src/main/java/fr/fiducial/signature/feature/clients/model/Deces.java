@@ -54,8 +54,8 @@ public class Deces implements java.io.Serializable {
 	private String villeEtrangere;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "date", nullable = false, length = 10)
-	private Date date;
+	@Column(name = "date_deces", nullable = false, length = 10)
+	private Date dateDeces;
 
 	@Column(name = "commentaire", length = 200)
 	private String commentaire;

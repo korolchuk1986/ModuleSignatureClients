@@ -2,6 +2,7 @@ package fr.fiducial.signature.feature.clients.service.impl;
 
 import fr.fiducial.signature.feature.clients.dao.*;
 import fr.fiducial.signature.feature.clients.model.Adresse;
+import fr.fiducial.signature.feature.clients.model.Deces;
 import fr.fiducial.signature.feature.clients.model.Personne;
 import fr.fiducial.signature.feature.clients.model.dto.ClientInfoDTO;
 import fr.fiducial.signature.feature.clients.model.dto.InfoFormulaireDTO;
@@ -33,6 +34,8 @@ public class PersonneServiceImpl implements PersonneService {
     private VilleDAO villeDAO;
     @Autowired
     private HabitationDAO habitationDAO;
+    @Autowired
+    private DecesDAO decesDAO;
 
     public List<ListePersonneDTO> getAll() {
         return personneDAO.findClients();
@@ -44,8 +47,11 @@ public class PersonneServiceImpl implements PersonneService {
         Optional<ClientInfoDTO> optionalClientInfoDTO = personneDAO.getClientInfo(id);
         if (optionalClientInfoDTO.isPresent()) {
             clientInfoDTO = optionalClientInfoDTO.get();
-            System.out.println("PersonneServiceImpl getClientInfo");
             clientInfoDTO.setAdresses(habitationDAO.getAdressesByClient(id));
+            Optional<Deces> optionalDeces = decesDAO.findById(id);
+            if (optionalDeces.isPresent()) {
+                clientInfoDTO.setDeces(optionalDeces.get());
+            }
         }
         return clientInfoDTO;
     }

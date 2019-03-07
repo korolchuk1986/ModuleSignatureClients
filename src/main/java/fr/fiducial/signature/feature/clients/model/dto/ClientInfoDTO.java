@@ -1,6 +1,9 @@
 package fr.fiducial.signature.feature.clients.model.dto;
 
 import fr.fiducial.signature.feature.clients.model.Adresse;
+import fr.fiducial.signature.feature.clients.model.Deces;
+import fr.fiducial.signature.feature.clients.model.Pays;
+import fr.fiducial.signature.feature.clients.model.Ville;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,14 +42,14 @@ public class ClientInfoDTO {
     private String nationalite;
     private String nomUsuel;
     private String prenomUsuel;
-    private Date dateDeces;
-    private String cpDeces;
-    private String villeDeces;
-    private String paysDeces;
-    private String commentDeces;
+    private Date dateDeces = null;
+    private Ville villeDeces = null;
+    private String villeEtrangereDeces = null;
+    private Pays paysDeces = null;
+    private String commentDeces = null;
     private Set<Adresse> adresses;
 
-
+    // ne pas effacer (pas générable par lombok)
     public ClientInfoDTO(Long id, String civilite, String nom, String prenoms, String capacite, String statut, String typeMarital,
                          Boolean estPacse, Date dateModif, String telephonePerso, String emailPerso, String clercReferent,
                          String notaireReferent, String commentEmailPerso, String commentTelephonePerso, String emailPro,
@@ -89,27 +92,19 @@ public class ClientInfoDTO {
         this.dateDeces = dateDeces;
     }
 
-    public String getCpDeces() {
-        return cpDeces;
-    }
-
-    public void setCpDeces(String cpDeces) {
-        this.cpDeces = cpDeces;
-    }
-
-    public String getVilleDeces() {
+    public Ville getVilleDeces() {
         return villeDeces;
     }
 
-    public void setVilleDeces(String villeDeces) {
+    public void setVilleDeces(Ville villeDeces) {
         this.villeDeces = villeDeces;
     }
 
-    public String getPaysDeces() {
+    public Pays getPaysDeces() {
         return paysDeces;
     }
 
-    public void setPaysDeces(String paysDeces) {
+    public void setPaysDeces(Pays paysDeces) {
         this.paysDeces = paysDeces;
     }
 
@@ -127,5 +122,13 @@ public class ClientInfoDTO {
 
     public void setAdresses(Set<Adresse> adresses) {
         this.adresses = adresses;
+    }
+
+    public void setDeces(Deces deces) {
+        this.commentDeces = deces.getCommentaire();
+        this.dateDeces = deces.getDateDeces();
+        this.paysDeces = deces.getPays();
+        this.villeDeces = deces.getVille();
+        this.paysDeces = deces.getPays();
     }
 }
