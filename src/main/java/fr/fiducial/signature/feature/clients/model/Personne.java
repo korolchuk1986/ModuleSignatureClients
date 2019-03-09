@@ -76,6 +76,10 @@ public class Personne implements java.io.Serializable {
 	@JoinColumn(name = "id_type_marital", nullable = false)
 	private TypeMarital typeMarital;
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_liaison", length = 10)
+	private Date dateLiaison;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_ville_naissance")
 	private Ville villeNaissance;

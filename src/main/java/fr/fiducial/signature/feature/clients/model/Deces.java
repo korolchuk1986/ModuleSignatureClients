@@ -39,7 +39,7 @@ public class Deces implements java.io.Serializable {
 	private long idPersonne;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_pays", nullable = false)
+	@JoinColumn(name = "id_pays")
 	private Pays pays;
 
 	@OneToOne(fetch = FetchType.LAZY)

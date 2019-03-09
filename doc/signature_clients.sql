@@ -165,7 +165,7 @@ CREATE TABLE `deces` (
   `ville_etrangere` varchar(200) DEFAULT NULL,
   `commentaire` varchar(200) DEFAULT NULL,
   `id_ville` bigint(20) DEFAULT NULL,
-  `id_pays` bigint(20) NOT NULL,
+  `id_pays` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id_personne`), 
   CONSTRAINT `fk_deces_id_pays` FOREIGN KEY (`id_pays`) REFERENCES `pays` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION, 
   CONSTRAINT `fk_deces_id_ville` FOREIGN KEY (`id_ville`) REFERENCES `ville` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -264,6 +264,7 @@ CREATE TABLE `personne` (
   `id_type_marital` bigint(20) NOT NULL,
   `est_pacse` boolean NOT NULL,
   `id_conjoint` bigint(20) DEFAULT NULL,
+  `date_liaison` date DEFAULT NULL,
   `clerc_referent` varchar(200) DEFAULT NULL,
   `notaire_referent` varchar(200) DEFAULT NULL,
   `date_modif_fiche` date DEFAULT NULL,
@@ -293,14 +294,14 @@ CREATE TABLE `personne` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO `personne` 
-(`id`, `est_client`, `nom`, `prenoms`, `id_type_marital`, `est_pacse`, `id_conjoint`, `telephone`, `email`, `date_modif_fiche`, `id_civilite`, `id_capacite`, `id_statut`, `id_pays_naissance`)
+(`id`, `est_client`, `nom`, `prenoms`, `id_type_marital`, `est_pacse`, `id_conjoint`, `date_liaison`, `telephone`, `email`, `date_modif_fiche`, `id_civilite`, `id_capacite`, `id_statut`, `id_pays_naissance`)
 VALUES 
-(1, true, "dupont", "jean", 1, false, null, "0102030406", "jean@epsi.fr", "2019-02-27", 1, 1, 1, 1),
-(2, true, "martin", "julie", 2, false, null, "0475345657", "julie@epsi.fr", "2019-02-19", 2, 1, 1, 1), 
-(3, false, "martin", "michel", 2, false, 2, "0475345657", "michel@epsi.fr", "2019-03-04", 1, 1, 1, 1);
+(1, true, "dupont", "jean", 1, false, null, null, "0102030406", "jean@epsi.fr", "2019-02-27", 1, 1, 1, 1),
+(2, true, "martin", "julie", 2, false, null, null, "0475345657", "julie@epsi.fr", "2019-02-19", 2, 1, 1, 1),
+(3, false, "martin", "michel", 2, false, 2, "2001-09-05", "0475345657", "michel@epsi.fr", "2019-03-04", 1, 1, 1, 1);
 
 UPDATE `personne` 
-SET id_conjoint = 3 WHERE id=2; 
+SET id_conjoint = 3, date_liaison = "2001-09-05" WHERE id=2;
 
 INSERT INTO `habitation` 
 VALUES 

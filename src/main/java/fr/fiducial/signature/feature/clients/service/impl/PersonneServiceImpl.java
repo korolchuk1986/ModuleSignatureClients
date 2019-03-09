@@ -7,6 +7,7 @@ import fr.fiducial.signature.feature.clients.model.Personne;
 import fr.fiducial.signature.feature.clients.model.dto.ClientInfoDTO;
 import fr.fiducial.signature.feature.clients.model.dto.InfoFormulaireDTO;
 import fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO;
+import fr.fiducial.signature.feature.clients.model.dto.PersonneInfo;
 import fr.fiducial.signature.feature.clients.service.PersonneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,18 +47,23 @@ public class PersonneServiceImpl implements PersonneService {
     @Override
     public ClientInfoDTO getClientInfo(Long id) {
         ClientInfoDTO clientInfoDTO = null;
-        Optional<ClientInfoDTO> optionalClientInfoDTO = personneDAO.getClientInfo(id);
-        if (optionalClientInfoDTO.isPresent()) {
-            clientInfoDTO = optionalClientInfoDTO.get();
+        Optional<PersonneInfo> optionalPersonneInfo = personneDAO.getClientInfo(id);
+        if (optionalPersonneInfo.isPresent()) {
+            clientInfoDTO = new ClientInfoDTO();
+            clientInfoDTO.setClient(optionalPersonneInfo.get());
             clientInfoDTO.setAdresses(habitationDAO.getAdressesByClient(id));
-            Optional<Deces> optionalDeces = decesDAO.findById(id);
+            Long idConjoint = clientInfoDTO.getClient().getIdConjoint();
+            Optional<PersonneInfo> optionalConjointInfo = personneDAO.getClientInfo(idConjoint);
+            if (optionalConjointInfo.isPresent()) {
+                clientInfoDTO.setConjoint(optionalConjointInfo.get());
+            }
+            /*Optional<Deces> optionalDeces = decesDAO.findById(id);
             if (optionalDeces.isPresent()) {
                 clientInfoDTO.setDeces(optionalDeces.get());
-            }
+            }*/
             Integer evtsNb = historiqueDAO.countEvtsByClient(id);
-            if (evtsNb > 0) {
-                clientInfoDTO.setaHistorique(true);
-            }
+            clientInfoDTO.setAHistorique(evtsNb > 0 ? true : false);
+
         }
         return clientInfoDTO;
     }
@@ -78,4 +84,6 @@ public class PersonneServiceImpl implements PersonneService {
     public Set<Adresse> getAdresses(Long idClient) {
         return habitationDAO.getAdressesByClient(idClient);
     }
+
+
 }
