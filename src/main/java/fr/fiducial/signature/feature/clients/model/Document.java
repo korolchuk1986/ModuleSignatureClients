@@ -47,8 +47,8 @@ public class Document implements java.io.Serializable {
 	@Column(name = "type_doc", nullable = false, length = 200)
 	private String typeDoc;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_enregistrement", nullable = false, length = 19)
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_enregistrement", nullable = false, length = 10)
 	private Date dateEnregistrement;
 
 	@Column(name = "lien_vers_contenu", nullable = false, length = 200)

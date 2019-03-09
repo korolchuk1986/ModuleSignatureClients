@@ -18,27 +18,32 @@ import java.util.Set;
 
 @Service
 public class PersonneServiceImpl implements PersonneService {
-
-    @Autowired
     private PersonneDAO personneDAO;
-    @Autowired
     private CapaciteDAO capaciteDAO;
-    @Autowired
     private CiviliteDAO civiliteDAO;
-    @Autowired
     private StatutDAO statutDAO;
-    @Autowired
     private TypeMaritalDAO typeMaritalDAO;
-    @Autowired
     private PaysDAO paysDAO;
-    @Autowired
     private VilleDAO villeDAO;
-    @Autowired
     private HabitationDAO habitationDAO;
-    @Autowired
-    private DecesDAO decesDAO;
-    @Autowired
+    private DocumentDAO documentDAO;
     private HistoriqueDAO historiqueDAO;
+
+    public PersonneServiceImpl(PersonneDAO personneDAO, CapaciteDAO capaciteDAO, CiviliteDAO civiliteDAO,
+                               StatutDAO statutDAO, TypeMaritalDAO typeMaritalDAO, PaysDAO paysDAO,
+                               VilleDAO villeDAO, HabitationDAO habitationDAO, DocumentDAO documentDAO,
+                               HistoriqueDAO historiqueDAO) {
+        this.historiqueDAO = historiqueDAO;
+        this.statutDAO = statutDAO;
+        this.personneDAO = personneDAO;
+        this.civiliteDAO = civiliteDAO;
+        this.villeDAO = villeDAO;
+        this.paysDAO = paysDAO;
+        this.capaciteDAO = capaciteDAO;
+        this.typeMaritalDAO = typeMaritalDAO;
+        this.documentDAO = documentDAO;
+        this.habitationDAO = habitationDAO;
+    }
 
     public List<ListePersonneDTO> getAll() {
         return personneDAO.findClients();
@@ -57,12 +62,13 @@ public class PersonneServiceImpl implements PersonneService {
             if (optionalConjointInfo.isPresent()) {
                 clientInfoDTO.setConjoint(optionalConjointInfo.get());
             }
+            clientInfoDTO.setDocuments(documentDAO.findDocumentsByClient(id));
             /*Optional<Deces> optionalDeces = decesDAO.findById(id);
             if (optionalDeces.isPresent()) {
                 clientInfoDTO.setDeces(optionalDeces.get());
             }*/
             Integer evtsNb = historiqueDAO.countEvtsByClient(id);
-            clientInfoDTO.setAHistorique(evtsNb > 0 ? true : false);
+            clientInfoDTO.setAHistorique(evtsNb > 0);
 
         }
         return clientInfoDTO;

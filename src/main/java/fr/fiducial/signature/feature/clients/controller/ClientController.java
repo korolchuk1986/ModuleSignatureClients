@@ -20,20 +20,19 @@ import java.util.Set;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
-@RequestMapping(path = "personne", produces = "application/json")
-public class PersonneController {
+@RequestMapping(path = "signature", produces = "application/json")
+public class ClientController {
     private final PersonneService personneService;
     private final HabitationService habitationService;
 
-    public PersonneController(PersonneService personneService, HabitationService habitationService) {
+    public ClientController(PersonneService personneService, HabitationService habitationService) {
         this.personneService = personneService;
         this.habitationService = habitationService;
     }
 
     @GetMapping("/clients")
     public List<ListePersonneDTO> getAll() {
-        List<ListePersonneDTO>  listInfoPersonnes= personneService.getAll();
-        return listInfoPersonnes;
+        return personneService.getAll();
     }
 
     @RequestMapping(value = "/client/{id}", method = GET)
@@ -43,11 +42,10 @@ public class PersonneController {
 
     @RequestMapping(value = "/infoFormulaire", method = GET)
     public InfoFormulaireDTO getInfoFormulaire() {
-        InfoFormulaireDTO infoFormulaire = personneService.getInfoFormulaire();
-        return infoFormulaire;
+        return personneService.getInfoFormulaire();
     }
 
-    @RequestMapping(value = "/adresses/{id}", method = GET)
+    @RequestMapping(value = "/client/{id}/adresses", method = GET)
     public Set<Adresse> getAdresse(@PathVariable("id") Long id) {
         return habitationService.getAdressesByClient(id);
     }

@@ -154,10 +154,16 @@ CREATE TABLE `document` (
   `libelle` varchar(200) NOT NULL,
   `categorie` varchar(200) DEFAULT NULL,
   `type_doc` varchar(200) NOT NULL,
-  `date_enregistrement` datetime NOT NULL,
+  `date_enregistrement` date NOT NULL,
   `lien_vers_contenu` varchar(200) NOT NULL,
   `id_client` bigint(20) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+INSERT INTO `document` VALUES
+(1,'201901_factureGaz.pdf', 'preuve d\'adresse', 'pdf', '2019-02-16', 'archiveClients\\1\\', 1),
+(2,'20010905_certifMariage.pdf', 'certificat mariage', 'pdf', '2018-06-07', 'archiveClients\\2\\', 2),
+(3,'201805_factureTelephone.pdf', 'preuve d\'adresse', 'pdf', '2018-06-07', 'archiveClients\\2\\', 2),
+(4,'200208_acteProprieteMaison.pdf', 'acte propriété', 'pdf', '2018-06-07', 'archiveClients\\2\\', 2);
 
 CREATE TABLE `deces` (
   `id_personne` bigint(20) NOT NULL,
@@ -293,15 +299,15 @@ CREATE TABLE `personne` (
   CONSTRAINT `fk_personne_id_capacite` FOREIGN KEY (`id_capacite`) REFERENCES `capacite` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-INSERT INTO `personne` 
-(`id`, `est_client`, `nom`, `prenoms`, `id_type_marital`, `est_pacse`, `id_conjoint`, `date_liaison`, `telephone`, `email`, `date_modif_fiche`, `id_civilite`, `id_capacite`, `id_statut`, `id_pays_naissance`)
+INSERT INTO `personne`
+(id, est_client, nom, prenoms, id_type_marital, est_pacse, id_conjoint, date_liaison, telephone, email, date_modif_fiche, id_civilite, id_capacite, id_statut, id_pays_naissance)
 VALUES 
-(1, true, "dupont", "jean", 1, false, null, null, "0102030406", "jean@epsi.fr", "2019-02-27", 1, 1, 1, 1),
-(2, true, "martin", "julie", 2, false, null, null, "0475345657", "julie@epsi.fr", "2019-02-19", 2, 1, 1, 1),
-(3, false, "martin", "michel", 2, false, 2, "2001-09-05", "0475345657", "michel@epsi.fr", "2019-03-04", 1, 1, 1, 1);
+(1, true, 'dupont', 'jean', 1, false, null, null, '0102030406', 'jean@epsi.fr', '2019-02-27', 1, 1, 1, 1),
+(2, true, 'martin', 'julie', 2, false, null, null, '0475345657', 'julie@epsi.fr', '2019-02-19', 2, 1, 1, 1),
+(3, false, 'martin', 'michel', 2, false, 2, '2001-09-05', '0475345657', 'michel@epsi.fr', '2019-03-04', 1, 1, 1, 1);
 
 UPDATE `personne` 
-SET id_conjoint = 3, date_liaison = "2001-09-05" WHERE id=2;
+SET id_conjoint = 3, date_liaison = '2001-09-05' WHERE id=2;
 
 INSERT INTO `habitation` 
 VALUES 
