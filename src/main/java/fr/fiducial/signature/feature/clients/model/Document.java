@@ -44,8 +44,9 @@ public class Document implements java.io.Serializable {
 	@Column(name = "libelle", nullable = false, length = 200)
 	private String libelle;
 
-	@Column(name = "categorie", length = 200)
-	private String categorie;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_categorie")
+	private Categorie categorie;
 
 	@Column(name = "type_doc", nullable = false, length = 200)
 	private String typeDoc;
@@ -57,12 +58,12 @@ public class Document implements java.io.Serializable {
 	@Column(name = "lien_vers_contenu", nullable = false, length = 200)
 	private String lienVersContenu;
 
-	public Document(DocumentDTO documentDTO, Personne personne, String documentPath) {
+	public Document(Personne personne, String libelle, String typeDoc, String documentPath) {
 		this.personne = personne;
-		this.categorie = documentDTO.getCategorie();
-		this.libelle = documentDTO.getLibelle();
+		this.categorie = null;
+		this.libelle = libelle;
 		this.dateEnregistrement = java.sql.Date.valueOf(LocalDate.now());
 		this.lienVersContenu = documentPath;
-		this.typeDoc = documentDTO.getTypeDoc();
+		this.typeDoc = typeDoc;
 	}
 }

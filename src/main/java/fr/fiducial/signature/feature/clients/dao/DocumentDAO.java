@@ -12,8 +12,9 @@ import java.util.List;
 @Repository
 public interface DocumentDAO extends CrudRepository<Document, Long> {
     @Query("select new fr.fiducial.signature.feature.clients.model.dto.DocumentDTO(" +
-            "d.id, d.personne.id, d.libelle, d.categorie, d.typeDoc, d.dateEnregistrement) " +
+            "d.id, d.personne.id, d.libelle, d.categorie.id, d.typeDoc, d.dateEnregistrement) " +
             "from Document as d " +
+            "left outer join d.categorie " +
             "where d.personne.id=:idClient")
     List<DocumentDTO> findDocumentsByClient(@Value("idClient") Long idClient);
 }

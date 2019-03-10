@@ -39,17 +39,20 @@ public class DocumentController {
     }
     @RequestMapping(value = "/client/{id}/document/upload", method = POST, consumes = { "multipart/mixed", "multipart/form-data" })
     public @ResponseBody ResponseEntity<?> uploadDocumentForClient(@PathVariable("id") Long idClient,
-                              @RequestParam("documentDtoString") String JSONString,
+                              //@RequestParam("documentDtoString") String JSONString,
                               @RequestParam("file") MultipartFile multipartFile) {
         try {
             // Décoder le Json qui décrit le document
-            DocumentDTO documentDTO  = new ObjectMapper().readValue(JSONString, DocumentDTO.class);
-            documentDTO.setDateEnregistrement(java.sql.Date.valueOf(LocalDate.now()));
-            System.out.println(documentDTO);
+            //DocumentDTO documentDTO  = new ObjectMapper().readValue(JSONString, DocumentDTO.class);
 
             // récuperer le fichier envoyé
-            //String originalFileName = multipartFile.getOriginalFilename();
-            String fileName = documentDTO.getLibelle() + "." + documentDTO.getTypeDoc();
+            String originalFileName = multipartFile.getOriginalFilename();
+            int pos = originalFileName.lastIndexOf(".");
+            if (pos == -1) {
+                return new ResponseEntity<>("This file has no extension; it cannot be uploaded", HttpStatus.BAD_REQUEST);
+            }
+            String libelle = originalFileName.substring(0, pos);
+            String typeDoc = originalFileName.substring(pos+1);
             Path path = FileSystems.getDefault().getPath(PATH_ARCHIVE, String.valueOf(idClient));
             String relativePath = path.toString();
 
@@ -57,14 +60,14 @@ public class DocumentController {
             if (!Files.isDirectory(path)) {
                 Files.createDirectories(path);
             }
-            path = FileSystems.getDefault().getPath(PATH_ARCHIVE, String.valueOf(idClient), fileName);
+            path = FileSystems.getDefault().getPath(PATH_ARCHIVE, String.valueOf(idClient), originalFileName);
             // Si ce fichier existe déjà, erreur
             if (Files.exists(path)) {
                 return new ResponseEntity<>("This file cannot be downloaded twice", HttpStatus.BAD_REQUEST);
             }
             // appeller le service document pour stockage
-            documentDTO = documentService.uploadDocumentForClient(idClient, documentDTO, multipartFile,
-                    path.toAbsolutePath(), relativePath);
+            DocumentDTO documentDTO = documentService.uploadDocumentForClient(idClient, multipartFile,
+                    path.toAbsolutePath(), relativePath, libelle, typeDoc);
             return new ResponseEntity<>(documentDTO, HttpStatus.OK);
 
         } catch (IOException e) {

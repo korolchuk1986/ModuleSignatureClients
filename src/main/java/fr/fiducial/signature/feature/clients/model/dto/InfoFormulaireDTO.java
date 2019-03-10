@@ -17,4 +17,5 @@ public class InfoFormulaireDTO {
     private Iterable<TypeMarital> typeMarital;
     private Iterable<Pays> pays;
     private Iterable<Ville> villes;
+    private Iterable<Categorie> categories;
 }

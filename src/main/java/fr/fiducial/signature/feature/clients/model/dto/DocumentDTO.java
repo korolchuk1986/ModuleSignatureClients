@@ -14,14 +14,14 @@ public class DocumentDTO {
     private Long id;
     private Long idClient;
     private String libelle;
-    private String categorie;
+    private Long idCategorie;
     private String typeDoc;
     private Date dateEnregistrement;
 
     public DocumentDTO(Document doc) {
         this.id = doc.getId();
         this.idClient = doc.getPersonne().getId();
-        this.categorie = doc.getCategorie();
+        this.idCategorie = doc.getCategorie().getId();
         this.libelle = doc.getLibelle();
         this.typeDoc = doc.getTypeDoc();
         this.dateEnregistrement = doc.getDateEnregistrement();

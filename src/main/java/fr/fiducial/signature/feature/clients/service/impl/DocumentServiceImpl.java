@@ -46,18 +46,18 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public DocumentDTO uploadDocumentForClient(Long idClient, DocumentDTO documentDTO,
-                                               MultipartFile multipartFile, Path documentPath, String relativePath) throws IOException {
+    public DocumentDTO uploadDocumentForClient(Long idClient, MultipartFile multipartFile, Path documentPath, String relativePath, String libelle, String typeDoc) throws IOException {
         System.out.println("DocumentService uploadDocumentForClient");
-        DocumentDTO documentDTO2 = null;
-        Optional<Personne> clientOptional = personneDAO.findById(documentDTO.getIdClient());
+        DocumentDTO documentDTO = null;
+        Optional<Personne> clientOptional = personneDAO.findById(idClient);
         if (clientOptional.isPresent()) {
             multipartFile.transferTo(documentPath.toFile());
-            Document document = new Document(documentDTO, clientOptional.get(), relativePath);
+            Document document = new Document(clientOptional.get(), libelle, typeDoc, relativePath);
             document = documentDAO.save(document);
-            documentDTO.setId(document.getId());
-            documentDTO2 =  documentDTO;
+            Long idCategorie = (document.getCategorie() == null ? null : document.getCategorie().getId());
+            documentDTO = new DocumentDTO(document.getId(), idClient, document.getLibelle(), idCategorie,
+                    document.getTypeDoc(), document.getDateEnregistrement());
         }
-        return documentDTO2;
+        return documentDTO;
     }
 }

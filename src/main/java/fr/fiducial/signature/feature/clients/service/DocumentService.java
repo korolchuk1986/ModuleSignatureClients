@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface DocumentService {
     Document get(Long id);
     List<DocumentDTO> getDocumentsByClient(Long idClient);
-    DocumentDTO uploadDocumentForClient(Long idClient, DocumentDTO documentDTO,
-                                        MultipartFile multipartFile, Path documentPath, String relativePath) throws IOException;
+    DocumentDTO uploadDocumentForClient(Long idClient, MultipartFile multipartFile, Path documentPath, String relativePath,
+                                        String libelle, String typeDoc) throws IOException;
 }

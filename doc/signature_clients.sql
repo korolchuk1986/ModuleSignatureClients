@@ -149,21 +149,36 @@ INSERT INTO `statut` VALUES
 (2,'résident UE'), 
 (3,'non résident');
 
+CREATE TABLE `categorie` (
+   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+   `categorie` varchar(200) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+INSERT INTO `categorie` VALUES
+(1,'général'),
+(2,'document d\'arpentage'),
+(3,'titre de propriété'),
+(4,'donation'),
+(5,'testament'),
+(6,'acte de mariage');
+
 CREATE TABLE `document` (
   `id` bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `libelle` varchar(200) NOT NULL,
-  `categorie` varchar(200) DEFAULT NULL,
+  `id_categorie` bigint(20) DEFAULT NULL,
   `type_doc` varchar(200) NOT NULL,
   `date_enregistrement` date NOT NULL,
   `lien_vers_contenu` varchar(200) NOT NULL,
-  `id_client` bigint(20) NOT NULL
+  `id_client` bigint(20) NOT NULL,
+  CONSTRAINT `fk_document_id_categorie` FOREIGN KEY (`id_categorie`) REFERENCES `categorie` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `document` VALUES
-(1,'201901_factureGaz.pdf', 'preuve d\'adresse', 'pdf', '2019-02-16', 'archiveClients\\1\\', 1),
-(2,'20010905_certifMariage.pdf', 'certificat mariage', 'pdf', '2018-06-07', 'archiveClients\\2\\', 2),
-(3,'201805_factureTelephone.pdf', 'preuve d\'adresse', 'pdf', '2018-06-07', 'archiveClients\\2\\', 2),
-(4,'200208_acteProprieteMaison.pdf', 'acte propriété', 'pdf', '2018-06-07', 'archiveClients\\2\\', 2);
+(1,'201901_factureGaz', 1, 'pdf', '2019-02-16', 'archiveClients\\1\\', 1),
+(2,'20010905_certifMariage', 6, 'pdf', '2018-06-07', 'archiveClients\\2\\', 2),
+(3,'201805_factureTelephone', 1, 'pdf', '2018-06-07', 'archiveClients\\2\\', 2),
+(4,'200208_acteProprieteMaison', 3, 'pdf', '2018-06-07', 'archiveClients\\2\\', 2);
 
 CREATE TABLE `deces` (
   `id_personne` bigint(20) NOT NULL,

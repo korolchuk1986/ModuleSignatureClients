@@ -2,6 +2,7 @@ package fr.fiducial.signature.feature.clients.service.impl;
 
 import fr.fiducial.signature.feature.clients.dao.*;
 import fr.fiducial.signature.feature.clients.model.Adresse;
+import fr.fiducial.signature.feature.clients.model.Categorie;
 import fr.fiducial.signature.feature.clients.model.Deces;
 import fr.fiducial.signature.feature.clients.model.Personne;
 import fr.fiducial.signature.feature.clients.model.dto.ClientInfoDTO;
@@ -28,11 +29,12 @@ public class PersonneServiceImpl implements PersonneService {
     private HabitationDAO habitationDAO;
     private DocumentDAO documentDAO;
     private HistoriqueDAO historiqueDAO;
+    private CategorieDAO categorieDAO;
 
     public PersonneServiceImpl(PersonneDAO personneDAO, CapaciteDAO capaciteDAO, CiviliteDAO civiliteDAO,
                                StatutDAO statutDAO, TypeMaritalDAO typeMaritalDAO, PaysDAO paysDAO,
                                VilleDAO villeDAO, HabitationDAO habitationDAO, DocumentDAO documentDAO,
-                               HistoriqueDAO historiqueDAO) {
+                               HistoriqueDAO historiqueDAO, CategorieDAO categorieDAO) {
         this.historiqueDAO = historiqueDAO;
         this.statutDAO = statutDAO;
         this.personneDAO = personneDAO;
@@ -43,6 +45,7 @@ public class PersonneServiceImpl implements PersonneService {
         this.typeMaritalDAO = typeMaritalDAO;
         this.documentDAO = documentDAO;
         this.habitationDAO = habitationDAO;
+        this.categorieDAO = categorieDAO;
     }
 
     public List<ListePersonneDTO> getAll() {
@@ -83,6 +86,7 @@ public class PersonneServiceImpl implements PersonneService {
         infoFormulaireDTO.setTypeMarital(typeMaritalDAO.findAll());
         infoFormulaireDTO.setPays(paysDAO.findAll());
         infoFormulaireDTO.setVilles(villeDAO.findAll());
+        infoFormulaireDTO.setCategories(categorieDAO.findAll());
         return infoFormulaireDTO;
     }
 
