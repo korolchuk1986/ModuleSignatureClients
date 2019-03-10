@@ -6,7 +6,11 @@ import fr.fiducial.signature.feature.clients.model.dto.DocumentDTO;
 import fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO;
 import fr.fiducial.signature.feature.clients.service.DocumentService;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,11 +21,11 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping(path = "signature", produces = "application/json")
@@ -83,7 +87,35 @@ public class DocumentController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Upload problem with file", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Upload problem with the file", HttpStatus.BAD_REQUEST);
         }
+    }
+    @RequestMapping(value = "/client/{idClient}/document/{idDocument}/delete", method = DELETE)
+    public @ResponseBody ResponseEntity<?> delete(@PathVariable("idClient") Long idClient, @PathVariable("idDocument") Long idDocument) {
+        boolean updateOk = documentService.deleteDocument(idClient, idDocument);
+        return new ResponseEntity<>(updateOk ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value = "/client/{idClient}/document/{idDocument}/download", method = GET)
+    public ResponseEntity<Resource> downloadDocument(@PathVariable("idClient") Long idClient,
+                                                     @PathVariable("idDocument") Long idDocument) throws IOException {
+        Path path = documentService.getPath(idClient, idDocument);
+        if (path == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path.toAbsolutePath()));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(Files.size(path))
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+
     }
 }

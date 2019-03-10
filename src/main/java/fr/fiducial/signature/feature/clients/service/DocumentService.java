@@ -10,10 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DocumentService {
-    Document get(Long id);
+    Path getPath(Long idClient, Long idDocument);
     List<DocumentDTO> getDocumentsByClient(Long idClient);
     DocumentDTO uploadDocumentForClient(Long idClient, MultipartFile multipartFile, Path documentPath, String relativePath,
                                         String libelle, String typeDoc) throws IOException;
     boolean updateDocumentByClient(Long idClient, Long idDoc, DocumentDTO documentDTO);
+    boolean deleteDocument(Long idClient, Long idDocument);
 
 }

@@ -11,7 +11,6 @@ import fr.fiducial.signature.feature.clients.service.DocumentService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,8 +34,17 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Document get(Long id) {
-        return null;
+    public Path getPath(Long idClient, Long idDocument) {
+        Optional<Document> optionalDocument = documentDAO.findById(idDocument);
+        if (!optionalDocument.isPresent())  {
+            return null;
+        }
+        Document document = optionalDocument.get();
+        if (document.getPersonne().getId().longValue() != idClient.longValue()) {
+            return null;
+        }
+        return Paths.get(document.getLienVersContenu(), document.getLibelle() + "." + document.getTypeDoc());
+
     }
 
     @Override
@@ -46,7 +54,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public DocumentDTO uploadDocumentForClient(Long idClient, MultipartFile multipartFile, Path documentPath, String relativePath, String libelle, String typeDoc) throws IOException {
-        // TODO mettre en transactionel pour roll-back si pb
+        // TODO mettre en transactionnel pour roll-back si pb
         DocumentDTO documentDTO = null;
         Optional<Personne> clientOptional = personneDAO.findById(idClient);
         if (clientOptional.isPresent()) {
@@ -62,26 +70,31 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public boolean updateDocumentByClient(Long idClient, Long idDoc, DocumentDTO documentDTO) {
+        // Seules 2 valeurs peuvent changer: la catégorie ou/et le libellé (dans ce cas, il faut aussi renommer le
+        // fichier dans l'archive) donc à changer dans table
         Optional<Document> optionalDocument = documentDAO.findById(idDoc);
         boolean aModifier = false;
         String ancienLibelle = null;
 
-        // TODO mettre en transactionel pour roll-back si pb
+        // TODO mettre en transactionnel pour roll-back si pb
         if (! optionalDocument.isPresent()) {
             return false;
         }
         Document doc = optionalDocument.get();
-        if (idClient != documentDTO.getIdClient()) { // vérif peut-être inutile
+        if (idClient.longValue() != documentDTO.getIdClient().longValue()) { // vérif peut-être inutile
             return false;
         }
+
+        // si le libellé change
         if (!doc.getLibelle().equals(documentDTO.getLibelle())) {
             ancienLibelle = doc.getLibelle();
             doc.setLibelle(documentDTO.getLibelle());
             aModifier = true;
         }
 
-        if (doc.getCategorie() == null ||
-                doc.getCategorie().getId().longValue() != documentDTO.getIdCategorie().longValue()) { // bien laisser longValue() car bug si equals ???
+        // Si la catégorie n'est pas encore définie ou si elle change de valeur
+        if ((documentDTO.getIdCategorie() != null)  && (doc.getCategorie() == null ||
+                doc.getCategorie().getId().longValue() != documentDTO.getIdCategorie().longValue())) { // bien laisser longValue() car bug si equals ???
             Optional<Categorie> optionalCategorie = categorieDAO.findById(documentDTO.getIdCategorie());
             if (!optionalCategorie.isPresent()) {
                 return false;
@@ -90,6 +103,7 @@ public class DocumentServiceImpl implements DocumentService {
             aModifier = true;
         }
 
+        // on renomme le fichier s'il y a besoin et on modifie la BDD
         if (aModifier) {
             if (ancienLibelle != null) { // il faut renommer le fichier
                 try {
@@ -103,6 +117,28 @@ public class DocumentServiceImpl implements DocumentService {
             changerDateEnregistrementFicheClient(idClient);
         }
 
+        return true;
+    }
+
+    @Override
+    public boolean deleteDocument(Long idClient, Long idDocument) {
+        //TODO mettre transationnel pour rollback
+        Optional<Document> optionalDocument = documentDAO.findById(idDocument);
+        if (!optionalDocument.isPresent()) {
+            return false;
+        }
+        Document document = optionalDocument.get();
+        // on détruit le fichier dans l'archive
+        Path path = Paths.get(document.getLienVersContenu(), document.getLibelle() + "." + document.getTypeDoc());
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        // on détruit dans la base
+        documentDAO.delete(document);
+        changerDateEnregistrementFicheClient(idClient);
         return true;
     }
 
