@@ -14,4 +14,6 @@ public interface DocumentService {
     List<DocumentDTO> getDocumentsByClient(Long idClient);
     DocumentDTO uploadDocumentForClient(Long idClient, MultipartFile multipartFile, Path documentPath, String relativePath,
                                         String libelle, String typeDoc) throws IOException;
+    boolean updateDocumentByClient(Long idClient, Long idDoc, DocumentDTO documentDTO);
+
 }

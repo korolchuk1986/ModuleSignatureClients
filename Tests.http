@@ -44,17 +44,29 @@ Content-Disposition: form-data; name="documentDtoString"
 --WebAppBoundary--
 
 ###
-POST /signature/client/1/document/upload HTTP/1.1
-Host: localhost:8090
-cache-control: no-cache
-Postman-Token: 15b944a5-f70b-4ac2-ac25-fd9655c764e5
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+#POST /signature/client/1/document/upload HTTP/1.1
+#Host: localhost:8090
+#cache-control: no-cache
+#Postman-Token: 15b944a5-f70b-4ac2-ac25-fd9655c764e5
+#Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
-Content-Disposition: form-data; name="file"; filename="C:\Users\carin\Documents\mspr\ModuleSignatureClients\tmp\request.http
+#Content-Disposition: form-data; name="file"; filename="C:\Users\carin\Documents\mspr\ModuleSignatureClients\tmp\request.http
 
 
 
-Content-Disposition: form-data; name="documentDtoString"
+#Content-Disposition: form-data; name="documentDtoString"
 
-{"id":null, "idClient":1, "libelle": "20190309_factureEDF2", "categorie": "Preuve", "typeDoc": "txt", "dateEnregistrement": null}
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
+#{"id":null, "idClient":1, "libelle": "20190309_factureEDF2", "categorie": "Preuve", "typeDoc": "txt", "dateEnregistrement": null}
+#------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+POST http://localhost:8090/signature/client/1/document/7/update
+Accept: application/json
+
+{"id" : 7, "idClient" : 1, "libelle" : "totot", "categorie" : 2, "typeDoc" : "txt", "dateEnregistrement" : "2019-07-23"}
+
+###
+GET http://localhost:8090/signature/infoFormulaire
+Accept: application/json
+
+###

@@ -44,7 +44,7 @@ public class Document implements java.io.Serializable {
 	@Column(name = "libelle", nullable = false, length = 200)
 	private String libelle;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_categorie")
 	private Categorie categorie;
 

@@ -37,6 +37,17 @@ public class DocumentController {
     public List<DocumentDTO> getDocumentsByClient(@PathVariable("id") Long idClient) {
         return  documentService.getDocumentsByClient(idClient);
     }
+
+    @RequestMapping(value = "/client/{id}/document/{idDoc}/update", method = POST)
+    public @ResponseBody ResponseEntity<?> updateDocumentByClient(@PathVariable("id") Long idClient, @PathVariable("idDoc") Long idDoc,
+                                                    @RequestBody DocumentDTO documentDTO) {
+
+
+        //DocumentDTO documentDTO  = new ObjectMapper().readValue(JSONString, DocumentDTO.class);
+        boolean updateOk = documentService.updateDocumentByClient(idClient, idDoc, documentDTO);
+        return new ResponseEntity<>(updateOk ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+    }
+
     @RequestMapping(value = "/client/{id}/document/upload", method = POST, consumes = { "multipart/mixed", "multipart/form-data" })
     public @ResponseBody ResponseEntity<?> uploadDocumentForClient(@PathVariable("id") Long idClient,
                               //@RequestParam("documentDtoString") String JSONString,
