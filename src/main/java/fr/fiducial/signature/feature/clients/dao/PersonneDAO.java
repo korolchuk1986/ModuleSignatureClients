@@ -1,5 +1,6 @@
 package fr.fiducial.signature.feature.clients.dao;
 
+import fr.fiducial.signature.feature.clients.model.Adresse;
 import fr.fiducial.signature.feature.clients.model.Personne;
 import fr.fiducial.signature.feature.clients.model.dto.ClientInfoDTO;
 import fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO;
@@ -23,6 +24,12 @@ public interface PersonneDAO extends JpaRepository<Personne, Long> {
             "where p.estClient=true and ad.estPrincipale = true")
     List<ListePersonneDTO> findClients();
 
+    @Query("select p.adresses " +
+            "from Personne as p " +
+            "left join p.adresses as ad " +
+            "where p.id=:id")
+    List<Adresse> findPersonneAdresses(@Value("id") Long id);
+
     @Query("select new fr.fiducial.signature.feature.clients.model.dto.PersonneInfo(" +
             "p.id, p.civilite.id, p.nom, p.prenoms, p.statut.id, p.capacite.id, " +
             "p.profession, p.dateNaissance, p.nationalite,  p.pays.id, " +
@@ -32,11 +39,12 @@ public interface PersonneDAO extends JpaRepository<Personne, Long> {
             "d.villeEtrangere, d.commentaire, " +
             "p.telephone, p.commentTelephone, p.email, p.commentEmail, p.telephonePro, " +
             "p.commentTelephonePro, p.emailPro, p.commentEmailPro,  " +
-            "p.fax, p.commentFax, p.siteWeb, p.commentSiteWeb, p.adresses) " +
+            "p.fax, p.commentFax, p.siteWeb, p.commentSiteWeb) " +
             "from Personne as p " +
             "left outer join p.pays " +
             "left outer join p.villeNaissance " +
             "left outer join p.conjoint " +
+            "left outer join p.adresses as ads " +
             "left outer join Deces as d on p.id = d.idPersonne " +
             "where p.id=:id")
     Optional<PersonneInfo> getClientInfo(@Value("id") Long id);

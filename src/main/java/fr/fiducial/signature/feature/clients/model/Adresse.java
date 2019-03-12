@@ -1,6 +1,7 @@
 package fr.fiducial.signature.feature.clients.model;
 // Generated Mar 1, 2019 11:53:13 AM by Hibernate Tools 5.2.11.Final
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -70,6 +71,7 @@ public class Adresse implements java.io.Serializable {
 	private String villeEtrangere;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JsonIgnore
 	@JoinTable(name = "habitation", catalog = "signature_clients", joinColumns = {
 			@JoinColumn(name = "id_adresse", nullable = false, updatable = false) }, inverseJoinColumns = {
 			@JoinColumn(name = "id_personne", nullable = false, updatable = false) })

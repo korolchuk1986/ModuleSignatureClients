@@ -66,6 +66,7 @@ public class PersonneServiceImpl implements PersonneService {
                 clientInfoDTO.setConjoint(optionalConjointInfo.get());
             }
             clientInfoDTO.setDocuments(documentDAO.findDocumentsByClient(id));
+            clientInfoDTO.setAdresses(personneDAO.findPersonneAdresses(id));
             /*Optional<Deces> optionalDeces = decesDAO.findById(id);
             if (optionalDeces.isPresent()) {
                 clientInfoDTO.setDeces(optionalDeces.get());
@@ -94,13 +95,14 @@ public class PersonneServiceImpl implements PersonneService {
     public ClientInfoDTO createClient(ClientInfoDTO clientInfoDTO) {
         // TODO à mettre en transactionnel pour rollback sinon inconsistances dans BDD
         Personne client = createPersonne(clientInfoDTO.getClient(), true);
+        Personne conjoint = null;
         if (client == null) {
             return null;
         }
         clientInfoDTO.getClient().setId(client.getId());
 
         if (clientInfoDTO.getConjoint() != null) {
-            Personne conjoint = createPersonne(clientInfoDTO.getConjoint(), false);
+            conjoint = createPersonne(clientInfoDTO.getConjoint(), false);
             if (conjoint == null) {
                 return null;
             }
@@ -114,7 +116,6 @@ public class PersonneServiceImpl implements PersonneService {
         List<Adresse> adresses = clientInfoDTO.getAdresses();
         client.setAdresses(adresses);
         personneDAO.save(client);
-
         return clientInfoDTO;
     }
 

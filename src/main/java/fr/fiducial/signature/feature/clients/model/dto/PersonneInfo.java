@@ -66,8 +66,7 @@ public class PersonneInfo {
                         Long idTypeMarital, Boolean estPacse, Long idConjoint, Date dateLiaison, Date dateDeces, Long idVilleDeces, Long idPaysDeces,
                         String villeEtrangereDeces, String commentDeces, String telephonePerso, String commentTelephonePerso,
                         String emailPerso, String commentEmailPerso, String telephonePro, String commentTelephonePro,
-                        String emailPro, String commentEmailPro, String fax, String commentFax, String siteWeb, String commentSiteWeb,
-                        Collection<Adresse> adresses) {
+                        String emailPro, String commentEmailPro, String fax, String commentFax, String siteWeb, String commentSiteWeb) {
         this.id = id;
         this.idCivilite = idCivilite;
         this.nom = nom;
@@ -106,7 +105,8 @@ public class PersonneInfo {
         this.commentDeces = commentDeces;
         this.villeEtrangereDeces = villeEtrangereDeces;
         this.dateDeces = dateDeces;
-        this.adresses = new ArrayList<>(adresses);
+        this.adresses = new ArrayList<>();
+        //this.adresses = new ArrayList<>(adresses);
     }
 
     /*public void setDeces(Deces deces) {
