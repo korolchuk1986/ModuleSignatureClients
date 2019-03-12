@@ -1,5 +1,6 @@
 package fr.fiducial.signature.feature.clients.model.dto;
 
+import fr.fiducial.signature.feature.clients.model.Adresse;
 import fr.fiducial.signature.feature.clients.model.Deces;
 import fr.fiducial.signature.feature.clients.model.Pays;
 import fr.fiducial.signature.feature.clients.model.Ville;
@@ -7,7 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Data
 //@AllArgsConstructor
@@ -51,6 +55,7 @@ public class PersonneInfo {
     private String commentFax = null;
     private String siteWeb = null;
     private String commentSiteWeb = null;
+    private List<Adresse> adresses = new ArrayList<Adresse>();
 
     // à vérifier si ordre attributs ok pour laisser lombok le generer
     // ne pas effacer (pas générable par lombok) et ne changer l'ordre des param car lié à une requête jpql
@@ -61,7 +66,8 @@ public class PersonneInfo {
                         Long idTypeMarital, Boolean estPacse, Long idConjoint, Date dateLiaison, Date dateDeces, Long idVilleDeces, Long idPaysDeces,
                         String villeEtrangereDeces, String commentDeces, String telephonePerso, String commentTelephonePerso,
                         String emailPerso, String commentEmailPerso, String telephonePro, String commentTelephonePro,
-                        String emailPro, String commentEmailPro, String fax, String commentFax, String siteWeb, String commentSiteWeb) {
+                        String emailPro, String commentEmailPro, String fax, String commentFax, String siteWeb, String commentSiteWeb,
+                        Collection<Adresse> adresses) {
         this.id = id;
         this.idCivilite = idCivilite;
         this.nom = nom;
@@ -100,6 +106,7 @@ public class PersonneInfo {
         this.commentDeces = commentDeces;
         this.villeEtrangereDeces = villeEtrangereDeces;
         this.dateDeces = dateDeces;
+        this.adresses = new ArrayList<>(adresses);
     }
 
     /*public void setDeces(Deces deces) {

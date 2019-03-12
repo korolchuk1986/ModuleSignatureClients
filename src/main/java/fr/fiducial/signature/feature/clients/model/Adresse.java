@@ -6,15 +6,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
+
 import static javax.persistence.GenerationType.IDENTITY;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adresse contient un numéro unique non nul, si c'est l'adresse principale ou non, un numéro de voie,
@@ -33,14 +30,8 @@ public class Adresse implements java.io.Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
-	/*
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_personne", nullable = false)
-	private Personne personne;
-	*/
-
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonManagedReference
+	//@JsonManagedReference
 	@JoinColumn(name = "id_pays", nullable = false)
 	private Pays pays;
 
@@ -77,4 +68,10 @@ public class Adresse implements java.io.Serializable {
 
 	@Column(name = "ville_etrangere", length = 200)
 	private String villeEtrangere;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinTable(name = "habitation", catalog = "signature_clients", joinColumns = {
+			@JoinColumn(name = "id_adresse", nullable = false, updatable = false) }, inverseJoinColumns = {
+			@JoinColumn(name = "id_personne", nullable = false, updatable = false) })
+	private List<Personne> personnes = new ArrayList<>();
 }

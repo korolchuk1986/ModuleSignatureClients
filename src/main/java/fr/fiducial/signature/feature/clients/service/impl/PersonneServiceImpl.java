@@ -22,7 +22,6 @@ public class PersonneServiceImpl implements PersonneService {
     private TypeMaritalDAO typeMaritalDAO;
     private PaysDAO paysDAO;
     private VilleDAO villeDAO;
-    private HabitationDAO habitationDAO;
     private DocumentDAO documentDAO;
     private HistoriqueDAO historiqueDAO;
     private CategorieDAO categorieDAO;
@@ -31,7 +30,7 @@ public class PersonneServiceImpl implements PersonneService {
 
     public PersonneServiceImpl(PersonneDAO personneDAO, CapaciteDAO capaciteDAO, CiviliteDAO civiliteDAO,
                                StatutDAO statutDAO, TypeMaritalDAO typeMaritalDAO, PaysDAO paysDAO,
-                               VilleDAO villeDAO, HabitationDAO habitationDAO, DocumentDAO documentDAO,
+                               VilleDAO villeDAO, DocumentDAO documentDAO,
                                HistoriqueDAO historiqueDAO, CategorieDAO categorieDAO, AdresseDAO adresseDAO,
                                DecesDAO decesDAO) {
         this.historiqueDAO = historiqueDAO;
@@ -43,7 +42,6 @@ public class PersonneServiceImpl implements PersonneService {
         this.capaciteDAO = capaciteDAO;
         this.typeMaritalDAO = typeMaritalDAO;
         this.documentDAO = documentDAO;
-        this.habitationDAO = habitationDAO;
         this.categorieDAO = categorieDAO;
         this.adresseDAO = adresseDAO;
         this.decesDAO = decesDAO;
@@ -59,8 +57,9 @@ public class PersonneServiceImpl implements PersonneService {
         Optional<PersonneInfo> optionalPersonneInfo = personneDAO.getClientInfo(id);
         if (optionalPersonneInfo.isPresent()) {
             clientInfoDTO = new ClientInfoDTO();
-            clientInfoDTO.setClient(optionalPersonneInfo.get());
-            clientInfoDTO.setAdresses(habitationDAO.getAdressesByClient(id));
+            PersonneInfo personneInfo = optionalPersonneInfo.get();
+            clientInfoDTO.setClient(personneInfo);
+            //clientInfoDTO.setAdresses(habitationDAO.getAdressesByClient(id));
             Long idConjoint = clientInfoDTO.getClient().getIdConjoint();
             Optional<PersonneInfo> optionalConjointInfo = personneDAO.getClientInfo(idConjoint);
             if (optionalConjointInfo.isPresent()) {
@@ -92,22 +91,20 @@ public class PersonneServiceImpl implements PersonneService {
     }
 
     @Override
-    public List<Adresse> getAdresses(Long idClient) {
-        return habitationDAO.getAdressesByClient(idClient);
-    }
-
-    @Override
     public ClientInfoDTO createClient(ClientInfoDTO clientInfoDTO) {
         // TODO à mettre en transactionnel pour rollback sinon inconsistances dans BDD
         Personne client = createPersonne(clientInfoDTO.getClient(), true);
         if (client == null) {
             return null;
         }
+        clientInfoDTO.getClient().setId(client.getId());
+
         if (clientInfoDTO.getConjoint() != null) {
             Personne conjoint = createPersonne(clientInfoDTO.getConjoint(), false);
             if (conjoint == null) {
                 return null;
             }
+            clientInfoDTO.getConjoint().setId(conjoint.getId());
             ajouteConjoint(client, conjoint);
             ajouteConjoint(conjoint, client);
                 // pas important. BDD devrait être construite differemment
@@ -115,15 +112,10 @@ public class PersonneServiceImpl implements PersonneService {
 
         }
         List<Adresse> adresses = clientInfoDTO.getAdresses();
-        for (int i=0; i<adresses.size(); i++) {
-            Adresse adresse2 = ajouteAdresse(client, adresses.get(i)); // on n'ajoute pas les adresses au conjoint
-            if (adresse2 == null) {
-                return null;
-            } else {
-                adresses.set(i, adresse2);
-            }
-        }
-        return null;
+        client.setAdresses(adresses);
+        personneDAO.save(client);
+
+        return clientInfoDTO;
     }
 
     private Personne createPersonne(PersonneInfo personneInfo, boolean estClient) {
@@ -176,7 +168,8 @@ public class PersonneServiceImpl implements PersonneService {
                 personneInfo.getTelephonePro(), personneInfo.getCommentTelephonePro(),
                 personneInfo.getEmailPerso(), personneInfo.getCommentEmailPerso(),
                 personneInfo.getEmailPro(), personneInfo.getCommentEmailPro(), personneInfo.getFax(),
-                personneInfo.getCommentFax(), personneInfo.getSiteWeb(), personneInfo.getCommentSiteWeb());
+                personneInfo.getCommentFax(), personneInfo.getSiteWeb(), personneInfo.getCommentSiteWeb(),
+                personneInfo.getAdresses());
         personne = personneDAO.save(personne);
         if ((personne != null) && (personneInfo.getDateDeces() != null)) {
             Deces deces = ajouteDeces(personne, personneInfo);
@@ -208,17 +201,8 @@ public class PersonneServiceImpl implements PersonneService {
     }
 
     private Adresse ajouteAdresse(Personne client, Adresse adresse) {
-        adresse = adresseDAO.save(adresse);
-        if (adresse == null) {
-            return null;
-        }
-        Habitation habitation = new Habitation();
-        habitation.setPersonne(client);
-        habitation.setAdresse(adresse);
-        habitation = habitationDAO.save(habitation);
-        if (habitation == null) {
-            return null;
-        }
+        client.getAdresses().add(adresse);
+        personneDAO.save(client);
         return adresse;
     }
 }

@@ -11,8 +11,6 @@ public interface PersonneService {
     List<ListePersonneDTO> getAll();
     InfoFormulaireDTO getInfoFormulaire();
     ClientInfoDTO getClientInfo(Long id);
-    List<Adresse> getAdresses(Long id);
     ClientInfoDTO createClient(ClientInfoDTO clientInfoDTO);
-    //TODO à compléter
 
 }

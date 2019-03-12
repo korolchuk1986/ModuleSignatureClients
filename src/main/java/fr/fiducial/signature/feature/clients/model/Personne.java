@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 //import lombok.extern.flogger.Flogger;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -133,6 +135,12 @@ public class Personne implements java.io.Serializable {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "personne")
 	private Deces deces;
 
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinTable(name = "habitation", catalog = "signature_clients", joinColumns = {
+			@JoinColumn(name = "id_personne", nullable = false, updatable = false) }, inverseJoinColumns = {
+			@JoinColumn(name = "id_adresse", nullable = false, updatable = false) })
+	private List<Adresse> adresses = new ArrayList<>();
+
 	public Personne(Boolean estClient, String nom, String prenoms, Date dateNaissance,
 					String villeEtrangereNaissance, String nationalite, String profession,
 					String nomUsuel, String prenomUsuel, Boolean estPacse, Capacite capacite,
@@ -141,7 +149,7 @@ public class Personne implements java.io.Serializable {
 					Date dateModifFiche, String telephone, String commentTelephone, String telephonePro,
 					String commentTelephonePro, String email, String commentEmail, String emailPro,
 					String commentEmailPro, String fax, String commentFax, String siteWeb,
-					String commentSiteWeb) {
+					String commentSiteWeb, List<Adresse> adresses) {
 		this.estClient = estClient;
 		this.nom = nom;
 		this.prenoms = prenoms;
@@ -174,6 +182,7 @@ public class Personne implements java.io.Serializable {
 		this.commentFax = commentFax;
 		this.siteWeb = siteWeb;
 		this.commentSiteWeb = commentSiteWeb;
+		this.adresses = adresses;
 	}
 
 	/*

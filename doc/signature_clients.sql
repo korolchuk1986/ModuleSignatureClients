@@ -193,7 +193,7 @@ CREATE TABLE `deces` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `deces` VALUES 
-(1,'2019-02-21', null, 'décès à l\'hôpital', 1, 1);
+(1,'2019-02i-21', null, 'décès à l\'hôpital', 1, 1);
 
 CREATE TABLE `adresse` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,

@@ -17,9 +17,10 @@ import java.util.Optional;
 public interface PersonneDAO extends JpaRepository<Personne, Long> {
     @Query("select new fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO(p.civilite.civilite, " +
             "p.nom, p.prenoms, ad.num, ad.ordreVoie, ad.typeVoie, ad.nomVoie, ad.ville.cp, " +
-            "ad.ville.nom, p.dateModifFiche, p.id) " +
-            "from Personne as p, Adresse as ad, Habitation as h " +
-            "where p.estClient=true and p.id = h.personne and h.adresse = ad and ad.estPrincipale = true")
+            "ad.ville.nom, p.dateModifFiche, p.id, ad) " +
+            "from Personne as p " +
+            "left join p.adresses as ad " +
+            "where p.estClient=true and ad.estPrincipale = true")
     List<ListePersonneDTO> findClients();
 
     @Query("select new fr.fiducial.signature.feature.clients.model.dto.PersonneInfo(" +
@@ -31,7 +32,7 @@ public interface PersonneDAO extends JpaRepository<Personne, Long> {
             "d.villeEtrangere, d.commentaire, " +
             "p.telephone, p.commentTelephone, p.email, p.commentEmail, p.telephonePro, " +
             "p.commentTelephonePro, p.emailPro, p.commentEmailPro,  " +
-            "p.fax, p.commentFax, p.siteWeb, p.commentSiteWeb) " +
+            "p.fax, p.commentFax, p.siteWeb, p.commentSiteWeb, p.adresses) " +
             "from Personne as p " +
             "left outer join p.pays " +
             "left outer join p.villeNaissance " +
