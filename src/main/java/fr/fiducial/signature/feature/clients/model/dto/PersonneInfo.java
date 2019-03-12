@@ -110,4 +110,18 @@ public class PersonneInfo {
         this.idPaysDeces = deces.getPays().getId();
     }*/
 
+    public boolean estValide() {
+        if ((idPaysNaissance == null) ||
+                (idVilleNaissance == null) || // ce test devrait être différent avec if ((villeEtrangereNaissance == null) && (idVilleNaissance == null)) mais base mal construite avec un non nullable (pas de temps de corriger)
+                (idCapacite == null) ||
+                (idCivilite == null) ||
+                (idStatut == null) ||
+                (idTypeMarital == null) ||
+                ((dateDeces != null) && ((idPaysDeces == null) || (idVilleDeces == null)))) {// test different avec villeEtrangereDeces !!!
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

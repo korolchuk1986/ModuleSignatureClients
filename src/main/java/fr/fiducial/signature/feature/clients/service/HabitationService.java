@@ -3,9 +3,9 @@ package fr.fiducial.signature.feature.clients.service;
 import fr.fiducial.signature.feature.clients.model.Adresse;
 import fr.fiducial.signature.feature.clients.model.Habitation;
 
-import java.util.Set;
+import java.util.List;
 
 public interface HabitationService {
-    Set<Adresse> getAdressesByClient(Long id);
+    List<Adresse> getAdressesByClient(Long id);
     Habitation add(Habitation habitation);
 }

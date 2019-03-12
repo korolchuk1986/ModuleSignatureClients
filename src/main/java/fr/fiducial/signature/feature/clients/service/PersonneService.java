@@ -6,14 +6,13 @@ import fr.fiducial.signature.feature.clients.model.dto.InfoFormulaireDTO;
 import fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public interface PersonneService {
     List<ListePersonneDTO> getAll();
     InfoFormulaireDTO getInfoFormulaire();
     ClientInfoDTO getClientInfo(Long id);
-    Set<Adresse> getAdresses(Long id);
+    List<Adresse> getAdresses(Long id);
+    ClientInfoDTO createClient(ClientInfoDTO clientInfoDTO);
     //TODO à compléter
 
 }

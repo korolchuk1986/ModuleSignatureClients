@@ -1,6 +1,7 @@
 package fr.fiducial.signature.feature.clients.model;
 // Generated Mar 1, 2019 11:53:13 AM by Hibernate Tools 5.2.11.Final
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import javax.persistence.Table;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "ville", catalog = "signature_clients")
 public class Ville implements java.io.Serializable {

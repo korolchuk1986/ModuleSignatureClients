@@ -133,7 +133,48 @@ public class Personne implements java.io.Serializable {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "personne")
 	private Deces deces;
 
-
+	public Personne(Boolean estClient, String nom, String prenoms, Date dateNaissance,
+					String villeEtrangereNaissance, String nationalite, String profession,
+					String nomUsuel, String prenomUsuel, Boolean estPacse, Capacite capacite,
+					Civilite civilite, Pays paysNaissance, Statut statut, TypeMarital typeMarital,
+					Date dateLiaison, Ville villeNaissance, String clercReferent, String notaireReferent,
+					Date dateModifFiche, String telephone, String commentTelephone, String telephonePro,
+					String commentTelephonePro, String email, String commentEmail, String emailPro,
+					String commentEmailPro, String fax, String commentFax, String siteWeb,
+					String commentSiteWeb) {
+		this.estClient = estClient;
+		this.nom = nom;
+		this.prenoms = prenoms;
+		this.dateNaissance = dateNaissance;
+		this.villeEtrangereNaissance = villeEtrangereNaissance;
+		this.nationalite = nationalite;
+		this.profession = profession;
+		this.nomUsuel = nomUsuel;
+		this.prenomUsuel = prenomUsuel;
+		this.estPacse = estPacse;
+		this.capacite = capacite;
+		this.civilite = civilite;
+		this.pays = paysNaissance;
+		this.statut = statut;
+		this.typeMarital = typeMarital;
+		this.dateLiaison = dateLiaison;
+		this.villeNaissance = villeNaissance;
+		this.clercReferent = clercReferent;
+		this.notaireReferent = notaireReferent;
+		this.dateModifFiche = dateModifFiche;
+		this.telephone = telephone;
+		this.commentTelephone = commentTelephone;
+		this.telephonePro = telephonePro;
+		this.commentTelephonePro = commentTelephonePro;
+		this.email = email;
+		this.commentEmail = commentEmail;
+		this.emailPro = emailPro;
+		this.commentEmailPro = commentEmailPro;
+		this.fax = fax;
+		this.commentFax = commentFax;
+		this.siteWeb = siteWeb;
+		this.commentSiteWeb = commentSiteWeb;
+	}
 
 	/*
 	private Set<Evenement> evenements = new HashSet<Evenement>(0);

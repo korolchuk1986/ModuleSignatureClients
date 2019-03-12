@@ -7,17 +7,19 @@ import fr.fiducial.signature.feature.clients.service.HabitationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class HabitationServiceImpl implements HabitationService {
-    @Autowired
     private HabitationDAO habitationDAO;
 
+    public HabitationServiceImpl(HabitationDAO habitationDAO) {
+        this.habitationDAO = habitationDAO;
+    }
+
     @Override
-    public Set<Adresse> getAdressesByClient(Long id) {
-        Set<Adresse> adresses = habitationDAO.getAdressesByClient(id);
-        return adresses;
+    public List<Adresse> getAdressesByClient(Long id) {
+        return habitationDAO.getAdressesByClient(id);
     }
 
     @Override
