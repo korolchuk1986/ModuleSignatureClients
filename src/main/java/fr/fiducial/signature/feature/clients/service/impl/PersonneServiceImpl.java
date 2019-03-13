@@ -47,7 +47,7 @@ public class PersonneServiceImpl implements PersonneService {
         this.decesDAO = decesDAO;
     }
 
-    public List<ListePersonneDTO> getAll() {
+    public List<ListePersonneDTO> getClients() {
         return personneDAO.findClients();
     }
 

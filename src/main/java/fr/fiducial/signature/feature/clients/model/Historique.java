@@ -20,6 +20,11 @@ import java.util.Objects;
 @IdClass(Historique.HistoriqueId.class)
 @Table(name = "historique", catalog = "signature_clients")
 public class Historique implements java.io.Serializable {
+	//TODO enlever cette classe qui représente la table pivot comme déjà fait pour habitation car c'est hibernate qui gere
+	// mettre les cascade = {CascadeType.ALL) aux bons endroits, les @JSON_IGNORE, (cf personne et adresse), mettre
+	// les bonnes jointures dans personne et evenement
+	// à enlever le pojo, le dao, service, service.impl, test
+
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_evenement", nullable = false)

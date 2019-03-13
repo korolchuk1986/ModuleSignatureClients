@@ -12,8 +12,10 @@ CREATE TABLE `pays` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO `pays` VALUES 
-(1,'France','Français'),
-(2,'Belgique','Belge');
+(1,'France','Française'),
+(2,'Belgique','Belge'),
+(3, 'Allemagne', 'Allemande'),
+(4, 'Italie', 'Italienne');                ;
 
 CREATE TABLE `ville` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -24,7 +26,11 @@ CREATE TABLE `ville` (
 
 INSERT INTO `ville` VALUES 
 (1,'69000','Lyon'),
-(2,'75000','Paris');
+(2,'75000','Paris'),
+(3,'13000','Marseille'),
+(4,'86000','Poitiers'),
+(5,'74000','Annecy'),
+(6,'06429','Isola 2000');
 
 CREATE TABLE `type_marital` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -175,10 +181,10 @@ CREATE TABLE `document` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `document` VALUES
-(1,'201901_factureGaz', 1, 'pdf', '2019-02-16', 'archiveClients\\1\\', 1),
-(2,'20010905_certifMariage', 6, 'pdf', '2018-06-07', 'archiveClients\\2\\', 2),
-(3,'201805_factureTelephone', 1, 'pdf', '2018-06-07', 'archiveClients\\2\\', 2),
-(4,'200208_acteProprieteMaison', 3, 'pdf', '2018-06-07', 'archiveClients\\2\\', 2);
+(1,'201901_factureGaz', 1, 'txt', '2019-02-16', 'archiveClients\\1\\', 1),
+(2,'20010905_certificatMariage', 6, 'txt', '2018-06-07', 'archiveClients\\2\\', 2),
+(3,'201805_factureTelephone', 1, 'txt', '2018-06-07', 'archiveClients\\2\\', 2),
+(4,'200208_acteProprieteMaison', 3, 'txt', '2018-06-07', 'archiveClients\\2\\', 2);
 
 CREATE TABLE `deces` (
   `id_personne` bigint(20) NOT NULL,
@@ -193,7 +199,7 @@ CREATE TABLE `deces` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `deces` VALUES 
-(1,'2019-02i-21', null, 'décès à l\'hôpital', 1, 1);
+(1,'2019-02-21', null, 'décès à l\'hôpital', 1, 1);
 
 CREATE TABLE `adresse` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -216,7 +222,11 @@ CREATE TABLE `adresse` (
 
 INSERT INTO `adresse` VALUES 
 (1, true, 4, 'bis', 'rue', 'Louis XIV', null, null, null, null, null, 1, 1),
-(2, true, 5, 'ter', 'avenue', 'Napoléon', null, null, null, null, null, 2, 1);
+(2, true, 5, 'ter', 'avenue', 'Napoléon Bonarparte', null, null, null, null, null, 2, 1),
+(3, true, 6, null, 'rue', 'Voltaire', null, null, null, null, null, 3, 1),
+(4, true, 2, null, 'rue', 'Ada Lovelace', null, null, null, null, null, 4, 1),
+(5, true, 12, null, 'rue', 'Tim Berners-Lee', null, null, null, null, null, 5, 1),
+(6, false, '3565', null, 'route', 'des cîmes', 'le chalet bleu', null, 'La montagne penchée', null, null, 6, 1);
 
 CREATE TABLE `historique` (
   `id_client` bigint(20) NOT NULL,
@@ -315,11 +325,13 @@ CREATE TABLE `personne` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO `personne`
-(id, est_client, nom, prenoms, id_type_marital, est_pacse, id_conjoint, date_liaison, telephone, email, date_modif_fiche, id_civilite, id_capacite, id_statut, id_pays_naissance)
+(id, est_client, nom, nom_usuel, prenoms, id_type_marital, est_pacse, id_conjoint, date_liaison, telephone, email, date_modif_fiche, id_civilite, id_capacite, id_statut, id_pays_naissance, profession, date_naissance, nationalite, notaire_referent, clerc_referent)
 VALUES 
-(1, true, 'dupont', 'jean', 1, false, null, null, '0102030406', 'jean@epsi.fr', '2019-02-27', 1, 1, 1, 1),
-(2, true, 'martin', 'julie', 2, false, null, null, '0475345657', 'julie@epsi.fr', '2019-02-19', 2, 1, 1, 1),
-(3, false, 'martin', 'michel', 2, false, 2, '2001-09-05', '0475345657', 'michel@epsi.fr', '2019-03-04', 1, 1, 1, 1);
+(1, true, 'Dupont', null, 'Jean', 1, false, null, null, '0102030406', 'jean@epsi.fr', '2019-02-27', 1, 1, 1, 1, 'ingénieur', '1960-09-05', 'Française', 'Leduc', 'Naciri'),
+(2, true, 'Tapie', 'Martin', 'Julie', 2, false, null, '2001-09-05', '0475345657', 'julie@epsi.fr', '2019-02-19', 2, 1, 1, 1, 'dentiste', '1975-07-29', 'Anglaise', 'Bellin', 'Lemaire' ),
+(3, false, 'Martin', null, 'Michel', 2, false, 2, '2001-09-05', '0475345657', 'michel@epsi.fr', '2019-03-04', 1, 1, 1, 1, 'professeur des écoles', '1977-09-30', 'Française', 'Leduc', 'Bergen'),
+(4, true, 'Muche', null, 'Bernard', 1, false, null, null, '0440345467', 'bernard@epsi.fr', '2019-03-05', 1, 1, 2, 2, 'agriculteur', '1965-03-05', null, 'Bellin', 'Naciri'),
+(5, true, 'Biche', null, 'Jules', 1, false, null, null, '0309890987', 'jules@epsi.fr', '2019-03-06', 1, 1, 1, 1, 'manutentionnaire', '1985-11-05', null, 'Bellin', 'Lemaire');
 
 UPDATE `personne` 
 SET id_conjoint = 3, date_liaison = '2001-09-05' WHERE id=2;
@@ -328,7 +340,12 @@ INSERT INTO `habitation`
 VALUES 
 (1, 1),
 (2, 2),
-(3, 2);
+(3, 2),
+(4, 3),
+(5, 5),
+(2, 6),
+(3, 6),
+(1, 4);
 
 ALTER TABLE `document`
 ADD CONSTRAINT `fk_document_id_client` FOREIGN KEY (`id_client`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -338,7 +355,7 @@ ADD CONSTRAINT `fk_evenement_id_conjoint` FOREIGN KEY (`id_conjoint`) REFERENCES
 
 ALTER TABLE `historique`
 ADD CONSTRAINT `fk_historique_id_client` FOREIGN KEY (`id_client`) REFERENCES `personne` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_hiadressestorique_id_evenement` FOREIGN KEY (`id_evenement`) REFERENCES `evenement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD CONSTRAINT `fk_historique_id_evenement` FOREIGN KEY (`id_evenement`) REFERENCES `evenement` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE `deces`
 ADD CONSTRAINT `fk_deces_id_personne` FOREIGN KEY (`id_personne`) REFERENCES `personne` (`id`) ON DELETE cascade ON UPDATE NO ACTION;

@@ -23,7 +23,7 @@ public class ClientController {
 
     @GetMapping("/clients")
     public List<ListePersonneDTO> getAll() {
-        return personneService.getAll();
+        return personneService.getClients();
     }
 
     @RequestMapping(value = "/client/{id}", method = GET)

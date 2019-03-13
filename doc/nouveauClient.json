@@ -1,0 +1,73 @@
+{
+"client": {
+    "id": null,
+    "idCivilite": 1,
+    "nom": "Martin",
+    "prenoms": "Alice",
+    "idStatut": 1,
+    "idCapacite": 1,
+    "profession": "retraitée",
+	"dateNaissance": null,
+    "nationalite": "française",
+    "idPaysNaissance": 1,
+    "idVilleNaissance": 1, 
+    "villeEtrangereNaissance": null,
+    "nomUsuel": null,
+    "prenomUsuel": null,
+    "dateModif": null,
+    "clercReferent": null,
+    "notaireReferent": null,
+    "idTypeMarital": 1,
+    "estPacse": false,
+    "idConjoint": null,
+    "dateLiaison": null,
+    "dateDeces": null,
+    "idVilleDeces": null,
+    "idPaysDeces": null,
+    "villeEtrangereDeces": null,
+    "commentDeces": null,
+    "telephonePerso": null,
+    "commentTelephonePerso": null,
+    "emailPerso": null,
+    "commentEmailPerso": null,
+    "telephonePro": null,
+    "commentTelephonePro": null,
+    "emailPro": null,
+    "commentEmailPro": null,
+    "fax": null,
+    "commentFax": null,
+    "siteWeb": null,
+    "commentSiteWeb": null
+ },
+"conjoint": null,
+"adresses": [
+	{
+	"id": null,
+	"pays": {
+		"id": 1, 
+		"nom": "France", 
+		"nationalite": "Français"
+	},
+	"ville": {
+		"id": 1, 
+		"cp": "69000", 
+		"nom": "Lyon"
+	},
+	"num": 4, 
+	"ordreVoie": null,
+	"typeVoie": "rue", 
+	"nomVoie": "Ada Lovelace",
+	"complement1": null,
+	"complement2": null,
+	"lieuDit": null, 
+	"spf": null,
+	"estPrincipale": true, 
+	"villeEtrangere": null
+	}
+],
+"documents": [],
+"aHistorique": false
+}
+
+
+

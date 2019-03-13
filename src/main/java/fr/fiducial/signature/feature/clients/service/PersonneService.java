@@ -8,7 +8,7 @@ import fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO;
 import java.util.List;
 
 public interface PersonneService {
-    List<ListePersonneDTO> getAll();
+    List<ListePersonneDTO> getClients();
     InfoFormulaireDTO getInfoFormulaire();
     ClientInfoDTO getClientInfo(Long id);
     ClientInfoDTO createClient(ClientInfoDTO clientInfoDTO);
