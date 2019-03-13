@@ -224,7 +224,7 @@ INSERT INTO `adresse` VALUES
 (1, true, 4, 'bis', 'rue', 'Louis XIV', null, null, null, null, null, 1, 1),
 (2, true, 5, 'ter', 'avenue', 'Napoléon Bonarparte', null, null, null, null, null, 2, 1),
 (3, true, 6, null, 'rue', 'Voltaire', null, null, null, null, null, 3, 1),
-(4, true, 2, null, 'rue', 'Ada Lovelace', null, null, null, null, null, 4, 1),
+(4, false, 2, null, 'rue', 'Ada Lovelace', null, null, null, null, null, 4, 1),
 (5, true, 12, null, 'rue', 'Tim Berners-Lee', null, null, null, null, null, 5, 1),
 (6, false, '3565', null, 'route', 'des cîmes', 'le chalet bleu', null, 'La montagne penchée', null, null, 6, 1);
 
