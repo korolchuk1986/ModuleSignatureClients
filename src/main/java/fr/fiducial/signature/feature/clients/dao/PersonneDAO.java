@@ -26,7 +26,7 @@ public interface PersonneDAO extends JpaRepository<Personne, Long> {
 
     @Query("select p.adresses " +
             "from Personne as p " +
-            "left join p.adresses as ad " +
+            //"left join p.adresses as ad " +
             "where p.id=:id")
     List<Adresse> findPersonneAdresses(@Value("id") Long id);
 

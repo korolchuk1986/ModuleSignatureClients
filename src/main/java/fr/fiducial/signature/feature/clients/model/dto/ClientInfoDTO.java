@@ -15,7 +15,7 @@ import java.util.Set;
 public class ClientInfoDTO {
     private PersonneInfo client = null;
     private PersonneInfo conjoint = null;
-    private List<Adresse> adresses;
+    //private List<Adresse> adresses;
     private List<DocumentDTO> documents;
     private Boolean aHistorique = false;
 
@@ -26,13 +26,20 @@ public class ClientInfoDTO {
         if ((conjoint != null) && (!conjoint.estValide())) {
             return false;
         }
-        if (adresses != null) {
-            for (Adresse adresse : adresses) {
+        if (client.getAdresses() != null) {
+            for (Adresse adresse : client.getAdresses()) {
                 if ((adresse.getVille() == null) || (adresse.getPays() == null)) { // attention test faux car pas pris en compte villeEtrangere (cf BDD)
                     return false;
                 }
             }
         }
+        /*if ((conjoint != null) && (conjoint.getAdresses() != null)) {
+            for (Adresse adresse : conjoint.getAdresses()) {
+                if ((adresse.getVille() == null) || (adresse.getPays() == null)) { // attention test faux car pas pris en compte villeEtrangere (cf BDD)
+                    return false;
+                }
+            }
+        }*/
          // impossible d'uploader des documents tant que le client n'est pas
          // créé car sinon pb avec BDD et document pas mis au bon endroit dans archive
         return (clientEnCreation && (documents.size() != 0)? false :true);

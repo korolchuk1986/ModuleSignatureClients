@@ -59,14 +59,18 @@ public class PersonneServiceImpl implements PersonneService {
             clientInfoDTO = new ClientInfoDTO();
             PersonneInfo personneInfo = optionalPersonneInfo.get();
             clientInfoDTO.setClient(personneInfo);
+            clientInfoDTO.getClient().setAdresses(personneDAO.findPersonneAdresses(id)); // %%%
             //clientInfoDTO.setAdresses(habitationDAO.getAdressesByClient(id));
             Long idConjoint = clientInfoDTO.getClient().getIdConjoint();
-            Optional<PersonneInfo> optionalConjointInfo = personneDAO.getClientInfo(idConjoint);
-            if (optionalConjointInfo.isPresent()) {
-                clientInfoDTO.setConjoint(optionalConjointInfo.get());
+            if (idConjoint != null) {
+                Optional<PersonneInfo> optionalConjointInfo = personneDAO.getClientInfo(idConjoint);
+                if (optionalConjointInfo.isPresent()) {
+                    clientInfoDTO.setConjoint(optionalConjointInfo.get());
+                    clientInfoDTO.getConjoint().setAdresses(personneDAO.findPersonneAdresses(idConjoint)); // %%%
+                }
             }
             clientInfoDTO.setDocuments(documentDAO.findDocumentsByClient(id));
-            clientInfoDTO.setAdresses(personneDAO.findPersonneAdresses(id));
+
             /*Optional<Deces> optionalDeces = decesDAO.findById(id);
             if (optionalDeces.isPresent()) {
                 clientInfoDTO.setDeces(optionalDeces.get());
@@ -103,17 +107,20 @@ public class PersonneServiceImpl implements PersonneService {
 
         if (clientInfoDTO.getConjoint() != null) {
             conjoint = createPersonne(clientInfoDTO.getConjoint(), false);
-            if (conjoint == null) {
+            if (conjoint == null) { // probleme création du conjoint
                 return null;
             }
             clientInfoDTO.getConjoint().setId(conjoint.getId());
             ajouteConjoint(client, conjoint);
             ajouteConjoint(conjoint, client);
+            List<Adresse> adresses = clientInfoDTO.getConjoint().getAdresses();
+            conjoint.setAdresses(adresses);
+            personneDAO.save(client);
                 // pas important. BDD devrait être construite differemment
                 // de plus que ce passe-t-il si conjoint est aussi client???
 
         }
-        List<Adresse> adresses = clientInfoDTO.getAdresses();
+        List<Adresse> adresses = clientInfoDTO.getClient().getAdresses();
         client.setAdresses(adresses);
         personneDAO.save(client);
         return clientInfoDTO;
