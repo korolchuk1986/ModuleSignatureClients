@@ -44,7 +44,6 @@ public interface PersonneDAO extends JpaRepository<Personne, Long> {
             "left outer join p.pays " +
             "left outer join p.villeNaissance " +
             "left outer join p.conjoint " +
-            "left outer join p.adresses as ads " +
             "left outer join Deces as d on p.id = d.idPersonne " +
             "where p.id=:id")
     Optional<PersonneInfo> getClientInfo(@Value("id") Long id);
