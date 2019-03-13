@@ -38,8 +38,8 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/client/{id}/documents", method = GET)
-    public List<DocumentDTO> getDocumentsByClient(@PathVariable("id") Long idClient) {
-        return  documentService.getDocumentsByClient(idClient);
+    public @ResponseBody ResponseEntity<?>  getDocumentsByClient(@PathVariable("id") Long idClient) {
+        return  new ResponseEntity<>(documentService.getDocumentsByClient(idClient), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/client/{id}/document/{idDoc}/update", method = POST)

@@ -1,10 +1,13 @@
 package fr.fiducial.signature.feature.clients.controller;
 
+import fr.fiducial.signature.feature.clients.exception.ProblemeBaseException;
 import fr.fiducial.signature.feature.clients.model.Adresse;
 import fr.fiducial.signature.feature.clients.model.dto.InfoFormulaireDTO;
 import fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO;
 import fr.fiducial.signature.feature.clients.model.dto.ClientInfoDTO;
 import fr.fiducial.signature.feature.clients.service.PersonneService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,30 +25,41 @@ public class ClientController {
     }
 
     @GetMapping("/clients")
-    public List<ListePersonneDTO> getAll() {
-        return personneService.getClients();
+    public @ResponseBody ResponseEntity<?> getClients() {
+
+        return new ResponseEntity<>(personneService.getClients(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/client/{id}", method = GET)
-    public ClientInfoDTO getClientInfo(@PathVariable("id") Long id) {
-        return personneService.getClientInfo(id);
+    public @ResponseBody ResponseEntity<?> getClientInfo(@PathVariable("id") Long id) {
+        try {
+            return new ResponseEntity<>(personneService.getClientInfo(id), HttpStatus.OK);
+        } catch (ProblemeBaseException e) {
+            System.out.println("Probleme  " + e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(value = "/client/add", method = POST)
-    public ClientInfoDTO createClient(@RequestBody ClientInfoDTO clientDTO) {
+    public @ResponseBody ResponseEntity<?> createClient(@RequestBody ClientInfoDTO clientDTO) {
         System.out.println("Je passe dans creation client");
         System.out.println(clientDTO);
 
-        // quelques vérifications si valeurs des champs sont correctes
-        if (!clientDTO.estValide(true)) {
-            return null; // nok, champs ont des valeurs incorrectes
+        try {
+             // quelques vérifications si valeurs des champs sont correctes
+            String pb = clientDTO.verifieValidite(true);
+            if (pb != null) {
+                return new ResponseEntity<>(pb, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(personneService.createClient(clientDTO), HttpStatus.OK);
+        } catch (ProblemeBaseException e) {
+                System.out.println("Probleme  " + e.getMessage());
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        return personneService.createClient(clientDTO);
     }
 
     @RequestMapping(value = "/infoFormulaire", method = GET)
-    public InfoFormulaireDTO getInfoFormulaire() {
-        return personneService.getInfoFormulaire();
+    public @ResponseBody ResponseEntity<?>  getInfoFormulaire() {
+        return new ResponseEntity<>(personneService.getInfoFormulaire(), HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package fr.fiducial.signature.feature.clients.model.dto;
 
+import fr.fiducial.signature.feature.clients.exception.ProblemeBaseException;
 import fr.fiducial.signature.feature.clients.model.Adresse;
 import fr.fiducial.signature.feature.clients.model.Deces;
 import fr.fiducial.signature.feature.clients.model.Pays;
@@ -117,7 +118,7 @@ public class PersonneInfo {
         this.idPaysDeces = deces.getPays().getId();
     }*/
 
-    public boolean estValide() {
+    public String verifieValidite() { // retourne null si ok, sinon cause du pb
         if ((idPaysNaissance == null) ||
                 (idVilleNaissance == null) || // ce test devrait être différent avec if ((villeEtrangereNaissance == null) && (idVilleNaissance == null)) mais base mal construite avec un non nullable (pas de temps de corriger)
                 (idCapacite == null) ||
@@ -125,9 +126,9 @@ public class PersonneInfo {
                 (idStatut == null) ||
                 (idTypeMarital == null) ||
                 ((dateDeces != null) && ((idPaysDeces == null) || (idVilleDeces == null)))) {// test different avec villeEtrangereDeces !!!
-            return false;
+            return "Les champs idPaysNaissance, idVilleNaissance, idCapacite, idCivilite, idStatut, idTypeMarital et idVilleDeces/idPaysDeces si dateDeces non nulle ne devraient pas être nuls";
         } else {
-            return true;
+            return null;
         }
     }
 

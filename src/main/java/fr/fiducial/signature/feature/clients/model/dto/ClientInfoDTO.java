@@ -1,5 +1,6 @@
 package fr.fiducial.signature.feature.clients.model.dto;
 
+import fr.fiducial.signature.feature.clients.exception.ProblemeBaseException;
 import fr.fiducial.signature.feature.clients.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,17 +20,21 @@ public class ClientInfoDTO {
     private List<DocumentDTO> documents;
     private Boolean aHistorique = false;
 
-    public boolean estValide(boolean clientEnCreation) {
-        if (!client.estValide()) {
-            return false;
+    public String verifieValidite(boolean clientEnCreation) { // retourne null si ok, sinon cause pb
+        String pb = client.verifieValidite();
+        if (pb != null) {
+            return pb;
         }
-        if ((conjoint != null) && (!conjoint.estValide())) {
-            return false;
+        if (conjoint != null) {
+            pb = conjoint.verifieValidite();
+            if (pb != null) {
+                return pb;
+            }
         }
         if (client.getAdresses() != null) {
             for (Adresse adresse : client.getAdresses()) {
                 if ((adresse.getVille() == null) || (adresse.getPays() == null)) { // attention test faux car pas pris en compte villeEtrangere (cf BDD)
-                    return false;
+                    return "Ville et Pays de l'adresse ne peuvent pas être vides";
                 }
             }
         }
@@ -42,6 +47,9 @@ public class ClientInfoDTO {
         }*/
          // impossible d'uploader des documents tant que le client n'est pas
          // créé car sinon pb avec BDD et document pas mis au bon endroit dans archive
-        return (clientEnCreation && (documents.size() != 0)? false :true);
+        if (clientEnCreation && (documents.size() != 0)) {
+            return "Impossible d'ajouter des documents à un client en création (car manque l'upload)";
+        }
+        return null;
     }
 }
