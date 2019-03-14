@@ -1,10 +1,7 @@
 package fr.fiducial.signature.feature.clients.model.dto;
 
 import fr.fiducial.signature.feature.clients.exception.ProblemeBaseException;
-import fr.fiducial.signature.feature.clients.model.Adresse;
-import fr.fiducial.signature.feature.clients.model.Deces;
-import fr.fiducial.signature.feature.clients.model.Pays;
-import fr.fiducial.signature.feature.clients.model.Ville;
+import fr.fiducial.signature.feature.clients.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -56,18 +53,20 @@ public class PersonneInfo {
     private String commentFax = null;
     private String siteWeb = null;
     private String commentSiteWeb = null;
-    private List<Adresse> adresses = new ArrayList<Adresse>();
+    private List<Adresse> adresses = new ArrayList<>();
 
-    // à vérifier si ordre attributs ok pour laisser lombok le generer
-    // ne pas effacer (pas générable par lombok) et ne changer l'ordre des param car lié à une requête jpql
+    // ne pas effacer (pas générable par lombok car pas adresses) et ne pas changer l'ordre des param car lié à une requête jpql
+    // Attention, bien pensé à faire un setAdresses après, sinon liste vide
     public PersonneInfo(Long id, Long idCivilite, String nom, String prenoms, Long idStatut, Long idCapacite,
                         String profession, Date dateNaissance, String nationalite, Long idPaysNaissance,
                         Long idVilleNaissance, String villeEtrangereNaissance, String nomUsuel, String prenomUsuel,
                         Date dateModif, String clercReferent, String notaireReferent,
-                        Long idTypeMarital, Boolean estPacse, Long idConjoint, Date dateLiaison, Date dateDeces, Long idVilleDeces, Long idPaysDeces,
-                        String villeEtrangereDeces, String commentDeces, String telephonePerso, String commentTelephonePerso,
+                        Long idTypeMarital, Boolean estPacse, Long idConjoint, Date dateLiaison, Date dateDeces,
+                        Long idVilleDeces, Long idPaysDeces, String villeEtrangereDeces, String commentDeces,
+                        String telephonePerso, String commentTelephonePerso,
                         String emailPerso, String commentEmailPerso, String telephonePro, String commentTelephonePro,
-                        String emailPro, String commentEmailPro, String fax, String commentFax, String siteWeb, String commentSiteWeb) {
+                        String emailPro, String commentEmailPro, String fax, String commentFax, String siteWeb,
+                        String commentSiteWeb) {
         this.id = id;
         this.idCivilite = idCivilite;
         this.nom = nom;
@@ -106,8 +105,28 @@ public class PersonneInfo {
         this.commentDeces = commentDeces;
         this.villeEtrangereDeces = villeEtrangereDeces;
         this.dateDeces = dateDeces;
-        this.adresses = new ArrayList<>();
-        //this.adresses = new ArrayList<>(adresses);
+    }
+
+    // Attention, bien pensé à faire un setAdresses après, sinon liste vide
+    public PersonneInfo(Personne personne) {
+        this(personne.getId(), personne.getCivilite().getId(), personne.getNom(), personne.getPrenoms(),
+                personne.getStatut().getId(), personne.getCapacite().getId(), personne.getProfession(),
+                personne.getDateNaissance(), personne.getNationalite(), personne.getPays().getId(),
+                personne.getVilleNaissance().getId(), personne.getVilleEtrangereNaissance(),
+                personne.getNomUsuel(), personne.getPrenomUsuel(), personne.getDateModifFiche(),
+                personne.getClercReferent(), personne.getNotaireReferent(), personne.getTypeMarital().getId(),
+                personne.isEstPacse(),
+                (personne.getConjoint() == null? null : personne.getConjoint().getId()),
+                personne.getDateLiaison(),
+                (personne.getDeces() == null ? null : personne.getDeces().getDateDeces()),
+                (personne.getDeces() == null ? null : personne.getDeces().getVille().getId()),
+                (personne.getDeces() == null ? null : personne.getDeces().getPays().getId()),
+                (personne.getDeces() == null ? null : personne.getDeces().getVilleEtrangere()),
+                (personne.getDeces() == null ? null : personne.getDeces().getCommentaire()),
+                personne.getTelephone(), personne.getCommentTelephone(),
+                personne.getEmail(), personne.getCommentEmail(), personne.getTelephonePro(),
+                personne.getCommentTelephonePro(), personne.getEmailPro(), personne.getCommentEmailPro(),
+                personne.getFax(), personne.getCommentFax(), personne.getSiteWeb(), personne.getCommentSiteWeb());
     }
 
     /*public void setDeces(Deces deces) {

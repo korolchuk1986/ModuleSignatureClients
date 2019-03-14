@@ -37,34 +37,34 @@
     "fax": null,
     "commentFax": null,
     "siteWeb": null,
-    "commentSiteWeb": null
+    "commentSiteWeb": null,
+	"adresses": [
+		{
+		"id": null,
+		"pays": {
+			"id": 1, 
+			"nom": "France", 
+			"nationalite": "Français"
+		},
+		"ville": {
+			"id": 1, 
+			"cp": "69000", 
+			"nom": "Lyon"
+		},
+		"num": 4, 
+		"ordreVoie": null,
+		"typeVoie": "rue", 
+		"nomVoie": "Ada Lovelace",
+		"complement1": null,
+		"complement2": null,
+		"lieuDit": null, 
+		"spf": null,
+		"estPrincipale": true, 
+		"villeEtrangere": null
+	}
+]
  },
 "conjoint": null,
-"adresses": [
-	{
-	"id": null,
-	"pays": {
-		"id": 1, 
-		"nom": "France", 
-		"nationalite": "Français"
-	},
-	"ville": {
-		"id": 1, 
-		"cp": "69000", 
-		"nom": "Lyon"
-	},
-	"num": 4, 
-	"ordreVoie": null,
-	"typeVoie": "rue", 
-	"nomVoie": "Ada Lovelace",
-	"complement1": null,
-	"complement2": null,
-	"lieuDit": null, 
-	"spf": null,
-	"estPrincipale": true, 
-	"villeEtrangere": null
-	}
-],
 "documents": [],
 "aHistorique": false
 }

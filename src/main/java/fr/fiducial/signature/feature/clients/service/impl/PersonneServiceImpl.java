@@ -3,10 +3,8 @@ package fr.fiducial.signature.feature.clients.service.impl;
 import fr.fiducial.signature.feature.clients.dao.*;
 import fr.fiducial.signature.feature.clients.exception.ProblemeBaseException;
 import fr.fiducial.signature.feature.clients.model.*;
-import fr.fiducial.signature.feature.clients.model.dto.ClientInfoDTO;
-import fr.fiducial.signature.feature.clients.model.dto.InfoFormulaireDTO;
-import fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO;
-import fr.fiducial.signature.feature.clients.model.dto.PersonneInfo;
+import fr.fiducial.signature.feature.clients.model.dto.*;
+import fr.fiducial.signature.feature.clients.service.DocumentService;
 import fr.fiducial.signature.feature.clients.service.PersonneService;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +26,13 @@ public class PersonneServiceImpl implements PersonneService {
     private CategorieDAO categorieDAO;
     private AdresseDAO adresseDAO;
     private DecesDAO decesDAO;
+    private DocumentService documentService;
 
     public PersonneServiceImpl(PersonneDAO personneDAO, CapaciteDAO capaciteDAO, CiviliteDAO civiliteDAO,
                                StatutDAO statutDAO, TypeMaritalDAO typeMaritalDAO, PaysDAO paysDAO,
                                VilleDAO villeDAO, DocumentDAO documentDAO,
                                HistoriqueDAO historiqueDAO, CategorieDAO categorieDAO, AdresseDAO adresseDAO,
-                               DecesDAO decesDAO) {
+                               DecesDAO decesDAO, DocumentService documentService) {
         this.historiqueDAO = historiqueDAO;
         this.statutDAO = statutDAO;
         this.personneDAO = personneDAO;
@@ -46,6 +45,7 @@ public class PersonneServiceImpl implements PersonneService {
         this.categorieDAO = categorieDAO;
         this.adresseDAO = adresseDAO;
         this.decesDAO = decesDAO;
+        this.documentService = documentService;
     }
 
     public List<ListePersonneDTO> getClients() {
@@ -54,34 +54,13 @@ public class PersonneServiceImpl implements PersonneService {
 
     @Override
     public ClientInfoDTO getClientInfo(Long id) throws ProblemeBaseException {
-        ClientInfoDTO clientInfoDTO = null;
-        Optional<PersonneInfo> optionalPersonneInfo = personneDAO.getClientInfo(id);
-        if (!optionalPersonneInfo.isPresent()) {
+        Optional<Personne> optionalClient = personneDAO.findById(id);
+        if (!optionalClient.isPresent()) {
             throw new ProblemeBaseException("La personne " + id + " recherchée n'existe pas");
         }
-        clientInfoDTO = new ClientInfoDTO();
-        PersonneInfo personneInfo = optionalPersonneInfo.get();
-        clientInfoDTO.setClient(personneInfo);
-        clientInfoDTO.getClient().setAdresses(personneDAO.findPersonneAdresses(id)); // %%%
-        //clientInfoDTO.setAdresses(habitationDAO.getAdressesByClient(id));
-        Long idConjoint = clientInfoDTO.getClient().getIdConjoint();
-        if (idConjoint != null) {
-            Optional<PersonneInfo> optionalConjointInfo = personneDAO.getClientInfo(idConjoint);
-            if (optionalConjointInfo.isPresent()) {
-                clientInfoDTO.setConjoint(optionalConjointInfo.get());
-                clientInfoDTO.getConjoint().setAdresses(personneDAO.findPersonneAdresses(idConjoint)); // %%%
-            }
-        }
-        clientInfoDTO.setDocuments(documentDAO.findDocumentsByClient(id));
-
-        /*Optional<Deces> optionalDeces = decesDAO.findById(id);
-        if (optionalDeces.isPresent()) {
-            clientInfoDTO.setDeces(optionalDeces.get());
-        }*/
-        Integer evtsNb = historiqueDAO.countEvtsByClient(id);
-        clientInfoDTO.setAHistorique(evtsNb > 0);
-
-        return clientInfoDTO;
+        Personne client = optionalClient.get();
+        Personne conjoint = client.getConjoint();
+        return createClientInfoDTO(client, conjoint);
     }
 
     @Override
@@ -98,13 +77,16 @@ public class PersonneServiceImpl implements PersonneService {
     }
 
     @Override
-    public ClientInfoDTO createClient(ClientInfoDTO clientInfoDTO) throws ProblemeBaseException{
+    public ClientInfoDTO createClient(ClientInfoDTO clientInfoDTO) throws ProblemeBaseException {
+        Personne conjoint = null;
+
         // TODO à mettre en transactionnel pour rollback sinon inconsistances dans BDD
         Personne client = createPersonne(clientInfoDTO.getClient(), true);
-        Personne conjoint = null;
         if (client == null) {
             throw new ProblemeBaseException("La création de ce client a échoué");
         }
+        List<Adresse> adresses = clientInfoDTO.getClient().getAdresses();
+        client.setAdresses(adresses);
         clientInfoDTO.getClient().setId(client.getId());
 
         if (clientInfoDTO.getConjoint() != null) {
@@ -115,17 +97,134 @@ public class PersonneServiceImpl implements PersonneService {
             clientInfoDTO.getConjoint().setId(conjoint.getId());
             ajouteConjoint(client, conjoint);
             ajouteConjoint(conjoint, client);
-            List<Adresse> adresses = clientInfoDTO.getConjoint().getAdresses();
+            adresses = clientInfoDTO.getConjoint().getAdresses();
             conjoint.setAdresses(adresses);
-            personneDAO.save(client);
-                // pas important. BDD devrait être construite differemment
+            conjoint = personneDAO.save(conjoint);
+                // BDD devrait être construite differemment
                 // de plus que ce passe-t-il si conjoint est aussi client???
 
         }
-        List<Adresse> adresses = clientInfoDTO.getClient().getAdresses();
-        client.setAdresses(adresses);
+        // Il n'y a pas de document à la création
+        client = personneDAO.save(client);
+
+        return createClientInfoDTO(client, conjoint);
+    }
+
+    @Override
+    public ClientInfoDTO updateClient(ClientInfoDTO clientInfoDTO, Long id) throws ProblemeBaseException {
+        if (clientInfoDTO.getClient().getId().equals(id)) {
+            throw new ProblemeBaseException("Update impossible car les numéros du client sont différents");
+        }
+
+        String pb = clientInfoDTO.verifieValidite(false);
+        if (pb != null) { // il y a un problème à la validation des champs
+            throw new ProblemeBaseException(pb);
+        }
+        Optional<Personne> optionalClient = personneDAO.findById(id);
+        if (!optionalClient.isPresent()) {
+            throw new ProblemeBaseException("Impossible de trouver le client n°" + id + " dans la base");
+        }
+        Personne client = optionalClient.get();
+        Personne conjoint = null;
+
+        updatePersonne(clientInfoDTO.getClient(), client);
+
+        if (clientInfoDTO.getConjoint() != null) { // a un conjoint
+            if (clientInfoDTO.getConjoint().getId() == null) { // le conjoint n'est pas encore dans la base
+                // il faut le créer
+                conjoint = createPersonne(clientInfoDTO.getConjoint(), false);
+                if (conjoint == null) {
+                    throw new ProblemeBaseException("Update impossible car la création du conjoint a échoué");
+                }
+                conjoint.setAdresses(clientInfoDTO.getConjoint().getAdresses());
+                personneDAO.save(conjoint);
+            } else {
+                // juste une MAJ du conjoint
+                Optional<Personne> optionalConjoint = personneDAO.findById(clientInfoDTO.getConjoint().getId());
+                if (!optionalConjoint.isPresent()) {
+                    throw new ProblemeBaseException("Update impossible car le conjoint n'est pas dans la base");
+                }
+                conjoint = optionalConjoint.get();
+            }
+            client.setConjoint(conjoint);
+            conjoint.setConjoint(client);
+        } else { // n'a pas de conjoint
+            if (client.getConjoint() != null) { // le client avait un conjoint avant
+                Personne conjointDAvant = client.getConjoint();
+                conjointDAvant.setConjoint(null);
+                personneDAO.save(conjointDAvant);
+                client.setConjoint(null);
+            }
+        }
+        updateDocuments(client, clientInfoDTO.getDocuments());
         personneDAO.save(client);
-        return clientInfoDTO;
+        return createClientInfoDTO(client, conjoint);
+    }
+
+    @Override
+    public List<Adresse> getAdresses(Long idPersonne) {
+        return personneDAO.findPersonneAdresses(idPersonne);
+    }
+
+    private ClientInfoDTO createClientInfoDTO(Personne client, Personne conjoint) {
+        PersonneInfo clientInfo = new PersonneInfo(client);
+        clientInfo.setAdresses(client.getAdresses());
+        PersonneInfo conjointInfo = null;
+        if (conjoint != null) {
+            conjointInfo = new PersonneInfo(conjoint);
+            conjointInfo.setAdresses(conjoint.getAdresses());
+        }
+        List<DocumentDTO> documentsDTO = documentDAO.findDocumentsByClient(client.getId());
+        return new ClientInfoDTO(clientInfo, conjointInfo, documentsDTO,
+                historiqueDAO.countEvtsByClient(client.getId()).longValue() > 0);
+    }
+
+    private void updateDocuments(Personne client, List<DocumentDTO> documentsDTO) throws ProblemeBaseException {
+        // L'ajout et la destruction de document ne sont pas gérées là
+        // on a les mêmes documents, juste les libellés et les catégories peuvent changer
+        for (DocumentDTO documentDTO : documentsDTO) {
+            documentService.updateDocumentByClient(client.getId(), documentDTO.getId(), documentDTO, true);
+        }
+    }
+
+    private void updatePersonne(PersonneInfo personneInfo, Personne personne) throws ProblemeBaseException {
+        Optional<Capacite> optionalCapacite = capaciteDAO.findById(personneInfo.getIdCapacite());
+        if (!optionalCapacite.isPresent()) {
+            throw new ProblemeBaseException("La capacite ne peut pas être nulle");
+        }
+        personne.setCapacite(optionalCapacite.get());
+
+        Optional<Civilite> optionalCivilite = civiliteDAO.findById(personneInfo.getIdCivilite());
+        if (!optionalCivilite.isPresent()) {
+            throw new ProblemeBaseException("La civilité ne peut pas être nulle");
+        }
+        personne.setCivilite(optionalCivilite.get());
+
+        Optional<Pays> optionalPaysNaissance = paysDAO.findById(personneInfo.getIdPaysNaissance());
+        if (!optionalPaysNaissance.isPresent()) {
+            throw new ProblemeBaseException("Le pays de naissance ne peut pas être nul");
+        }
+        personne.setPays(optionalPaysNaissance.get());
+
+        Optional<Statut> optionalStatut = statutDAO.findById(personneInfo.getIdStatut());
+        if (!optionalStatut.isPresent()) {
+            throw new ProblemeBaseException("Le statut ne peut pas être nul");
+        }
+        personne.setStatut(optionalStatut.get());
+
+        Optional<TypeMarital> optionalTypeMarital = typeMaritalDAO.findById(personneInfo.getIdTypeMarital());
+        if (!optionalTypeMarital.isPresent()) {
+            throw new ProblemeBaseException("Le type marital ne peut pas être nul");
+        }
+        personne.setTypeMarital(optionalTypeMarital.get());
+
+        Optional<Ville> optionalVilleNaissance = villeDAO.findById(personneInfo.getIdVilleNaissance());
+        if (!optionalVilleNaissance.isPresent()) {
+            throw new ProblemeBaseException("La ville de naissance ne peut pas être nulle");
+        }
+        personne.setVilleNaissance(optionalVilleNaissance.get());
+
+        personne.update(personneInfo);
     }
 
     private Personne createPersonne(PersonneInfo personneInfo, boolean estClient) throws ProblemeBaseException {

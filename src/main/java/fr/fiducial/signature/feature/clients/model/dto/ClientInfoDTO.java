@@ -33,8 +33,8 @@ public class ClientInfoDTO {
         }
         if (client.getAdresses() != null) {
             for (Adresse adresse : client.getAdresses()) {
-                if ((adresse.getVille() == null) || (adresse.getPays() == null)) { // attention test faux car pas pris en compte villeEtrangere (cf BDD)
-                    return "Ville et Pays de l'adresse ne peuvent pas être vides";
+                if ((adresse.getVille() == null) || (adresse.getPays() == null) || (adresse.getNomVoie() == null)) { // attention test faux car pas pris en compte villeEtrangere (cf BDD)
+                    return "Ville, Pays, et nom de la voie de l'adresse ne peuvent pas être vides";
                 }
             }
         }

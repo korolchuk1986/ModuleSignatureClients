@@ -325,13 +325,13 @@ CREATE TABLE `personne` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 INSERT INTO `personne`
-(id, est_client, nom, nom_usuel, prenoms, id_type_marital, est_pacse, id_conjoint, date_liaison, telephone, email, date_modif_fiche, id_civilite, id_capacite, id_statut, id_pays_naissance, profession, date_naissance, nationalite, notaire_referent, clerc_referent)
+(id, est_client, nom, nom_usuel, prenoms, id_type_marital, est_pacse, id_conjoint, date_liaison, telephone, email, date_modif_fiche, id_civilite, id_capacite, id_statut, id_pays_naissance, id_ville_naissance, profession, date_naissance, nationalite, notaire_referent, clerc_referent)
 VALUES 
-(1, true, 'Dupont', null, 'Jean', 1, false, null, null, '0102030406', 'jean@epsi.fr', '2019-02-27', 1, 1, 1, 1, 'ingénieur', '1960-09-05', 'Française', 'Leduc', 'Naciri'),
-(2, true, 'Tapie', 'Martin', 'Julie', 2, false, null, '2001-09-05', '0475345657', 'julie@epsi.fr', '2019-02-19', 2, 1, 1, 1, 'dentiste', '1975-07-29', 'Anglaise', 'Bellin', 'Lemaire' ),
-(3, false, 'Martin', null, 'Michel', 2, false, 2, '2001-09-05', '0475345657', 'michel@epsi.fr', '2019-03-04', 1, 1, 1, 1, 'professeur des écoles', '1977-09-30', 'Française', 'Leduc', 'Bergen'),
-(4, true, 'Muche', null, 'Bernard', 1, false, null, null, '0440345467', 'bernard@epsi.fr', '2019-03-05', 1, 1, 2, 2, 'agriculteur', '1965-03-05', null, 'Bellin', 'Naciri'),
-(5, true, 'Biche', null, 'Jules', 1, false, null, null, '0309890987', 'jules@epsi.fr', '2019-03-06', 1, 1, 1, 1, 'manutentionnaire', '1985-11-05', null, 'Bellin', 'Lemaire');
+(1, true, 'Dupont', null, 'Jean', 1, false, null, null, '0102030406', 'jean@epsi.fr', '2019-02-27', 1, 1, 1, 1, 1, 'ingénieur', '1960-09-05', 'Française', 'Leduc', 'Naciri'),
+(2, true, 'Tapie', 'Martin', 'Julie', 2, false, null, '2001-09-05', '0475345657', 'julie@epsi.fr', '2019-02-19', 2, 1, 1, 1, 1, 'dentiste', '1975-07-29', 'Anglaise', 'Bellin', 'Lemaire' ),
+(3, false, 'Martin', null, 'Michel', 2, false, 2, '2001-09-05', '0475345657', 'michel@epsi.fr', '2019-03-04', 1, 1, 1, 1, 1, 'professeur des écoles', '1977-09-30', 'Française', 'Leduc', 'Bergen'),
+(4, true, 'Muche', null, 'Bernard', 1, false, null, null, '0440345467', 'bernard@epsi.fr', '2019-03-05', 1, 1, 2, 2, 1, 'agriculteur', '1965-03-05', null, 'Bellin', 'Naciri'),
+(5, true, 'Biche', null, 'Jules', 1, false, null, null, '0309890987', 'jules@epsi.fr', '2019-03-06', 1, 1, 1, 1, 1, 'manutentionnaire', '1985-11-05', null, 'Bellin', 'Lemaire');
 
 UPDATE `personne` 
 SET id_conjoint = 3, date_liaison = '2001-09-05' WHERE id=2;

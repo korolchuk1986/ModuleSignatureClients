@@ -3,6 +3,7 @@ package fr.fiducial.signature.feature.clients.service.impl;
 import fr.fiducial.signature.feature.clients.dao.CategorieDAO;
 import fr.fiducial.signature.feature.clients.dao.DocumentDAO;
 import fr.fiducial.signature.feature.clients.dao.PersonneDAO;
+import fr.fiducial.signature.feature.clients.exception.ProblemeBaseException;
 import fr.fiducial.signature.feature.clients.model.Categorie;
 import fr.fiducial.signature.feature.clients.model.Document;
 import fr.fiducial.signature.feature.clients.model.Personne;
@@ -34,14 +35,14 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Path getPath(Long idClient, Long idDocument) {
+    public Path getPath(Long idClient, Long idDocument) throws ProblemeBaseException {
         Optional<Document> optionalDocument = documentDAO.findById(idDocument);
         if (!optionalDocument.isPresent())  {
-            return null;
+            throw new ProblemeBaseException("Le document n'existe pas dans la base");
         }
         Document document = optionalDocument.get();
         if (document.getPersonne().getId().longValue() != idClient.longValue()) {
-            return null;
+            throw new ProblemeBaseException("Le numéro de client contenu dans le document est différent du client donné");
         }
         return Paths.get(document.getLienVersContenu(), document.getLibelle() + "." + document.getTypeDoc());
 
@@ -69,63 +70,61 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public boolean updateDocumentByClient(Long idClient, Long idDoc, DocumentDTO documentDTO) {
+    public DocumentDTO updateDocumentByClient(Long idClient, Long idDoc, DocumentDTO documentDTO, boolean isUpdateClient) throws ProblemeBaseException {
         // Seules 2 valeurs peuvent changer: la catégorie ou/et le libellé (dans ce cas, il faut aussi renommer le
         // fichier dans l'archive) donc à changer dans table
-        Optional<Document> optionalDocument = documentDAO.findById(idDoc);
+
+        Optional<Document> optionalDocument = documentDAO.findById(documentDTO.getId());
+        if (! optionalDocument.isPresent()) {
+            throw new ProblemeBaseException("Update document impossible car non présent dans base de données");
+        }
+        Document document = optionalDocument.get();
+
         boolean aModifier = false;
         String ancienLibelle = null;
 
-        // TODO mettre en transactionnel pour roll-back si pb
-        if (! optionalDocument.isPresent()) {
-            return false;
-        }
-        Document doc = optionalDocument.get();
-        if (idClient.longValue() != documentDTO.getIdClient().longValue()) { // vérif peut-être inutile
-            return false;
+        if (document.getPersonne().getId().longValue() != documentDTO.getIdClient().longValue()) { // vérif peut-être inutile
+            throw new ProblemeBaseException("Update document impossible car le numéro du document n'est pas le même");
         }
 
         // si le libellé change
-        if (!doc.getLibelle().equals(documentDTO.getLibelle())) {
-            ancienLibelle = doc.getLibelle();
-            doc.setLibelle(documentDTO.getLibelle());
+        if (!document.getLibelle().equals(documentDTO.getLibelle())) {
+            ancienLibelle = document.getLibelle();
+            document.setLibelle(documentDTO.getLibelle());
             aModifier = true;
         }
 
-        // Si la catégorie n'est pas encore définie ou si elle change de valeur
-        if ((documentDTO.getIdCategorie() != null)  && (doc.getCategorie() == null ||
-                doc.getCategorie().getId().longValue() != documentDTO.getIdCategorie().longValue())) { // bien laisser longValue() car bug si equals ???
+        // Si la catégorie n'était pas encore définie ou si elle change de valeur
+        if ((documentDTO.getIdCategorie() != null)  && (document.getCategorie() == null ||
+                document.getCategorie().getId().longValue() != documentDTO.getIdCategorie().longValue())) {
             Optional<Categorie> optionalCategorie = categorieDAO.findById(documentDTO.getIdCategorie());
             if (!optionalCategorie.isPresent()) {
-                return false;
+                throw new ProblemeBaseException("Update document impossible car la categorie du document n'a pas été trouvée");
             }
-            doc.setCategorie(optionalCategorie.get());
+            document.setCategorie(optionalCategorie.get());
             aModifier = true;
         }
 
         // on renomme le fichier s'il y a besoin et on modifie la BDD
         if (aModifier) {
             if (ancienLibelle != null) { // il faut renommer le fichier
-                try {
-                    renommerFichier(ancienLibelle, doc);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
+                renommerFichier(ancienLibelle, document);
             }
-            documentDAO.save(doc);
-            changerDateEnregistrementFicheClient(idClient);
+            documentDAO.save(document);
+            if (!isUpdateClient) { // juste l'update du libellé/catégorie du document pas de la fiche totale du client d'où mise à jour date enregistrement fiche
+                changerDateEnregistrementFicheClient(document.getPersonne().getId());
+            }
         }
-
-        return true;
+        Long idCategorie = (document.getCategorie() == null ? null: document.getCategorie().getId());
+        return new DocumentDTO(document);
     }
 
     @Override
-    public boolean deleteDocument(Long idClient, Long idDocument) {
-        //TODO mettre transationnel pour rollback
+    public void deleteDocument(Long idClient, Long idDocument) throws ProblemeBaseException {
+        //TODO mettre transactionnel pour rollback
         Optional<Document> optionalDocument = documentDAO.findById(idDocument);
         if (!optionalDocument.isPresent()) {
-            return false;
+            throw new ProblemeBaseException("Suppression du document impossible car il n'est pas dans la base de données");
         }
         Document document = optionalDocument.get();
         // on détruit le fichier dans l'archive
@@ -134,18 +133,21 @@ public class DocumentServiceImpl implements DocumentService {
             Files.delete(path);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            throw new ProblemeBaseException("Suppression du document physique impossible car il n'est pas dans les archives");
         }
         // on détruit dans la base
         documentDAO.delete(document);
         changerDateEnregistrementFicheClient(idClient);
-        return true;
     }
 
-    private void renommerFichier(String ancienLibelle, Document doc) throws IOException {
+    private void renommerFichier(String ancienLibelle, Document doc) throws ProblemeBaseException {
         Path source = Paths.get(doc.getLienVersContenu(), ancienLibelle + "." + doc.getTypeDoc());
         Path destination = Paths.get(doc.getLienVersContenu(), doc.getLibelle() + "." + doc.getTypeDoc());
-        Files.move(source, destination, REPLACE_EXISTING);
+        try {
+            Files.move(source, destination, REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new ProblemeBaseException("Impossible de renommer le fichier physique dans l'archive (il est peut-être ouvert?)");
+        }
     }
     private void changerDateEnregistrementFicheClient(Long idClient) {
         Optional<Personne> optionalPersonne = personneDAO.findById(idClient);

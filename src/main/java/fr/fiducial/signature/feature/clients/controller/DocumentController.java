@@ -1,9 +1,7 @@
 package fr.fiducial.signature.feature.clients.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.fiducial.signature.feature.clients.model.Document;
+import fr.fiducial.signature.feature.clients.exception.ProblemeBaseException;
 import fr.fiducial.signature.feature.clients.model.dto.DocumentDTO;
-import fr.fiducial.signature.feature.clients.model.dto.ListePersonneDTO;
 import fr.fiducial.signature.feature.clients.service.DocumentService;
 
 import org.springframework.core.io.ByteArrayResource;
@@ -15,15 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -32,6 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 public class DocumentController {
     private DocumentService documentService;
     private static final String PATH_ARCHIVE = "archiveClients"; // à mettre peut-être dans un fichier .properties
+    // pour mieux gérer les exceptions, à voir https://www.baeldung.com/exception-handling-for-rest-with-spring
 
     public DocumentController(DocumentService documentService) {
         this.documentService = documentService;
@@ -39,17 +33,20 @@ public class DocumentController {
 
     @RequestMapping(value = "/client/{id}/documents", method = GET)
     public @ResponseBody ResponseEntity<?>  getDocumentsByClient(@PathVariable("id") Long idClient) {
-        return  new ResponseEntity<>(documentService.getDocumentsByClient(idClient), HttpStatus.OK);
+        return new ResponseEntity<>(documentService.getDocumentsByClient(idClient), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/client/{id}/document/{idDoc}/update", method = POST)
+    @RequestMapping(value = "/client/{id}/document/{idDoc}/update", method = PUT)
     public @ResponseBody ResponseEntity<?> updateDocumentByClient(@PathVariable("id") Long idClient, @PathVariable("idDoc") Long idDoc,
                                                     @RequestBody DocumentDTO documentDTO) {
-
-
         //DocumentDTO documentDTO  = new ObjectMapper().readValue(JSONString, DocumentDTO.class);
-        boolean updateOk = documentService.updateDocumentByClient(idClient, idDoc, documentDTO);
-        return new ResponseEntity<>(updateOk ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+        try {
+            documentDTO = documentService.updateDocumentByClient(idClient, idDoc, documentDTO, false);
+
+            return new ResponseEntity<>(documentDTO, HttpStatus.OK);
+        } catch (ProblemeBaseException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(value = "/client/{id}/document/upload", method = POST, consumes = { "multipart/mixed", "multipart/form-data" })
@@ -92,30 +89,39 @@ public class DocumentController {
     }
     @RequestMapping(value = "/client/{idClient}/document/{idDocument}/delete", method = DELETE)
     public @ResponseBody ResponseEntity<?> delete(@PathVariable("idClient") Long idClient, @PathVariable("idDocument") Long idDocument) {
-        boolean updateOk = documentService.deleteDocument(idClient, idDocument);
-        return new ResponseEntity<>(updateOk ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+        try {
+            documentService.deleteDocument(idClient, idDocument);
+        } catch (ProblemeBaseException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/client/{idClient}/document/{idDocument}/download", method = GET)
     public ResponseEntity<Resource> downloadDocument(@PathVariable("idClient") Long idClient,
                                                      @PathVariable("idDocument") Long idDocument) throws IOException {
-        Path path = documentService.getPath(idClient, idDocument);
-        if (path == null) {
-            return ResponseEntity.badRequest().body(null);
+        try {
+            Path path = documentService.getPath(idClient, idDocument);
+            if (path == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                //return ResponseEntity.badRequest().body(null);
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+            headers.add("Pragma", "no-cache");
+            headers.add("Expires", "0");
+
+            ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path.toAbsolutePath()));
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(Files.size(path))
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(resource);
+        } catch (ProblemeBaseException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
-
-        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path.toAbsolutePath()));
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(Files.size(path))
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(resource);
 
     }
 }

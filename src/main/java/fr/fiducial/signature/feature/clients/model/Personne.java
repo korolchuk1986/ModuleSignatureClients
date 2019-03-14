@@ -1,10 +1,12 @@
 package fr.fiducial.signature.feature.clients.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import fr.fiducial.signature.feature.clients.model.dto.PersonneInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 //import lombok.extern.flogger.Flogger;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -183,6 +185,34 @@ public class Personne implements java.io.Serializable {
 		this.siteWeb = siteWeb;
 		this.commentSiteWeb = commentSiteWeb;
 		this.adresses = adresses;
+	}
+
+	public void update(PersonneInfo personneInfo) {
+		this.nom = personneInfo.getNom();
+		this.prenoms = personneInfo.getPrenoms();
+		this.dateNaissance = personneInfo.getDateNaissance();
+		this.villeEtrangereNaissance = personneInfo.getVilleEtrangereNaissance();
+		this.nationalite = personneInfo.getNationalite();
+		this.profession = personneInfo.getProfession();
+		this.nomUsuel = personneInfo.getNomUsuel();
+		this.prenomUsuel = personneInfo.getPrenomUsuel();
+		this.estPacse = personneInfo.getEstPacse();
+		this.dateLiaison = personneInfo.getDateLiaison();
+		this.clercReferent = personneInfo.getClercReferent();
+		this.notaireReferent = personneInfo.getNotaireReferent();
+		this.dateModifFiche = java.sql.Date.valueOf(LocalDate.now());
+		this.telephone = personneInfo.getTelephonePerso();
+		this.commentTelephone = personneInfo.getCommentTelephonePerso();
+		this.telephonePro = personneInfo.getTelephonePro();
+		this.commentTelephonePro = personneInfo.getCommentTelephonePro();
+		this.email = personneInfo.getEmailPerso();
+		this.commentEmail = personneInfo.getCommentEmailPerso();
+		this.emailPro = personneInfo.getEmailPro();
+		this.commentEmailPro = personneInfo.getCommentEmailPro();
+		this.fax = personneInfo.getFax();
+		this.commentFax = personneInfo.getCommentFax();
+		this.siteWeb = personneInfo.getSiteWeb();
+		this.commentSiteWeb = personneInfo.getCommentSiteWeb();
 	}
 
 	/*
