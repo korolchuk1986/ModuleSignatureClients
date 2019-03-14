@@ -6,6 +6,8 @@ import fr.fiducial.signature.feature.clients.model.Personne;
 import org.junit.*;
 
 public class HistoriqueServiceTest {
+    // TODO à détruire car table pivot
+
     @BeforeClass // before all tests
     public static void setUpBeforeTests() {}
 

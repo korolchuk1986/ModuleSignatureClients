@@ -16,10 +16,11 @@ public class DocumentServiceTest extends TestCase {
     public static junit.framework.Test suite() {
         TestSuite suite = new TestSuite("Test DocumentServiceTest");
         DocumentServiceTest.beforeAllTests();
-        suite.addTest(new DocumentServiceTest("testCreate"));
-        suite.addTest(new DocumentServiceTest("testGet"));
-        suite.addTest(new DocumentServiceTest("testUpdate"));
-        suite.addTest(new DocumentServiceTest("testDelete"));
+        suite.addTest(new DocumentServiceTest("testGetPath"));
+        suite.addTest(new DocumentServiceTest("testGetDocumentsByClient"));
+        suite.addTest(new DocumentServiceTest("testUploadDocumentForClient"));
+        suite.addTest(new DocumentServiceTest("testUpdateDocumentByClient"));
+        suite.addTest(new DocumentServiceTest("deleteDocument"));
         DocumentServiceTest.afterAllTests();
         return suite;
     }
@@ -32,19 +33,22 @@ public class DocumentServiceTest extends TestCase {
     }
 
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
-    public void testCreate() {
-        //TODO
+    public void testGetPath() {
+
     }
-    public void testDelete() {
-        //TODO
+    public void testGetDocumentsByClient() {
+
     }
-    public void testUpdate() {
-        //TODO
+    public void testUploadDocumentForClient() {
+
     }
-    public void testGet() {
-        //TODO
+    public void testUpdateDocumentByClient() {
+
+    }
+    public void testDeleteDocument() {
+
     }
 }

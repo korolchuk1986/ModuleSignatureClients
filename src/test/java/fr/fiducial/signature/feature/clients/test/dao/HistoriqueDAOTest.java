@@ -3,6 +3,8 @@ package fr.fiducial.signature.feature.clients.test.dao;
 import org.junit.*;
 
 public class HistoriqueDAOTest {
+    // TODO à détruire car table pivot
+
     @BeforeClass // before all tests
     public static void setUpBeforeTests() {}
 

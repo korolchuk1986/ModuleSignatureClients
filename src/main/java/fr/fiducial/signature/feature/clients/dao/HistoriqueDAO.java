@@ -12,11 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface HistoriqueDAO extends CrudRepository<Historique, Long>  {
-    //TODO requête à tester
+    //TODO à détruire car table de pivot gérée par spring (cf habitation et adresse et personne)
    /* @Query("select h.evenement from Historique h inner join fetch h.evenement, h.personne where h.personne.id= :id_personne")
     Iterable<Evenement> findEvenementsByClient(@Param("id_personne") Long id_personne);
 
-    //TODO requête à finir (détruire tous les enregistrements historique de la personne sauf ceux des PACS (rupture ou signature)
     @Modifying
     @Transactional
     @Query("delete from Historique h where h.personne.id= :id_personne")

@@ -1,42 +1,50 @@
 package fr.fiducial.signature.feature.clients.test.service;
 
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import org.junit.*;
 
-public class PersonneServiceTest {
-    @BeforeClass // before all tests
-    public static void setUpBeforeTests() {}
+public class PersonneServiceTest extends TestCase {
+    public PersonneServiceTest() {
+    }
+    public PersonneServiceTest(String testName) {
+        super(testName);
+    }
 
-    @AfterClass // after all tests
-    public static void tearDownAfterTests() {}
+    public static junit.framework.Test suite() {
+        TestSuite suite = new TestSuite("Test DocumentServiceTest");
+        DocumentServiceTest.beforeAllTests();
+        suite.addTest(new DocumentServiceTest("testGetInfoFormulaire"));
+        suite.addTest(new DocumentServiceTest("testCreateClient"));
+        suite.addTest(new DocumentServiceTest("testUpdateClient"));
+        suite.addTest(new DocumentServiceTest("testGetClientInfo"));
+        suite.addTest(new DocumentServiceTest("testGetClients"));
+        DocumentServiceTest.afterAllTests();
+        return suite;
+    }
 
-    @Before // before any test
+    public static void beforeAllTests() {}
+    public static void afterAllTests() {}
+
+    @Override
     public void setUp() {}
 
-    @After // after any test
+    @Override
     public void tearDown() {}
 
-    @Test
-    public void testAdd() {
-        //TODO
+    public void testGetClientInfo() {
     }
 
-    @Test
+    public void testGetInfoFormulaire() {
+    }
+
+    public void testCreateClient() {
+    }
+
+    public void testUpdateClient() {
+    }
+
     public void testGetClients() {
-        //TODO
     }
 
-    @Test
-    public void testUpdate() {
-        //TODO
-    }
-
-    @Test
-    public void testGetClientByNomPrenom() {
-        //TODO
-    }
-    @Test
-    public void testGetClientById() {
-        //TODO
-    }
-    // TODO à compléter
 }

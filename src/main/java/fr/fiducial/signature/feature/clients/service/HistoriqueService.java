@@ -5,6 +5,7 @@ import fr.fiducial.signature.feature.clients.model.Historique;
 import fr.fiducial.signature.feature.clients.model.Personne;
 
 public interface HistoriqueService {
+    // TODO à détruire car table pivot
     Historique add(Historique historique);
     Iterable<Evenement> getEvenementsByClient(Personne personne);
     void deleteHistoriqueMatrimonialByClient(Personne personne);

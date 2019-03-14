@@ -12,8 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class HistoriqueServiceImpl implements HistoriqueService {
-    @Autowired
+    // TODO à détruire car table pivot
     private HistoriqueDAO historiqueDAO;
+
+    public HistoriqueServiceImpl(HistoriqueDAO historiqueDAO) {
+        this.historiqueDAO = historiqueDAO;
+    }
 
     @Override
     public Historique add(Historique historique) {

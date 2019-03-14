@@ -16,8 +16,16 @@ public class PersonneDAOTest {
     public void tearDown() {}
 
     @Test
-    public void testGetClientsPourListe() {
+    public void testFindClients() {
         //TODO
     }
-    //TODO à compléter
+
+    @Test
+    public void testFindPersonneAdresse() {
+    }
+
+    @Test
+    public void testGetClientInfo() {
+    }
+
 }
