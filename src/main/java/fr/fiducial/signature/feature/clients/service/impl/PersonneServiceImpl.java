@@ -112,7 +112,11 @@ public class PersonneServiceImpl implements PersonneService {
 
     @Override
     public ClientInfoDTO updateClient(ClientInfoDTO clientInfoDTO, Long id) throws ProblemeBaseException {
-        if (clientInfoDTO.getClient().getId().equals(id)) {
+        if (clientInfoDTO.getClient().getId() == null) {
+            throw new ProblemeBaseException("Update impossible car le numéro du client est nul");
+        }
+
+        if (clientInfoDTO.getClient().getId().longValue() != id.longValue()) {
             throw new ProblemeBaseException("Update impossible car les numéros du client sont différents");
         }
 

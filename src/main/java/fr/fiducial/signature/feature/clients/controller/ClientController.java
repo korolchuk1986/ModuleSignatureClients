@@ -65,6 +65,7 @@ public class ClientController {
             // quelques vérifications si valeurs des champs sont correctes
             String pb = clientDTO.verifieValidite(true);
             if (pb != null) {
+                System.out.println(pb);
                 return new ResponseEntity<>(pb, HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(personneService.createClient(clientDTO), HttpStatus.OK);
