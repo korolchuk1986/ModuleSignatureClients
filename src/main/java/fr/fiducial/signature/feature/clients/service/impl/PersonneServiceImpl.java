@@ -149,6 +149,7 @@ public class PersonneServiceImpl implements PersonneService {
                     throw new ProblemeBaseException("Update impossible car le conjoint n'est pas dans la base");
                 }
                 conjoint = optionalConjoint.get();
+                updatePersonne(clientInfoDTO.getConjoint(), conjoint);
             }
             client.setConjoint(conjoint);
             conjoint.setConjoint(client);
