@@ -21,7 +21,7 @@ public class DocumentDTO {
     public DocumentDTO(Document doc) {
         this.id = doc.getId();
         this.idClient = doc.getPersonne().getId();
-        this.idCategorie = doc.getCategorie().getId();
+        this.idCategorie = (doc.getCategorie() != null ? doc.getCategorie().getId() : null);
         this.libelle = doc.getLibelle();
         this.typeDoc = doc.getTypeDoc();
         this.dateEnregistrement = doc.getDateEnregistrement();
