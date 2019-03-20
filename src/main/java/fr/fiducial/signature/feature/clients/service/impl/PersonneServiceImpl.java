@@ -129,6 +129,7 @@ public class PersonneServiceImpl implements PersonneService {
             throw new ProblemeBaseException("Impossible de trouver le client n°" + id + " dans la base");
         }
         Personne client = optionalClient.get();
+        client.setAdresses(clientInfoDTO.getClient().getAdresses());
         Personne conjoint = null;
 
         updatePersonne(clientInfoDTO.getClient(), client);
