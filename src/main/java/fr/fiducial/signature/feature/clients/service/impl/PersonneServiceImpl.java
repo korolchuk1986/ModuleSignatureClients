@@ -269,7 +269,7 @@ public class PersonneServiceImpl implements PersonneService {
         }
         Ville villeNaissance = optionalVilleNaissance.get();
 
-        personneInfo.setDateModif(java.sql.Date.valueOf(LocalDate.now()));
+        //personneInfo.setDateModif(java.sql.Date.valueOf(LocalDate.now()));
 
         Personne personne = new Personne(estClient, personneInfo.getNom(), personneInfo.getPrenoms(),
                 personneInfo.getDateNaissance(), personneInfo.getVilleEtrangereNaissance(),
@@ -277,7 +277,7 @@ public class PersonneServiceImpl implements PersonneService {
                 personneInfo.getPrenomUsuel(), personneInfo.getEstPacse(), capacite,
                 civilite, paysNaissance, statut, typeMarital, personneInfo.getDateLiaison(),
                 villeNaissance, personneInfo.getClercReferent(),
-                personneInfo.getNotaireReferent(), personneInfo.getDateModif(),
+                personneInfo.getNotaireReferent(), //personneInfo.getDateModif(),
                 personneInfo.getTelephonePerso(), personneInfo.getCommentTelephonePerso(),
                 personneInfo.getTelephonePro(), personneInfo.getCommentTelephonePro(),
                 personneInfo.getEmailPerso(), personneInfo.getCommentEmailPerso(),

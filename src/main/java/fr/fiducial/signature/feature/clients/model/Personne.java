@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 //import lombok.extern.flogger.Flogger;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -148,10 +148,11 @@ public class Personne implements java.io.Serializable {
 					String nomUsuel, String prenomUsuel, Boolean estPacse, Capacite capacite,
 					Civilite civilite, Pays paysNaissance, Statut statut, TypeMarital typeMarital,
 					Date dateLiaison, Ville villeNaissance, String clercReferent, String notaireReferent,
-					Date dateModifFiche, String telephone, String commentTelephone, String telephonePro,
+					String telephone, String commentTelephone, String telephonePro,
 					String commentTelephonePro, String email, String commentEmail, String emailPro,
 					String commentEmailPro, String fax, String commentFax, String siteWeb,
 					String commentSiteWeb, List<Adresse> adresses) {
+		this.dateModifFiche = new java.sql.Date(Instant.now().toEpochMilli());
 		this.estClient = estClient;
 		this.nom = nom;
 		this.prenoms = prenoms;
@@ -171,7 +172,6 @@ public class Personne implements java.io.Serializable {
 		this.villeNaissance = villeNaissance;
 		this.clercReferent = clercReferent;
 		this.notaireReferent = notaireReferent;
-		this.dateModifFiche = dateModifFiche;
 		this.telephone = telephone;
 		this.commentTelephone = commentTelephone;
 		this.telephonePro = telephonePro;
@@ -188,6 +188,8 @@ public class Personne implements java.io.Serializable {
 	}
 
 	public void update(PersonneInfo personneInfo) {
+		this.dateModifFiche = new java.sql.Date(Instant.now().toEpochMilli());
+		//java.sql.Date.valueOf(LocalDate.now(ZoneId.systemDefault())); // ne pas utiliser car pb avec mysql et jdbc pas utc et donc date incorrecte, manque un jour
 		this.nom = personneInfo.getNom();
 		this.prenoms = personneInfo.getPrenoms();
 		this.dateNaissance = personneInfo.getDateNaissance();
@@ -200,7 +202,6 @@ public class Personne implements java.io.Serializable {
 		this.dateLiaison = personneInfo.getDateLiaison();
 		this.clercReferent = personneInfo.getClercReferent();
 		this.notaireReferent = personneInfo.getNotaireReferent();
-		this.dateModifFiche = java.sql.Date.valueOf(LocalDate.now());
 		this.telephone = personneInfo.getTelephonePerso();
 		this.commentTelephone = personneInfo.getCommentTelephonePerso();
 		this.telephonePro = personneInfo.getTelephonePro();
