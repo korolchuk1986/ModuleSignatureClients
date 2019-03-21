@@ -84,9 +84,11 @@ sur les clés étrangères des tables. Actuellement, il est obligatoire d'avoir 
 naissance, une ville de naissance, un statut, etc. Ce choix avait été fait, au début, lors de la 
 création/génération des POJOs car nous ne maîtrisions pas bien Spring.
 - Faire tous les tests de validation des données côté client et côté serveur.
+- Coder tous les test unitaires d'accès à la BDD avec JUnit et peut-être faire des tests du front 
+avec Sélénium et/ou Cypress. 
 - Sûrement changer comment sont stockées les adresses pour ne les mettre que dans le client (et non 
 dans le conjoint aussi) et de rajouter un champ pour indiquer si l'adresse est commune ou non.
-Actuellement, le client et son conjoint peuvent avoir des adresses différentes. 
+Actuellement, le client et son conjoint peuvent avoir des adresses différentes.
 - Mieux gérer les villes/codes postaux/villes étrangères/pays dans l'affichage, sous angular 
 (par exemple, lier le code postal et la ville sélectionnée).
 Actuellement, nous avons supprimé le code postal de l'affichage et il est possible d'avoir une ville 
