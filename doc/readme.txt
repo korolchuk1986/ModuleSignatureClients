@@ -83,14 +83,15 @@ actuellement bien que nous ayons essayé cascade = {CascadeType.ALL}
 sur les clés étrangères des tables. Actuellement, il est obligatoire d'avoir un pays de 
 naissance, une ville de naissance, un statut, etc. Ce choix avait été fait, au début, lors de la 
 création/génération des POJOs car nous ne maîtrisions pas bien Spring.
-- Faire tous les tests de validation des données côté client et côté serveur.
+- Faire tous les tests de validation des données côté client et côté serveur. Mettre en place un 
+warning si on quitte la création ou la maj d'une fiche client sans l'avoir sauvegardée.
 - Coder tous les test unitaires d'accès à la BDD avec JUnit et peut-être faire des tests du front 
 avec Sélénium et/ou Cypress. 
 - Sûrement changer comment sont stockées les adresses pour ne les mettre que dans le client (et non 
 dans le conjoint aussi) et de rajouter un champ pour indiquer si l'adresse est commune ou non.
-Actuellement, le client et son conjoint peuvent avoir des adresses différentes.
+Actuellement, le client et son conjoint peuvent avoir des adresses différentes. Avoir aussi les deux
+formats d'affichage/de maj des adresses.
 - Mieux gérer les villes/codes postaux/villes étrangères/pays dans l'affichage, sous angular 
 (par exemple, lier le code postal et la ville sélectionnée).
 Actuellement, nous avons supprimé le code postal de l'affichage et il est possible d'avoir une ville 
 française et une ville étrangère.
-
