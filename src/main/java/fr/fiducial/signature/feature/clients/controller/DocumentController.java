@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "signature", produces = "application/json")
 public class DocumentController {
     private DocumentService documentService;
