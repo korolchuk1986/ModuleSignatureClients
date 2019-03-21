@@ -15,6 +15,7 @@ import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "signature", produces = "application/json")
 public class ClientController {
     private final PersonneService personneService;
