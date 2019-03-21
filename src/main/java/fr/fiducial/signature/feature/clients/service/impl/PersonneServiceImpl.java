@@ -86,6 +86,7 @@ public class PersonneServiceImpl implements PersonneService {
             throw new ProblemeBaseException("La création de ce client a échoué");
         }
         List<Adresse> adresses = clientInfoDTO.getClient().getAdresses();
+
         client.setAdresses(adresses);
         clientInfoDTO.getClient().setId(client.getId());
 
@@ -231,21 +232,24 @@ public class PersonneServiceImpl implements PersonneService {
         personne.setVilleNaissance(optionalVilleNaissance.get());
 
         if (personneInfo.getDateDeces() != null) { // par défaut, on a choisi que la date de décès indiquait le décès si renseignée
-            Deces deces;
-            Optional<Deces> optionalDeces = decesDAO.findById(personne.getId());
-            if (!optionalDeces.isPresent()) {
+            Deces deces = personne.getDeces();
+            //Optional<Deces> optionalDeces = decesDAO.findById(personne.getId());
+
+            if (deces == null) {
                 // nouveau décès
-                deces = creerDeces(personne, personneInfo);
-                personne.setDeces(deces);
+                // deces = creerDeces(personne, personneInfo); // pb attempted to assign id from null one-to-one property
+                // personne.setDeces(deces);
             } else {
-                deces = optionalDeces.get(); // le décès avait déjà été enregistré, juste une maj
+                 // le décès avait déjà été enregistré, juste une maj
                 updateDeces(personne, personneInfo, deces);
             }
         } else {
-            Optional<Deces> optionalDeces = decesDAO.findById(personne.getId());
-            if (optionalDeces.isPresent()) { // si on veut pouvoir "enlever" le décès si on se trompe (décès deja dans la base)
-                decesDAO.delete(optionalDeces.get());
-            }
+            //Optional<Deces> optionalDeces = decesDAO.findById(personne.getId());
+            //Deces deces = personne.getDeces();
+            //if (deces != null) { // si on veut pouvoir "enlever" le décès si on se trompe (décès deja dans la base)
+                //personne.setDeces(null);
+               //decesDAO.delete(deces);
+            //}
         }
         personne.update(personneInfo);
         personneDAO.save(personne);
@@ -269,7 +273,7 @@ public class PersonneServiceImpl implements PersonneService {
         deces.setVilleEtrangere(personneInfo.getVilleEtrangereDeces());
         deces.setDateDeces(personneInfo.getDateDeces());
         deces.setCommentaire(personneInfo.getCommentDeces());
-        decesDAO.save(deces);
+        //decesDAO.save(deces);
     }
 
     private Deces creerDeces(Personne personne, PersonneInfo personneInfo) throws ProblemeBaseException {
@@ -284,9 +288,11 @@ public class PersonneServiceImpl implements PersonneService {
             throw new ProblemeBaseException("La ville de décès ne peut pas être nulle");
         }
         Ville ville = optionalVille.get();
-        deces = new Deces(personne, pays, ville, personneInfo.getVilleEtrangereDeces(),
+        deces = new Deces(pays, ville, personneInfo.getVilleEtrangereDeces(),
                 personneInfo.getDateDeces(), personneInfo.getCommentDeces());
-        return decesDAO.save(deces);
+        deces.setIdPersonne(personne.getId());
+        deces.setPersonne(personne);
+        return deces; //decesDAO.save(deces);
     }
 
     private Personne createPersonne(PersonneInfo personneInfo, boolean estClient) throws ProblemeBaseException {
@@ -342,14 +348,20 @@ public class PersonneServiceImpl implements PersonneService {
                 personneInfo.getCommentFax(), personneInfo.getSiteWeb(), personneInfo.getCommentSiteWeb(),
                 personneInfo.getAdresses());
         personne = personneDAO.save(personne);
-        if ((personne != null) && (personneInfo.getDateDeces() != null)) {
+        /*
+        if ((personne != null) && (personneInfo.getDateDeces() != null)) { // pb attempted to assign id from null one-to-one property
             Deces deces = creerDeces(personne, personneInfo);
             if (deces == null) {
                 throw new ProblemeBaseException("Le décès n'a pas pu être sauvegardé");
             }
+            deces.setIdPersonne(personne.getId());
+            deces.setPersonne(personne);
+            deces = decesDAO.save(deces);
             personne.setDeces(deces);
+
             personne = personneDAO.save(personne);
         }
+        */
         return personne;
     }
 
@@ -357,19 +369,6 @@ public class PersonneServiceImpl implements PersonneService {
         personne.setConjoint(conjoint);
         personneDAO.save(personne);
     }
-
-   /* private Deces ajouteDeces(Personne personne, PersonneInfo personneInfo) throws ProblemeBaseException {
-        Optional<Pays> optionalPays = paysDAO.findById(personneInfo.getIdPaysDeces());
-        if (!optionalPays.isPresent())
-            throw new ProblemeBaseException("Le pays de décès est obligatoire");
-        Optional<Ville> optionalVille = villeDAO.findById(personneInfo.getIdVilleDeces());
-        if (!optionalVille.isPresent())
-            throw new ProblemeBaseException("La ville de décès est obligatoire");
-        Deces deces = new Deces(personne, optionalPays.get(),
-                optionalVille.get(), personneInfo.getVilleEtrangereDeces(),
-                personneInfo.getDateDeces(), personneInfo.getCommentDeces());
-        return decesDAO.save(deces);
-    }*/
 
     private Adresse ajouteAdresse(Personne client, Adresse adresse) {
         client.getAdresses().add(adresse);

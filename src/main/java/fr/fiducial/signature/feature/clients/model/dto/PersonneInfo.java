@@ -144,8 +144,10 @@ public class PersonneInfo {
                 (idCivilite == null) ||
                 (idStatut == null) ||
                 (idTypeMarital == null) ||
+                (nom == null) ||
+                ((nom != null) && (nom.trim().equals(""))) ||
                 ((dateDeces != null) && ((idPaysDeces == null) || (idVilleDeces == null)))) {// test different avec villeEtrangereDeces !!!
-            return "Les champs idPaysNaissance, idVilleNaissance, idCapacite, idCivilite, idStatut, idTypeMarital et idVilleDeces/idPaysDeces si dateDeces non nulle ne devraient pas être nuls";
+            return "Les champs nom, idPaysNaissance, idVilleNaissance, idCapacite, idCivilite, idStatut, idTypeMarital et idVilleDeces/idPaysDeces si dateDeces non nulle ne devraient pas être nuls";
         } else {
             return null;
         }

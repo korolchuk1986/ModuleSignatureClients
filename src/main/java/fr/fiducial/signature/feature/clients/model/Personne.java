@@ -134,7 +134,7 @@ public class Personne implements java.io.Serializable {
 	@Column(name = "comment_site_web", length = 20)
 	private String commentSiteWeb;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "personne")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "personne", cascade = {CascadeType.ALL})
 	private Deces deces;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})

@@ -9,18 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -40,7 +29,7 @@ public class Deces implements java.io.Serializable {
 	@Column(name = "id_personne", unique = true, nullable = false)
 	private long idPersonne;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@PrimaryKeyJoinColumn
 	private Personne personne;
 
@@ -62,8 +51,9 @@ public class Deces implements java.io.Serializable {
 	@Column(name = "commentaire", length = 200)
 	private String commentaire;
 
-	public Deces(Personne personne, Pays pays, Ville ville, String villeEtrangere, Date dateDeces, String commentaire) {
-		this.personne = personne;
+	public Deces(Pays pays, Ville ville, String villeEtrangere, Date dateDeces, String commentaire) {
+		//this.personne = personne;
+        //this.idPersonne = idPersonne;
 		this.pays = pays;
 		this.ville = ville;
 		this.villeEtrangere = villeEtrangere;
