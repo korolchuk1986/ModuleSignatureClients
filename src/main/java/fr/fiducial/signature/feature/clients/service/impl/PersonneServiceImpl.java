@@ -230,7 +230,63 @@ public class PersonneServiceImpl implements PersonneService {
         }
         personne.setVilleNaissance(optionalVilleNaissance.get());
 
+        if (personneInfo.getDateDeces() != null) { // par défaut, on a choisi que la date de décès indiquait le décès si renseignée
+            Deces deces;
+            Optional<Deces> optionalDeces = decesDAO.findById(personne.getId());
+            if (!optionalDeces.isPresent()) {
+                // nouveau décès
+                deces = creerDeces(personne, personneInfo);
+                personne.setDeces(deces);
+            } else {
+                deces = optionalDeces.get(); // le décès avait déjà été enregistré, juste une maj
+                updateDeces(personne, personneInfo, deces);
+            }
+        } else {
+            Optional<Deces> optionalDeces = decesDAO.findById(personne.getId());
+            if (optionalDeces.isPresent()) { // si on veut pouvoir "enlever" le décès si on se trompe (décès deja dans la base)
+                decesDAO.delete(optionalDeces.get());
+            }
+        }
         personne.update(personneInfo);
+        personneDAO.save(personne);
+    }
+
+    private void updateDeces(Personne personne, PersonneInfo personneInfo, Deces deces) throws ProblemeBaseException {
+        if (!deces.getPays().getId().equals(personneInfo.getIdPaysDeces())) {
+            Optional<Pays> optionalPays = paysDAO.findById(personneInfo.getIdPaysDeces());
+            if (!optionalPays.isPresent()) {
+                throw new ProblemeBaseException("Le pays de décès ne peut pas être nul");
+            }
+            deces.setPays(optionalPays.get());
+        }
+        if (!deces.getVille().getId().equals(personneInfo.getIdVilleDeces())) {
+            Optional<Ville> optionalVille = villeDAO.findById(personneInfo.getIdVilleDeces());
+            if (!optionalVille.isPresent()) {
+                throw new ProblemeBaseException("La ville de décès ne peut pas être nulle");
+            }
+            deces.setVille(optionalVille.get());
+        }
+        deces.setVilleEtrangere(personneInfo.getVilleEtrangereDeces());
+        deces.setDateDeces(personneInfo.getDateDeces());
+        deces.setCommentaire(personneInfo.getCommentDeces());
+        decesDAO.save(deces);
+    }
+
+    private Deces creerDeces(Personne personne, PersonneInfo personneInfo) throws ProblemeBaseException {
+        Deces deces;
+        Optional<Pays> optionalPays = paysDAO.findById(personneInfo.getIdPaysDeces());
+        if (!optionalPays.isPresent()) {
+            throw new ProblemeBaseException("Le pays de décès ne peut pas être nul");
+        }
+        Pays pays = optionalPays.get();
+        Optional<Ville> optionalVille = villeDAO.findById(personneInfo.getIdVilleDeces());
+        if (!optionalVille.isPresent()) {
+            throw new ProblemeBaseException("La ville de décès ne peut pas être nulle");
+        }
+        Ville ville = optionalVille.get();
+        deces = new Deces(personne, pays, ville, personneInfo.getVilleEtrangereDeces(),
+                personneInfo.getDateDeces(), personneInfo.getCommentDeces());
+        return decesDAO.save(deces);
     }
 
     private Personne createPersonne(PersonneInfo personneInfo, boolean estClient) throws ProblemeBaseException {
@@ -287,11 +343,12 @@ public class PersonneServiceImpl implements PersonneService {
                 personneInfo.getAdresses());
         personne = personneDAO.save(personne);
         if ((personne != null) && (personneInfo.getDateDeces() != null)) {
-            Deces deces = ajouteDeces(personne, personneInfo);
+            Deces deces = creerDeces(personne, personneInfo);
             if (deces == null) {
                 throw new ProblemeBaseException("Le décès n'a pas pu être sauvegardé");
             }
             personne.setDeces(deces);
+            personne = personneDAO.save(personne);
         }
         return personne;
     }
@@ -301,18 +358,18 @@ public class PersonneServiceImpl implements PersonneService {
         personneDAO.save(personne);
     }
 
-    private Deces ajouteDeces(Personne personne, PersonneInfo personneInfo) throws ProblemeBaseException {
+   /* private Deces ajouteDeces(Personne personne, PersonneInfo personneInfo) throws ProblemeBaseException {
         Optional<Pays> optionalPays = paysDAO.findById(personneInfo.getIdPaysDeces());
         if (!optionalPays.isPresent())
             throw new ProblemeBaseException("Le pays de décès est obligatoire");
         Optional<Ville> optionalVille = villeDAO.findById(personneInfo.getIdVilleDeces());
         if (!optionalVille.isPresent())
             throw new ProblemeBaseException("La ville de décès est obligatoire");
-        Deces deces = new Deces(personne.getId(), optionalPays.get(), personne,
+        Deces deces = new Deces(personne, optionalPays.get(),
                 optionalVille.get(), personneInfo.getVilleEtrangereDeces(),
                 personneInfo.getDateDeces(), personneInfo.getCommentDeces());
         return decesDAO.save(deces);
-    }
+    }*/
 
     private Adresse ajouteAdresse(Personne client, Adresse adresse) {
         client.getAdresses().add(adresse);

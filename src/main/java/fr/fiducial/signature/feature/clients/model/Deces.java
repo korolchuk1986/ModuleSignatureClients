@@ -40,13 +40,13 @@ public class Deces implements java.io.Serializable {
 	@Column(name = "id_personne", unique = true, nullable = false)
 	private long idPersonne;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_pays")
-	private Pays pays;
-
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private Personne personne;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_pays")
+	private Pays pays;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_ville")
@@ -61,4 +61,13 @@ public class Deces implements java.io.Serializable {
 
 	@Column(name = "commentaire", length = 200)
 	private String commentaire;
+
+	public Deces(Personne personne, Pays pays, Ville ville, String villeEtrangere, Date dateDeces, String commentaire) {
+		this.personne = personne;
+		this.pays = pays;
+		this.ville = ville;
+		this.villeEtrangere = villeEtrangere;
+		this.dateDeces = dateDeces;
+		this.commentaire = commentaire;
+	}
 }
