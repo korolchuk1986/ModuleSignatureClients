@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -153,7 +154,7 @@ public class DocumentServiceImpl implements DocumentService {
         Optional<Personne> optionalPersonne = personneDAO.findById(idClient);
         if (optionalPersonne.isPresent()) { // le cas où il n'est pas présent ne devrait pas arriver normalement
             Personne personne = optionalPersonne.get();
-            java.sql.Date aujourdhui = java.sql.Date.valueOf(LocalDate.now());
+            java.sql.Date aujourdhui = new java.sql.Date(Instant.now().toEpochMilli()); //java.sql.Date.valueOf(LocalDate.now());
             if (!aujourdhui.equals(personne.getDateModifFiche())) {
                 personne.setDateModifFiche(aujourdhui);
                 personneDAO.save(personne);
